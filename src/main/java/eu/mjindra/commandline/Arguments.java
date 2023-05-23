@@ -35,14 +35,14 @@ public class Arguments {
         infoGroup.setRequired(false);
         infoGroup.addOption(
                 Option.builder("v")
-                        .argName("version")
+                        .longOpt("version")
                         .desc("Display version.")
                         .build()
         );
         infoGroup.addOption(
                 Option.builder("h")
-                        .argName("help")
-                        .desc("Print help.")
+                        .longOpt("help")
+                        .desc("Print this help.")
                         .build()
         );
         return infoGroup;

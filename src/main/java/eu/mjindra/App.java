@@ -1,17 +1,32 @@
 package eu.mjindra;
 
+import eu.mjindra.characterfile.DND5eParser;
 import eu.mjindra.commandline.Parser;
 import org.apache.commons.cli.ParseException;
 
+import java.io.FileNotFoundException;
+import java.util.HashMap;
+
+/**
+ * DND Character Builder.
+ * @author Martin Jindra
+ * @version 23.05.2023
+ */
 public class App {
 
     public static final String appName = "DND Character Builder";
 
     public static void main( String[] args ) {
         try {
-            Parser.execute(args);
-        } catch (ParseException pe) {
-            System.err.println(pe.getMessage());
+            Parser parser = new Parser(appName);
+
+            HashMap<Character, String> arguments = parser.parse(args);
+            if (arguments.size() > 0 && arguments.containsKey('i')) {
+                DND5eParser dnd5eParser = new DND5eParser(arguments.get('i'));
+                dnd5eParser.parseXML();
+            }
+        } catch (ParseException | FileNotFoundException e) {
+            System.err.println(e.getMessage());
         }
     }
 }

@@ -1,15 +1,24 @@
 package eu.mjindra.commandline;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.*;
 
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Hashtable;
 
+/**
+ * Parser for commandline arguments.
+ * @author Martin Jindra
+ * @version 23.05.2023
+ */
 public class Parser {
+
+    private String appName;
+
+    public Parser(String appName) {
+        this.appName = appName;
+    }
 
     /**
      * Return all parsed arguments and values.
@@ -17,37 +26,29 @@ public class Parser {
      * @return all parsed arguments and values
      * @throws ParseException is thrown if there are problems with the arguments and values
      */
-    public static HashSet<String[]> parse(String[] args) throws ParseException {
+    public HashMap<Character, String> parse(String[] args) throws ParseException {
         CommandLineParser parser = new DefaultParser();
         Options options = Arguments.getDefaultOptions();
 
-        HashSet<String[]> arguments = new HashSet<>();
+        HashMap<Character, String> arguments = new HashMap<>();
 
         CommandLine cmdline = parser.parse(options, args);
         for (Option line: cmdline.getOptions()) {
-            arguments.add(new String[] {
-                    line.getLongOpt(),
+            if (line.getLongOpt().equals("help"))
+                this.printHelp();
+
+            arguments.put(
+                    line.getOpt().charAt(0),
                     line.getValue()
-            });
+            );
         }
         return arguments;
     }
 
     /**
-     * Evaluate all processed arguments and values.
-     * @param args not passed Argument
-     * @return If are arguments used
-     * @throws ParseException is thrown if there are problems with the arguments and values
+     * Print help
      */
-    public static boolean execute(String[] args) throws ParseException {
-        HashSet<String[]> parse = Parser.parse(args);
-        System.out.println(parse.size());
-        if (parse.size() == 0)
-            return false;
-        for (String[] arg: parse) {
-
-        }
-        return true;
+    private void printHelp() {
+        new HelpFormatter().printHelp(this.appName, Arguments.getDefaultOptions());
     }
-
 }
