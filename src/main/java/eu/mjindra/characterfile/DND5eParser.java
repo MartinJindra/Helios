@@ -1,15 +1,10 @@
 package eu.mjindra.characterfile;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,56 +18,59 @@ import java.nio.file.Path;
 public class DND5eParser {
 
     private Path file;
+    private Document document;
+    private Element rootElement;
+
+    private Character character;
 
     public DND5eParser(String file) throws FileNotFoundException {
+        this();
         this.setFile(file);
+    }
+
+    public DND5eParser() {
+        this.character = new Character();
+    }
+
+    public Character getCharacter() {
+        return this.character;
     }
 
     public void setFile(String file) throws FileNotFoundException {
         if (!file.isBlank()) {
             this.file = Path.of(file);
-            if (!Files.exists(this.file)) {
+            if (!Files.exists(this.file))
                 throw new FileNotFoundException(String.format("%s does not exists.", file));
-            }
         }
     }
 
     /**
-     * Parse the XML.
+     * Parse the entire XML.
      */
     public void parseXML() {
 
         try {
-            byte[] content = Files.readAllBytes(this.file);
-            StringBuilder out = new StringBuilder();
-            for (byte b : content) {
-                out.append((char) b);
-            }
-            System.out.println(out);
-        } catch (IOException e) {
+            this.document = new SAXBuilder().build(this.file.toFile());
+            this.rootElement = this.document.getRootElement();
+
+            this.parseInformation();
+
+        } catch (JDOMException | IOException e) {
             throw new RuntimeException(e);
         }
+    }
 
-        try {
-            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document doc = builder.parse(this.file.toFile());
-            doc.getDocumentElement().normalize();
+    /**
+     * Parse the information-tag and display-information-tag.
+     */
+    private void parseInformation() {
+        Element information = this.rootElement.getChild("information");
+        Element displayInformation = this.rootElement.getChild("display-properties");
 
-            Node first = doc.getElementsByTagName("character").item(0);
-            NodeList nodeList = first.getChildNodes();
-            int n = nodeList.getLength();
-            Node current;
-            for (int i=0; i<n; i++) {
-                current = nodeList.item(i);
-                if(current.getNodeType() == Node.ELEMENT_NODE) {
-                    //System.out.println(current.getNodeName() + ": " + current.getTextContent());
-                }
-            }
-
-        } catch (SAXException | IOException | ParserConfigurationException e) {
-            throw new RuntimeException(e);
-        }
-
-
+        this.character.setName(displayInformation.getChildText("name"));
+        this.character.setRace(displayInformation.getChildText("race"));
+        this.character.setClassName(displayInformation.getChildText("class"));
+        this.character.setLevel(Byte.parseByte(displayInformation.getChildText("level")));
+        this.character.setBackground(displayInformation.getChildText("background"));
     }
 }
