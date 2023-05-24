@@ -17,13 +17,18 @@ public class App {
     public static final String appName = "DND Character Builder";
 
     public static void main( String[] args ) {
+
         try {
             Parser parser = new Parser(appName);
 
-            HashMap<Character, String> arguments = parser.parse(args);
-            if (arguments.size() > 0 && arguments.containsKey('i')) {
-                DND5eParser dnd5eParser = new DND5eParser(arguments.get('i'));
+            HashMap<String, String> arguments = parser.parse(args);
+            if (arguments.size() > 0 && arguments.containsKey("input")) {
+                DND5eParser dnd5eParser = new DND5eParser(arguments.get("input"));
                 dnd5eParser.parseXML();
+
+                if (arguments.containsKey("display"))
+                    System.out.println(dnd5eParser.getCharacter().summerizeInformation());
+
             }
         } catch (ParseException | FileNotFoundException e) {
             System.err.println(e.getMessage());

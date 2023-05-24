@@ -23,6 +23,9 @@ public class Arguments {
             options.addOption(io);
         }
 
+        // Character file Options
+        options.addOptionGroup(Arguments.getCharacterOperationOptions());
+
         return options;
     }
 
@@ -32,7 +35,6 @@ public class Arguments {
      */
     private static @NotNull OptionGroup getInformationOptions() {
         OptionGroup infoGroup = new OptionGroup();
-        infoGroup.setRequired(false);
         infoGroup.addOption(
                 Option.builder("v")
                         .longOpt("version")
@@ -70,5 +72,17 @@ public class Arguments {
                         .desc("Generated output PDF.")
                         .build()
         };
+    }
+
+    private static OptionGroup getCharacterOperationOptions() {
+        OptionGroup opGroup = new OptionGroup();
+        opGroup.addOption(
+                Option.builder()
+                        .longOpt("display")
+                        .desc("Display information in a printable format.")
+                        .build()
+        );
+
+        return opGroup;
     }
 }

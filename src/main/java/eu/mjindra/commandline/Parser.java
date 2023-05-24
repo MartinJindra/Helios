@@ -26,11 +26,11 @@ public class Parser {
      * @return all parsed arguments and values
      * @throws ParseException is thrown if there are problems with the arguments and values
      */
-    public HashMap<Character, String> parse(String[] args) throws ParseException {
+    public HashMap<String, String> parse(String[] args) throws ParseException {
         CommandLineParser parser = new DefaultParser();
         Options options = Arguments.getDefaultOptions();
 
-        HashMap<Character, String> arguments = new HashMap<>();
+        HashMap<String, String> arguments = new HashMap<>();
 
         CommandLine cmdline = parser.parse(options, args);
         for (Option line: cmdline.getOptions()) {
@@ -38,7 +38,7 @@ public class Parser {
                 this.printHelp();
 
             arguments.put(
-                    line.getOpt().charAt(0),
+                    line.getLongOpt(),
                     line.getValue()
             );
         }
