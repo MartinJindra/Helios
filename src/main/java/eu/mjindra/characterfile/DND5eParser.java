@@ -69,7 +69,7 @@ public class DND5eParser {
 
         this.character.setName(displayInformation.getChildText("name"));
         this.character.setRace(displayInformation.getChildText("race"));
-        this.character.setClassName(displayInformation.getChildText("class"));
+        this.character.setClasses(displayInformation.getChildText("class"));
         this.character.setLevel(Byte.parseByte(displayInformation.getChildText("level")));
         this.character.setBackground(displayInformation.getChildText("background"));
     }

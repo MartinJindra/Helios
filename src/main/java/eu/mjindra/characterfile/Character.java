@@ -1,5 +1,7 @@
 package eu.mjindra.characterfile;
 
+import java.util.Arrays;
+
 /**
  * Class to represent a DND character.
  * @author Martin Jindra
@@ -7,7 +9,9 @@ package eu.mjindra.characterfile;
  */
 public class Character {
 
-    private String group, name, race, className, background;
+    private String group, name, race, classesString, background;
+
+    String[] classesArray;
 
     private byte level;
 
@@ -45,12 +49,16 @@ public class Character {
         this.race = race;
     }
 
-    public String getClassName() {
-        return className;
+    public String[] getClassName() {
+        return this.classesArray;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public void setClasses(String classes) {
+        this.classesString = classes;
+        this.classesArray = classes.split("/");
+        for (int i = 0; i < this.classesArray.length; i++) {
+            this.classesArray[i] = this.classesArray[i].trim();
+        }
     }
 
     public String getBackground() {
@@ -80,7 +88,7 @@ public class Character {
 
         info.append(String.format("Name:\t\t%s\n", this.name));
         info.append(String.format("Race:\t\t%s\n", this.race));
-        info.append(String.format("Class:\t\t%s\n", this.className));
+        info.append(String.format("Class:\t\t%s\n", this.classesString));
         info.append(String.format("Level:\t\t%d\n", this.level));
         info.append(String.format("Background:\t%s\n", this.background));
         return info.toString();
