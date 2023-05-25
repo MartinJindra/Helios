@@ -21,7 +21,7 @@ public class DND5eParser {
     private Document document;
     private Element rootElement;
 
-    private Character character;
+    private final Character character;
 
     public DND5eParser(String file) throws FileNotFoundException {
         this();
@@ -72,5 +72,7 @@ public class DND5eParser {
         this.character.setClasses(displayInformation.getChildText("class"));
         this.character.setLevel(Byte.parseByte(displayInformation.getChildText("level")));
         this.character.setBackground(displayInformation.getChildText("background"));
+        this.character.setFavorite(Boolean.parseBoolean(displayInformation.getAttribute("favorite").getValue()));
+        this.character.setPortrait(displayInformation.getChild("portrait").getChildText("base64"));
     }
 }

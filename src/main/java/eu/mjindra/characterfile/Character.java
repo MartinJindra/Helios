@@ -1,6 +1,6 @@
 package eu.mjindra.characterfile;
 
-import java.util.Arrays;
+import java.util.Base64;
 
 /**
  * Class to represent a DND character.
@@ -13,7 +13,17 @@ public class Character {
 
     String[] classesArray;
 
+    private byte[] portrait;
+
     private byte level;
+
+    public void setPortrait(String portrait) {
+        this.portrait = Base64.getDecoder().decode(portrait);
+    }
+
+    public byte[] getPortrait() {
+        return this.portrait;
+    }
 
     public boolean isFavorite() {
         return isFavorite;
