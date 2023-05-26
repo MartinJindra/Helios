@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
 
 /**
  * Parser for .dnd5e character file.
@@ -18,7 +19,6 @@ import java.nio.file.Path;
 public class DND5eParser {
 
     private Path file;
-    private Document document;
     private Element rootElement;
 
     private final Character character;
@@ -50,10 +50,11 @@ public class DND5eParser {
     public void parseXML() {
 
         try {
-            this.document = new SAXBuilder().build(this.file.toFile());
-            this.rootElement = this.document.getRootElement();
+            Document document = new SAXBuilder().build(this.file.toFile());
+            this.rootElement = document.getRootElement();
 
             this.parseInformation();
+            this.parseBuild();
 
         } catch (JDOMException | IOException e) {
             throw new RuntimeException(e);
@@ -61,18 +62,37 @@ public class DND5eParser {
     }
 
     /**
-     * Parse the information-tag and display-information-tag.
+     * Parse the information and display-information elements.
      */
     private void parseInformation() {
-        Element information = this.rootElement.getChild("information");
-        Element displayInformation = this.rootElement.getChild("display-properties");
+        Element informationElement = this.rootElement.getChild("information");
+        Element displayElement = this.rootElement.getChild("display-properties");
 
-        this.character.setName(displayInformation.getChildText("name"));
-        this.character.setRace(displayInformation.getChildText("race"));
-        this.character.setClasses(displayInformation.getChildText("class"));
-        this.character.setLevel(Byte.parseByte(displayInformation.getChildText("level")));
-        this.character.setBackground(displayInformation.getChildText("background"));
-        this.character.setFavorite(Boolean.parseBoolean(displayInformation.getAttribute("favorite").getValue()));
-        this.character.setPortrait(displayInformation.getChild("portrait").getChildText("base64"));
+        this.character.setGroup(Objects.requireNonNullElse(informationElement.getChildText("group"), "").trim());
+        this.character.setName(Objects.requireNonNullElse(displayElement.getChildText("name"), "").trim());
+        this.character.setRace(Objects.requireNonNullElse(displayElement.getChildText("race"), "").trim());
+        this.character.setClasses(Objects.requireNonNullElse(displayElement.getChildText("class"), "").trim());
+        this.character.setBackground(Objects.requireNonNullElse(displayElement.getChildText("background"), "").trim());
+        this.character.setLevel(Byte.parseByte(Objects.requireNonNullElse(displayElement.getChildText( "level"), "0").trim()));
+
+        Element portraitElement = displayElement.getChild("portrait");
+        String portrait;
+        if ((portrait = portraitElement.getChildText("base64")) != null)
+            this.character.setCharacterPortrait(portrait);
+        if ((portrait = portraitElement.getChildText("local")) != null)
+            this.character.setCharacterPortrait(Path.of(portrait));
+        this.character.setCompanionPortrait(Path.of(Objects.requireNonNullElse(portraitElement.getChildText("companion"), "")));
+    }
+
+    /**
+     * Parse the build element.
+     */
+    private void parseBuild() {
+        Element buildElement = this.rootElement.getChild("build");
+        Element inputElement = buildElement.getChild("input");
+
+        this.character.setGender(Objects.requireNonNullElse(inputElement.getChildText("gender"), "").trim());
+        this.character.setPlayerName(Objects.requireNonNullElse(inputElement.getChildText("player-name"), "").trim());
+        this.character.setExpierence(Integer.parseInt(Objects.requireNonNullElse(inputElement.getChildText( "expierence"), "0")));
     }
 }

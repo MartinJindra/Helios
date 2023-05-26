@@ -1,5 +1,10 @@
 package eu.mjindra.characterfile;
 
+import org.jetbrains.annotations.Nullable;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Base64;
 
 /**
@@ -8,21 +13,75 @@ import java.util.Base64;
  * @version 24.03.2023
  */
 public class Character {
-
-    private String group, name, race, classesString, background;
-
-    String[] classesArray;
-
-    private byte[] portrait;
+    private byte[] characterPortrait, companionPortrait;
 
     private byte level;
 
-    public void setPortrait(String portrait) {
-        this.portrait = Base64.getDecoder().decode(portrait);
+    private int expierence;
+
+    private String group, name, race, classesString, background, gender, playerName;
+
+    String[] classesArray;
+
+
+    public String getGender() {
+        return gender;
     }
 
-    public byte[] getPortrait() {
-        return this.portrait;
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public int getExpierence() {
+        return expierence;
+    }
+
+    public void setExpierence(int expierence) {
+        this.expierence = expierence;
+    }
+
+    public void setCharacterPortrait(String portraitBase64) {
+        this.characterPortrait = Base64.getDecoder().decode(portraitBase64);
+    }
+
+    public void setCharacterPortrait(Path portraitPath) {
+        if (Files.exists(portraitPath)) {
+            try {
+                this.characterPortrait = Files.readAllBytes(portraitPath);
+            } catch (IOException e) {
+                System.err.format("Portrait %s does not exists.\n", portraitPath);
+            }
+        }
+    }
+
+    public byte @Nullable [] getCharacterPortrait() {
+        return this.characterPortrait;
+    }
+
+    public void setCompanionPortrait(String portraitBase64) {
+        this.companionPortrait = Base64.getDecoder().decode(portraitBase64);
+    }
+
+    public void setCompanionPortrait(Path portraitPath) {
+        if (Files.exists(portraitPath)) {
+            try {
+                this.companionPortrait = Files.readAllBytes(portraitPath);
+            } catch (IOException e) {
+                System.err.format("Portrait %s does not exists.", portraitPath);
+            }
+        }
+    }
+
+    public byte @Nullable [] getCompanionPortrait() {
+        return this.companionPortrait;
     }
 
     public boolean isFavorite() {
@@ -95,11 +154,14 @@ public class Character {
         StringBuilder info = new StringBuilder();
 
         // TODO implement printable format for a character
-
-        info.append(String.format("Name:\t\t%s\n", this.name));
-        info.append(String.format("Race:\t\t%s\n", this.race));
+        String header = String.format("%s (%s):", this.name, this.playerName);
+        info.append(String.format("%s\n", header));
+        info.append(String.format("%s\n", "-".repeat(header.length())));
         info.append(String.format("Class:\t\t%s\n", this.classesString));
+        info.append(String.format("Race:\t\t%s\n", this.race));
+        info.append(String.format("Gender:\t\t%s\n", this.gender));
         info.append(String.format("Level:\t\t%d\n", this.level));
+        info.append(String.format("Experience:\t%d\n", this.expierence));
         info.append(String.format("Background:\t%s\n", this.background));
         return info.toString();
     }
