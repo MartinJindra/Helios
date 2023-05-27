@@ -1,4 +1,4 @@
-package eu.mjindra.characterfile;
+package eu.mjindra.character;
 
 import org.jetbrains.annotations.Nullable;
 

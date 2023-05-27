@@ -1,4 +1,4 @@
-package eu.mjindra.characterfile;
+package eu.mjindra.character;
 
 import org.jdom2.Document;
 import org.jdom2.Element;

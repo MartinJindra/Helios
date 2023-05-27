@@ -1,6 +1,6 @@
 package eu.mjindra;
 
-import eu.mjindra.characterfile.DND5eParser;
+import eu.mjindra.character.DND5eParser;
 import eu.mjindra.commandline.Parser;
 import org.apache.commons.cli.ParseException;
 
