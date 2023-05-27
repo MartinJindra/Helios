@@ -1,5 +1,10 @@
 package eu.mjindra.units;
 
+/**
+ * An enum representing mass in DND.
+ * @author Martin Jindra
+ * @version 27.05.2023
+ */
 public enum Mass implements Base {
     POUND(1),
     KILOGRAM(2.2046F);

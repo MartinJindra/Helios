@@ -3,6 +3,11 @@ package eu.mjindra.utils;
 import eu.mjindra.units.Base;
 import org.apache.commons.math3.util.Precision;
 
+/**
+ * A super class for units.
+ * @author Martin Jindra
+ * @version 27.05.2023
+ */
 public abstract class Unit {
 
     private float amount;

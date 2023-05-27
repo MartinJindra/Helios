@@ -1,5 +1,10 @@
 package eu.mjindra.units;
 
+/**
+ * An enum representing length in DND.
+ * @author Martin Jindra
+ * @version 27.05.2023
+ */
 public enum Length implements Base {
     FEET(1),
     INCH(12),

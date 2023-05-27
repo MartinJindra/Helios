@@ -4,6 +4,11 @@ import eu.mjindra.units.Base;
 import eu.mjindra.units.Mass;
 import org.apache.commons.math3.util.Precision;
 
+/**
+ * A class representing weight in DND.
+ * @author Martin Jindra
+ * @version 27.05.2023
+ */
 public class Weight extends Unit {
     public Weight(float amount, Mass unit) {
         super(amount, unit);

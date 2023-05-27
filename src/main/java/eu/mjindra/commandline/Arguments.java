@@ -6,6 +6,11 @@ import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Create commandline arguments.
+ * @author Martin Jindra
+ * @version 27.05.2023
+ */
 public class Arguments {
 
     /**
