@@ -1,6 +1,7 @@
 package eu.mjindra.utils;
 
 import eu.mjindra.units.Base;
+import org.apache.commons.math3.util.Precision;
 
 public abstract class Unit {
 
@@ -31,7 +32,13 @@ public abstract class Unit {
      * of the object instance.
      * @param second another range
      */
-    public abstract void add(Unit second);
+    public void add(Unit second) {
+        float sum = Precision.round(
+                this.getAmount() + second.convert(this.getUnit()).getAmount(),
+                4
+        );
+        this.set(sum, this.getUnit());
+    }
 
     /**
      * Subtract another unit.
@@ -39,7 +46,13 @@ public abstract class Unit {
      * of the object instance.
      * @param second another range
      */
-    public abstract void subtract(Unit second);
+    public void subtract(Unit second) {
+        float subtraction = Precision.round(
+                this.getAmount() - second.convert(this.getUnit()).getAmount(),
+                4
+        );
+        this.set(subtraction, this.getUnit());
+    }
 
     /**
      * Multiply another unit.
@@ -47,7 +60,13 @@ public abstract class Unit {
      * of the object instance.
      * @param second another range
      */
-    public abstract void multiply(Unit second);
+    public void multiply(Unit second) {
+        float multiplication = Precision.round(
+                this.getAmount() * second.convert(this.getUnit()).getAmount(),
+                4
+        );
+        this.set(multiplication, this.getUnit());
+    }
 
     /**
      * Divide another unit.
@@ -55,7 +74,13 @@ public abstract class Unit {
      * of the object instance.
      * @param second another range
      */
-    public abstract void divide(Unit second);
+    public void divide(Unit second) {
+        float division = Precision.round(
+                this.getAmount() / second.convert(this.getUnit()).getAmount(),
+                4
+        );
+        this.set(division, this.getUnit());
+    }
 
     /**
      * Convert the value of one unit to another unit.

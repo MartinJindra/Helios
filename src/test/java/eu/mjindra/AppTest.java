@@ -2,7 +2,9 @@ package eu.mjindra;
 
 import eu.mjindra.character.DND5eParser;
 import eu.mjindra.units.Length;
+import eu.mjindra.units.Mass;
 import eu.mjindra.utils.Range;
+import eu.mjindra.utils.Weight;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +19,144 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Unit test for simple App.
  */
 public class AppTest {
+
+
+    @Test
+    @DisplayName("testDNDParser")
+    public void testDNDParser() {
+        try(Stream<Path> examples = Files.list(Path.of("examples"))) {
+
+            DND5eParser parser = new eu.mjindra.character.DND5eParser();
+            eu.mjindra.character.Character character;
+
+            for (Path example: examples.toList()) {
+                parser.setFile(example.toString());
+                parser.parseXML();
+                character = parser.getCharacter();
+                System.out.println(character.summerizeInformation());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    /**
+     * Test the unit converter
+     */
+    @Test
+    @DisplayName("testMassConverter")
+    public void testMassConverter() {
+        // 100kg to 220.4622pound
+        Weight w = new Weight(100, Mass.KILOGRAM);
+        assertEquals(220.46F, w.convert(Mass.POUND).getAmount());
+        // 0.5pound to 0.2268kg
+        w.set(0.5F, Mass.POUND);
+        assertEquals( 0.2268F, w.convert(Mass.KILOGRAM).getAmount(), 0);
+        // 165pound to 74.8427kg
+        w.set(165, Mass.POUND);
+        assertEquals(74.8435F, w.convert(Mass.KILOGRAM).getAmount(), 0);
+        // 0.5kg to 1.1023pound
+        w.set(0.5F, Mass.KILOGRAM);
+        assertEquals(1.1023F, w.convert(Mass.POUND).getAmount(), 0);
+    }
+
+    /**
+     * Test the math operation for a range.
+     */
+    @Test
+    @DisplayName("testMassAddOperator")
+    public void testMassAddOperator() {
+        // 1kg + 30pound = 14.6077kg
+        Weight op1 = new Weight(1, Mass.KILOGRAM);
+        Weight op2 = new Weight(30, Mass.POUND);
+        op1.add(op2);
+        assertEquals(14.6079F, op1.getAmount(), 0);
+
+        // 0.5pound + 5kg = 11.5231pound
+        op1.set(.5F, Mass.POUND);
+        op2.set(5, Mass.KILOGRAM);
+        op1.add(op2);
+        assertEquals(11.523F, op1.getAmount(), 0);
+    }
+
+    @Test
+    @DisplayName("testMassSubtractOperator")
+    public void testMassSubtractOperator() {
+        // 50kg - 23kg = 17kg
+        Weight op1 = new Weight(50, Mass.KILOGRAM);
+        Weight op2 = new Weight(23, Mass.KILOGRAM);
+        op1.subtract(op2);
+        assertEquals(27, op1.getAmount(), 0);
+
+        // 80kg - 120kg = -40kg
+        op1.set(80, Mass.KILOGRAM);
+        op2.set(120, Mass.KILOGRAM);
+        op1.subtract(op2);
+        assertEquals(-40, op1.getAmount(), 0);
+
+        // 500pound - 20kg = 455.9075pound
+        op1.set(500, Mass.POUND);
+        op2.set(20, Mass.KILOGRAM);
+        op1.subtract(op2);
+        assertEquals(455.908F, op1.getAmount(), 0);
+    }
+
+    @Test
+    @DisplayName("testMassMultiplyOperator")
+    public void testMassMultiplyOperator() {
+        // 300kg * 20kg = 6000kg
+        Weight op1 = new Weight(300, Mass.KILOGRAM);
+        Weight op2 = new Weight(20, Mass.KILOGRAM);
+        op1.multiply(op2);
+        assertEquals(6000, op1.getAmount(), 0);
+
+        // 20pound * 170 pound = 340pound
+        op1.set(20, Mass.POUND);
+        op2.set(170, Mass.POUND);
+        op1.multiply(op2);
+        assertEquals(3400, op1.getAmount(), 0);
+
+        // 1.5pound * 1kg = 3.3069pound
+        op1.set(1.5F, Mass.POUND);
+        op2.set(1, Mass.KILOGRAM);
+        op1.multiply(op2);
+        assertEquals(3.3069F, op1.getAmount(), 0);
+
+        // 20kg * 78pound = 707.604kg
+        op1.set(20, Mass.KILOGRAM);
+        op2.set(78, Mass.POUND);
+        op1.multiply(op2);
+        assertEquals(707.612F, op1.getAmount(), 0);
+    }
+
+    @Test
+    @DisplayName("testMassDivideOperator")
+    public void testMassDivideOperator() {
+        // 350kg / 2kg = 175kg
+        Weight op1 = new Weight(350, Mass.KILOGRAM);
+        Weight op2 = new Weight(2, Mass.KILOGRAM);
+        op1.divide(op2);
+        assertEquals(175, op1.getAmount(), 0);
+
+        // 50pound / 500pound = 0.1pound
+        op1.set(50, Mass.POUND);
+        op2.set(500, Mass.POUND);
+        op1.divide(op2);
+        assertEquals(0.1F, op1.getAmount(), 0);
+
+        // 300pound / 120kg = 1.1340
+        op1.set(300, Mass.POUND);
+        op2.set(120, Mass.KILOGRAM);
+        op1.divide(op2);
+        assertEquals(1.1340F, op1.getAmount(), 0);
+
+        // 85kg / 200pound = 0.9370kg
+        op1.set(85, Mass.KILOGRAM);
+        op2.set(200, Mass.POUND);
+        op1.divide(op2);
+        assertEquals(0.9370F, op1.getAmount(), 0);
+    }
 
     /**
      * Test the unit converter
@@ -54,8 +194,8 @@ public class AppTest {
      * Test the math operation for a range.
      */
     @Test
-    @DisplayName("testAddOperator")
-    public void testAddOperator() {
+    @DisplayName("testRangeAddOperator")
+    public void testRangeAddOperator() {
         // 1m + 30cm = 1.3m
         Range op1 = new Range(1, Length.METER);
         Range op2 = new Range(30, Length.CENTIMETER);
@@ -82,8 +222,8 @@ public class AppTest {
     }
 
     @Test
-    @DisplayName("testSubtractOperator")
-    public void testSubtractOperator() {
+    @DisplayName("testRangeSubtractOperator")
+    public void testRangeSubtractOperator() {
         // 300cm - 2.5m = 50cm
         Range op1 = new Range(300, Length.CENTIMETER);
         Range op2 = new Range(2.5F, Length.METER);
@@ -111,7 +251,7 @@ public class AppTest {
 
     @Test
     @DisplayName("testMultiplyOperator")
-    public void testMultiplyOperator() {
+    public void testRangeMultiplyOperator() {
         // 300cm * 10m = 300000cm
         Range op1 = new Range(300, Length.CENTIMETER);
         Range op2 = new Range(10, Length.METER);
@@ -139,7 +279,7 @@ public class AppTest {
 
     @Test
     @DisplayName("testDivideOperator")
-    public void testDivideOperator() {
+    public void testRangeDivideOperator() {
         // 400cm / 2m = 2cm
         Range op1 = new Range(400, Length.CENTIMETER);
         Range op2 = new Range(2, Length.METER);
@@ -165,22 +305,4 @@ public class AppTest {
         assertEquals(8.1280F, op1.getAmount(), 0);
     }
 
-    @Test
-    @DisplayName("testDNDParser")
-    public void testDNDParser() {
-        try(Stream<Path> examples = Files.list(Path.of("examples"))) {
-
-            DND5eParser parser = new eu.mjindra.character.DND5eParser();
-            eu.mjindra.character.Character character;
-
-            for (Path example: examples.toList()) {
-                parser.setFile(example.toString());
-                parser.parseXML();
-                character = parser.getCharacter();
-                System.out.println(character.summerizeInformation());
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
