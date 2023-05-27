@@ -93,6 +93,6 @@ public class DND5eParser {
 
         this.character.setGender(Objects.requireNonNullElse(inputElement.getChildText("gender"), "").trim());
         this.character.setPlayerName(Objects.requireNonNullElse(inputElement.getChildText("player-name"), "").trim());
-        this.character.setExpierence(Integer.parseInt(Objects.requireNonNullElse(inputElement.getChildText( "expierence"), "0")));
+        this.character.setExperience(Integer.parseInt(Objects.requireNonNullElse(inputElement.getChildText( "expierence"), "0")));
     }
 }

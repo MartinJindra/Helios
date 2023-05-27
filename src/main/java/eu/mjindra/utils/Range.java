@@ -1,29 +1,25 @@
 package eu.mjindra.utils;
 
+import eu.mjindra.units.Base;
 import eu.mjindra.units.Length;
 import org.apache.commons.math3.util.Precision;
 
-public class Range {
-
-    private float amount;
-
-    private Length unit;
+public class Range extends Unit {
 
     public Range(float amount, Length unit) {
-        set(amount, unit);
+        super(amount, unit);
     }
 
     public void set(float amount, Length unit) {
-        this.amount = amount;
-        this.unit = unit;
+        super.set(amount, unit);
     }
 
     public float getAmount() {
-        return this.amount;
+        return super.getAmount();
     }
 
     public Length getUnit() {
-        return this.unit;
+        return (Length) super.getUnit();
     }
 
     /**
@@ -32,12 +28,13 @@ public class Range {
      * of the object instance.
      * @param second another range
      */
-    public void add(Range second) {
+    @Override
+    public void add(Unit second) {
         float sum = Precision.round(
-                this.amount +Range.convert(second, this.unit).getAmount(),
+                this.getAmount() + second.convert(this.getUnit()).getAmount(),
                 4
         );
-        this.set(sum, this.unit);
+        this.set(sum, this.getUnit());
     }
 
     /**
@@ -46,12 +43,13 @@ public class Range {
      * of the object instance.
      * @param second another range
      */
-    public void subtract(Range second) {
+    @Override
+    public void subtract(Unit second) {
         float subtraction = Precision.round(
-                this.amount - Range.convert(second, this.unit).getAmount(),
+                this.getAmount() - second.convert(this.getUnit()).getAmount(),
                 4
         );
-        this.set(subtraction, this.unit);
+        this.set(subtraction, this.getUnit());
     }
 
     /**
@@ -60,12 +58,13 @@ public class Range {
      * of the object instance.
      * @param second another range
      */
-    public void multiply(Range second) {
+    @Override
+    public void multiply(Unit second) {
         float multiplication = Precision.round(
-                this.amount * Range.convert(second, this.unit).getAmount(),
+                this.getAmount() * second.convert(this.getUnit()).getAmount(),
                 4
         );
-        this.set(multiplication, this.unit);
+        this.set(multiplication, this.getUnit());
     }
     /**
      * Divide another range.
@@ -73,22 +72,24 @@ public class Range {
      * of the object instance.
      * @param second another range
      */
-    public void divide(Range second) {
+    @Override
+    public void divide(Unit second) {
         float division = Precision.round(
-                this.amount / Range.convert(second, this.unit).getAmount(),
+                this.getAmount() / second.convert(this.getUnit()).getAmount(),
                 4
         );
-        this.set(division, this.unit);
+        this.set(division, this.getUnit());
     }
-    public static Range convert(Range from, Length to) {
-        float f;
-        switch (from.unit) {
-            case FEET -> f = from.amount / Length.FEET.val;
-            case INCH -> f = from.amount / Length.INCH.val;
-            case METER -> f = from.amount / Length.METER.val;
-            case CENTIMETER -> f = from.amount / Length.CENTIMETER.val;
-            default -> f = from.amount;
-        }
-        return new Range(Precision.round(f  * to.val, 4), to);
+
+    /**
+     * Convert the value of one unit to another unit.
+     * @param to different unit
+     * @return converted value
+     */
+    @Override
+    public Unit convert(Base to) {
+        Length l = (Length) to;
+        float f = this.getAmount() / this.getUnit().val;
+        return new Range(Precision.round(f * l.val, 4), l);
     }
 }

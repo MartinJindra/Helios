@@ -17,7 +17,7 @@ public class Character {
 
     private byte level;
 
-    private int expierence;
+    private int experience;
 
     private String group, name, race, classesString, background, gender, playerName;
 
@@ -40,12 +40,12 @@ public class Character {
         this.playerName = playerName;
     }
 
-    public int getExpierence() {
-        return expierence;
+    public int getExperience() {
+        return experience;
     }
 
-    public void setExpierence(int expierence) {
-        this.expierence = expierence;
+    public void setExperience(int experience) {
+        this.experience = experience;
     }
 
     public void setCharacterPortrait(String portraitBase64) {
@@ -161,7 +161,7 @@ public class Character {
         info.append(String.format("Race:\t\t%s\n", this.race));
         info.append(String.format("Gender:\t\t%s\n", this.gender));
         info.append(String.format("Level:\t\t%d\n", this.level));
-        info.append(String.format("Experience:\t%d\n", this.expierence));
+        info.append(String.format("Experience:\t%d\n", this.experience));
         info.append(String.format("Background:\t%s\n", this.background));
         return info.toString();
     }

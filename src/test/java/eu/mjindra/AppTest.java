@@ -1,6 +1,5 @@
 package eu.mjindra;
 
-import eu.mjindra.character.Character;
 import eu.mjindra.character.DND5eParser;
 import eu.mjindra.units.Length;
 import eu.mjindra.utils.Range;
@@ -27,28 +26,28 @@ public class AppTest {
     public void testRangeConverter() {
         // 100cm to 1m
         Range r = new Range(100, Length.CENTIMETER);
-        assertEquals(1, Range.convert(r, Length.METER).getAmount());
+        assertEquals(1, r.convert(Length.METER).getAmount());
         // 0.5m to 50cm
         r.set(0.5F, Length.METER);
-        assertEquals(50, Range.convert(r, Length.CENTIMETER).getAmount(), 0);
+        assertEquals(50, r.convert(Length.CENTIMETER).getAmount(), 0);
         // 8ft to 96inch
         r.set(8, Length.FEET);
-        assertEquals(96, Range.convert(r, Length.INCH).getAmount(), 0);
+        assertEquals(96, r.convert(Length.INCH).getAmount(), 0);
         // 78inch to 6.5ft
         r.set(78, Length.INCH);
-        assertEquals(6.5, Range.convert(r, Length.FEET).getAmount(), 0);
+        assertEquals(6.5, r.convert(Length.FEET).getAmount(), 0);
         // 12 ft to 3.6576m
         r.set(12, Length.FEET);
-        assertEquals(3.6576F, Range.convert(r, Length.METER).getAmount(), 0);
+        assertEquals(3.6576F, r.convert(Length.METER).getAmount(), 0);
         // 7inch to 17.78cm
         r.set(7, Length.INCH);
-        assertEquals(17.78F, Range.convert(r, Length.CENTIMETER).getAmount(), 0);
+        assertEquals(17.78F, r.convert(Length.CENTIMETER).getAmount(), 0);
         // 178cm to 5.8399ft
         r.set(178, Length.CENTIMETER);
-        assertEquals(5.8399F, Range.convert(r, Length.FEET).getAmount(), 0);
+        assertEquals(5.8399F, r.convert(Length.FEET).getAmount(), 0);
         // 50inch to 1.27m
         r.set(50, Length.INCH);
-        assertEquals(1.27F, Range.convert(r, Length.METER).getAmount(), 0);
+        assertEquals(1.27F, r.convert(Length.METER).getAmount(), 0);
     }
 
     /**
@@ -171,8 +170,8 @@ public class AppTest {
     public void testDNDParser() {
         try(Stream<Path> examples = Files.list(Path.of("examples"))) {
 
-            DND5eParser parser = new DND5eParser();
-            Character character;
+            DND5eParser parser = new eu.mjindra.character.DND5eParser();
+            eu.mjindra.character.Character character;
 
             for (Path example: examples.toList()) {
                 parser.setFile(example.toString());

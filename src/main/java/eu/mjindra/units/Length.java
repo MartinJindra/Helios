@@ -1,6 +1,6 @@
 package eu.mjindra.units;
 
-public enum Length {
+public enum Length implements Base {
     FEET(1),
     INCH(12),
     METER(0.3048F),
