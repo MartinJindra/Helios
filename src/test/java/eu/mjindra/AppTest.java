@@ -5,6 +5,7 @@ import eu.mjindra.units.Length;
 import eu.mjindra.units.Mass;
 import eu.mjindra.utils.Range;
 import eu.mjindra.utils.Weight;
+import eu.mjindra.utils.dices.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +15,7 @@ import java.nio.file.Path;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit test for simple App.
@@ -304,4 +306,37 @@ public class AppTest {
         assertEquals(8.1280F, op1.getAmount(), 0);
     }
 
+    @Test
+    @DisplayName("testDices")
+    public void testDices() {
+        short total;
+        for (int i = 0; i < 100; i++) {
+            total = D4.roll((byte) 1).getTotal();
+            assertTrue(total >= 1 && total <= 4);
+        }
+        for (int i = 0; i < 100; i++) {
+            total = D6.roll((byte) 1).getTotal();
+            assertTrue(total >= 1 && total <= 6);
+        }
+        for (int i = 0; i < 100; i++) {
+            total = D8.roll((byte) 1).getTotal();
+            assertTrue(total >= 1 && total <= 8);
+        }
+        for (int i = 0; i < 100; i++) {
+            total = D10.roll((byte) 1).getTotal();
+            assertTrue(total >= 1 && total <= 10);
+        }
+        for (int i = 0; i < 100; i++) {
+            total = D12.roll((byte) 1).getTotal();
+            assertTrue(total >= 1 && total <= 12);
+        }
+        for (int i = 0; i < 100; i++) {
+            total = D20.roll((byte) 1).getTotal();
+            assertTrue(total >= 1 && total <= 20);
+        }
+        for (int i = 0; i < 100; i++) {
+            total = D100.roll((byte) 1).getTotal();
+            assertTrue(total >= 1 && total <= 100);
+        }
+    }
 }
