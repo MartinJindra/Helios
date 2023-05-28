@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class AppTest {
 
-
     @Test
     @DisplayName("testDNDParser")
     public void testDNDParser() {
@@ -33,7 +32,7 @@ public class AppTest {
                 parser.setFile(example.toString());
                 parser.parseXML();
                 character = parser.getCharacter();
-                System.out.println(character.summerizeInformation());
+                System.out.println(character.summarizeInformation());
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

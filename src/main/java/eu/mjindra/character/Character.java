@@ -150,7 +150,7 @@ public class Character {
      * Sums up all information into a printable format.
      * @return all information
      */
-    public String summerizeInformation() {
+    public String summarizeInformation() {
         StringBuilder info = new StringBuilder();
 
         // TODO implement printable format for a character
@@ -168,7 +168,7 @@ public class Character {
 
     @Override
     public String toString() {
-        return this.summerizeInformation();
+        return this.summarizeInformation();
     }
 
 }
