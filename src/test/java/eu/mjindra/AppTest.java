@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -310,33 +311,75 @@ public class AppTest {
     @DisplayName("testDices")
     public void testDices() {
         short total;
-        for (int i = 0; i < 100; i++) {
+        short len = 4;
+        HashSet<Short> res = new HashSet<>(len);
+        while (true) {
             total = D4.roll((byte) 1).getTotal();
-            assertTrue(total >= 1 && total <= 4);
+            res.add(total);
+            assertTrue(total >= 1 && total <= len);
+            if (res.size() == len)
+                break;
         }
-        for (int i = 0; i < 100; i++) {
+        System.out.println(res);
+        len = 6;
+        res = new HashSet<>(len);
+        while (true) {
             total = D6.roll((byte) 1).getTotal();
-            assertTrue(total >= 1 && total <= 6);
+            res.add(total);
+            assertTrue(total >= 1 && total <= len);
+            if (res.size() == len)
+                break;
         }
-        for (int i = 0; i < 100; i++) {
+        System.out.println(res);
+        len = 8;
+        res = new HashSet<>(len);
+        while (true) {
             total = D8.roll((byte) 1).getTotal();
-            assertTrue(total >= 1 && total <= 8);
+            res.add(total);
+            assertTrue(total >= 1 && total <= len);
+            if (res.size() == len)
+                break;
         }
-        for (int i = 0; i < 100; i++) {
+        System.out.println(res);
+        len = 10;
+        res = new HashSet<>(len);
+        while (true) {
             total = D10.roll((byte) 1).getTotal();
-            assertTrue(total >= 1 && total <= 10);
+            res.add(total);
+            assertTrue(total >= 1 && total <= len);
+            if (res.size() == len)
+                break;
         }
-        for (int i = 0; i < 100; i++) {
+        System.out.println(res);
+        len = 12;
+        res = new HashSet<>(len);
+        while (true) {
             total = D12.roll((byte) 1).getTotal();
-            assertTrue(total >= 1 && total <= 12);
+            res.add(total);
+            assertTrue(total >= 1 && total <= len);
+            if (res.size() == len)
+                break;
         }
-        for (int i = 0; i < 100; i++) {
+        System.out.println(res);
+        len = 20;
+        res = new HashSet<>(len);
+        while (true) {
             total = D20.roll((byte) 1).getTotal();
-            assertTrue(total >= 1 && total <= 20);
+            res.add(total);
+            assertTrue(total >= 1 && total <= len);
+            if (res.size() == len)
+                break;
         }
-        for (int i = 0; i < 100; i++) {
+        System.out.println(res);
+        len = 100;
+        res = new HashSet<>(len);
+        while (true) {
             total = D100.roll((byte) 1).getTotal();
-            assertTrue(total >= 1 && total <= 100);
+            res.add(total);
+            assertTrue(total >= 1 && total <= len);
+            if (res.size() == len)
+                break;
         }
+        System.out.println(res);
     }
 }
