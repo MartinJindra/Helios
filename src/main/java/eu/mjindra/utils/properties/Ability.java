@@ -1,4 +1,4 @@
-package eu.mjindra.utils;
+package eu.mjindra.utils.properties;
 
 /**
  * Enum for DND abilities.

@@ -1,4 +1,4 @@
-package eu.mjindra.utils;
+package eu.mjindra.utils.properties;
 
 import eu.mjindra.units.Base;
 import org.apache.commons.math3.util.Precision;

@@ -1,16 +1,17 @@
-package eu.mjindra.utils;
+package eu.mjindra.utils.properties;
 
 import eu.mjindra.units.Base;
-import eu.mjindra.units.Mass;
+import eu.mjindra.units.Length;
 import org.apache.commons.math3.util.Precision;
 
 /**
- * A class representing weight in DND.
+ * A class representing range in DND.
  * @author Martin Jindra
  * @version 27.05.2023
  */
-public class Weight extends Unit {
-    public Weight(float amount, Mass unit) {
+public class Range extends Unit {
+
+    public Range(float amount, Length unit) {
         super(amount, unit);
     }
 
@@ -21,8 +22,8 @@ public class Weight extends Unit {
      */
     @Override
     public Unit convert(Base to) {
-        Mass m = (Mass) to;
-        float f = super.getAmount() * ((Mass) super.getUnit()).val;
-        return new Weight(Precision.round(f / ((Mass) to).val, 4), m);
+        Length l = (Length) to;
+        float f = super.getAmount() / ((Length) super.getUnit()).val;
+        return new Range(Precision.round(f * l.val, 4), l);
     }
 }

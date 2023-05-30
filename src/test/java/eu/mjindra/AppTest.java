@@ -3,9 +3,9 @@ package eu.mjindra;
 import eu.mjindra.character.DND5eParser;
 import eu.mjindra.units.Length;
 import eu.mjindra.units.Mass;
-import eu.mjindra.utils.Range;
-import eu.mjindra.utils.Weight;
 import eu.mjindra.utils.dices.*;
+import eu.mjindra.utils.properties.Range;
+import eu.mjindra.utils.properties.Weight;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

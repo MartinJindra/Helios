@@ -1,37 +1,36 @@
 package eu.mjindra.utils.dices.mixer;
 
-import eu.mjindra.utils.dices.roll.Roll;
+import eu.mjindra.utils.dices.Dice;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A mixer used for adding up multiple dice rolls.
+ * A mixer used for adding up multiple and different dice rolls.
  *
  * @author Martin Jindra
  * @version 30.05.2023
  */
 public class DiceMixer {
 
-    private final List<Roll> rolls;
+    private final List<Dice> dice;
 
     public DiceMixer() {
-        this.rolls = new ArrayList<>();
+        this.dice = new ArrayList<>();
     }
 
-    public void add(Roll roll) {
-        this.rolls.add(roll);
+    public void add(Dice die) {
+        this.dice.add(die);
     }
 
-    /**
-     * Get the total sum of multiple rolls.
-     * @return total sum
-     */
-    public short sum() {
-        short sum = 0;
-        for (Roll roll : this.rolls) {
-            sum += roll.getTotal();
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        for (Dice d : this.dice) {
+            str.append(d.toString());
+            str.append('+');
         }
-        return sum;
+        str.deleteCharAt(str.lastIndexOf("+"));
+        return str.toString();
     }
 }

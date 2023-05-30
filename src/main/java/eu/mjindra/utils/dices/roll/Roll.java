@@ -7,20 +7,16 @@ package eu.mjindra.utils.dices.roll;
  */
 public class Roll {
 
-    private final byte dice;
-
-    private final byte[] roll;
+    private final byte[] order;
 
     private final short total;
 
     private Roll(byte amount, byte dice) {
-        this.dice = dice;
-        byte total = 0, tmp;
-        this.roll = new byte[amount];
-        for (short i = 0; i < this.roll.length; i++) {
-            tmp = (byte) (Math.random() * dice + 1);
-            this.roll[i] = tmp;
-            total += tmp;
+        this.order = new byte[amount];
+        short total = 0;
+        for (short i = 0; i < amount; i++) {
+            this.order[i] = (byte) (Math.random() * dice + 1);
+            total += this.order[i];
         }
         this.total = total;
     }
@@ -30,26 +26,31 @@ public class Roll {
     }
 
     /**
-     * Sums up all information into a printable format.
-     * @return all information
+     * Get the total sum of the roll.
+     *
+     * @return total sum
      */
-    public String summarizeInformation() {
-        return String.format("(%dd%d) %d", this.roll.length, this.dice, this.total);
+    public short getTotal() {
+        return this.total;
     }
 
     /**
-     * Sums up all information into a printable format.
-     * @return all information
+     * Get the order of the dice rolls.
+     *
+     * @return order
      */
+    public byte[] getOrder() {
+        return this.order;
+    }
+
     public String toString() {
-        return this.summarizeInformation();
-    }
-
-    public byte[] getRoll() {
-        return roll;
-    }
-
-    public short getTotal() {
-        return total;
+        StringBuilder str = new StringBuilder("[ ");
+        for (byte b : this.order) {
+            str.append(b);
+            str.append(',');
+        }
+        str.deleteCharAt(str.lastIndexOf(","));
+        str.append("]");
+        return str.toString();
     }
 }

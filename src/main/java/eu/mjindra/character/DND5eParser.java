@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -93,6 +94,14 @@ public class DND5eParser {
 
         this.character.setGender(Objects.requireNonNullElse(inputElement.getChildText("gender"), "").trim());
         this.character.setPlayerName(Objects.requireNonNullElse(inputElement.getChildText("player-name"), "").trim());
-        this.character.setExperience(Integer.parseInt(Objects.requireNonNullElse(inputElement.getChildText( "experience"), "0")));
+        this.character.setExperience(Integer.parseInt(Objects.requireNonNullElse(inputElement.getChildText("experience"), "0")));
+
+        // Attacks
+        Element attackElement = inputElement.getChild("attacks");
+
+        List<Element> attacks = attackElement.getChildren("attack");
+        for (Element attack : attacks) {
+            System.out.println(attack.getAttribute("name"));
+        }
     }
 }
