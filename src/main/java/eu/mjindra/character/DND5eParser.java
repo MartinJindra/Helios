@@ -14,15 +14,15 @@ import java.util.Objects;
 
 /**
  * Parser for .dnd5e character file.
+ *
  * @author Martin Jindra
  * @version 23.05.2023
  */
 public class DND5eParser {
 
+    private final Character character;
     private Path file;
     private Element rootElement;
-
-    private final Character character;
 
     public DND5eParser(String file) throws FileNotFoundException {
         this();
@@ -74,7 +74,7 @@ public class DND5eParser {
         this.character.setRace(Objects.requireNonNullElse(displayElement.getChildText("race"), "").trim());
         this.character.setClasses(Objects.requireNonNullElse(displayElement.getChildText("class"), "").trim());
         this.character.setBackground(Objects.requireNonNullElse(displayElement.getChildText("background"), "").trim());
-        this.character.setLevel(Byte.parseByte(Objects.requireNonNullElse(displayElement.getChildText( "level"), "0").trim()));
+        this.character.setLevel(Byte.parseByte(Objects.requireNonNullElse(displayElement.getChildText("level"), "0").trim()));
 
         Element portraitElement = displayElement.getChild("portrait");
         String portrait;

@@ -27,12 +27,12 @@ public class AppTest {
     @Test
     @DisplayName("testDNDParser")
     public void testDNDParser() {
-        try(Stream<Path> examples = Files.list(Path.of("examples"))) {
+        try (Stream<Path> examples = Files.list(Path.of("examples"))) {
 
             DND5eParser parser = new eu.mjindra.character.DND5eParser();
             eu.mjindra.character.Character character;
 
-            for (Path example: examples.toList()) {
+            for (Path example : examples.toList()) {
                 parser.setFile(example.toString());
                 parser.parseXML();
                 character = parser.getCharacter();
@@ -55,7 +55,7 @@ public class AppTest {
         assertEquals(220.46F, w.convert(Mass.POUND).getAmount());
         // 0.5pound to 0.2268kg
         w.set(0.5F, Mass.POUND);
-        assertEquals( 0.2268F, w.convert(Mass.KILOGRAM).getAmount(), 0);
+        assertEquals(0.2268F, w.convert(Mass.KILOGRAM).getAmount(), 0);
         // 165pound to 74.8427kg
         w.set(165, Mass.POUND);
         assertEquals(74.8435F, w.convert(Mass.KILOGRAM).getAmount(), 0);

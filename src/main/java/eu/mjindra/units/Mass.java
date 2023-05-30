@@ -2,6 +2,7 @@ package eu.mjindra.units;
 
 /**
  * An enum representing mass in DND.
+ *
  * @author Martin Jindra
  * @version 27.05.2023
  */

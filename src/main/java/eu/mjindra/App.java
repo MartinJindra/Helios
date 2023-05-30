@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 /**
  * DND Character Builder.
+ *
  * @author Martin Jindra
  * @version 23.05.2023
  */
@@ -16,7 +17,7 @@ public class App {
 
     public static final String appName = "DND Character Builder";
 
-    public static void main( String[] args ) {
+    public static void main(String[] args) {
 
         try {
             Parser parser = new Parser(appName);

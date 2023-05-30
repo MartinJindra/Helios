@@ -9,20 +9,17 @@ import java.util.Base64;
 
 /**
  * Class to represent a DND character.
+ *
  * @author Martin Jindra
  * @version 24.03.2023
  */
 public class Character {
-    private byte[] characterPortrait, companionPortrait;
-
-    private byte level;
-
-    private int experience;
-
-    private String group, name, race, classesString, background, gender, playerName;
-
     String[] classesArray;
-
+    private byte[] characterPortrait, companionPortrait;
+    private byte level;
+    private int experience;
+    private String group, name, race, classesString, background, gender, playerName;
+    private boolean isFavorite;
 
     public String getGender() {
         return gender;
@@ -48,6 +45,10 @@ public class Character {
         this.experience = experience;
     }
 
+    public byte @Nullable [] getCharacterPortrait() {
+        return this.characterPortrait;
+    }
+
     public void setCharacterPortrait(String portraitBase64) {
         this.characterPortrait = Base64.getDecoder().decode(portraitBase64);
     }
@@ -62,8 +63,8 @@ public class Character {
         }
     }
 
-    public byte @Nullable [] getCharacterPortrait() {
-        return this.characterPortrait;
+    public byte @Nullable [] getCompanionPortrait() {
+        return this.companionPortrait;
     }
 
     public void setCompanionPortrait(String portraitBase64) {
@@ -80,10 +81,6 @@ public class Character {
         }
     }
 
-    public byte @Nullable [] getCompanionPortrait() {
-        return this.companionPortrait;
-    }
-
     public boolean isFavorite() {
         return isFavorite;
     }
@@ -91,8 +88,6 @@ public class Character {
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
     }
-
-    private boolean isFavorite;
 
     public String getGroup() {
         return group;
@@ -148,6 +143,7 @@ public class Character {
 
     /**
      * Sums up all information into a printable format.
+     *
      * @return all information
      */
     public String summarizeInformation() {

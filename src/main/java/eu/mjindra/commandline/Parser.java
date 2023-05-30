@@ -2,19 +2,17 @@ package eu.mjindra.commandline;
 
 import org.apache.commons.cli.*;
 
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
 
 /**
  * Parser for commandline arguments.
+ *
  * @author Martin Jindra
  * @version 23.05.2023
  */
 public class Parser {
 
-    private String appName;
+    private final String appName;
 
     public Parser(String appName) {
         this.appName = appName;
@@ -22,6 +20,7 @@ public class Parser {
 
     /**
      * Return all parsed arguments and values.
+     *
      * @param args not passed Argument
      * @return all parsed arguments and values
      * @throws ParseException is thrown if there are problems with the arguments and values
@@ -33,7 +32,7 @@ public class Parser {
         HashMap<String, String> arguments = new HashMap<>();
 
         CommandLine cmdline = parser.parse(options, args);
-        for (Option line: cmdline.getOptions()) {
+        for (Option line : cmdline.getOptions()) {
             if (line.getLongOpt().equals("help"))
                 this.printHelp();
 

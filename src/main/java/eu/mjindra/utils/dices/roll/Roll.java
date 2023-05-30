@@ -2,6 +2,7 @@ package eu.mjindra.utils.dices.roll;
 
 /**
  * Class representing a die roll.
+ *
  * @author Martin Jindra
  * @version 28.05.2023
  */

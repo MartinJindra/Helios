@@ -5,6 +5,7 @@ import org.apache.commons.math3.util.Precision;
 
 /**
  * A super class for units.
+ *
  * @author Martin Jindra
  * @version 27.05.2023
  */
@@ -35,6 +36,7 @@ public abstract class Unit {
      * Add up another unit.
      * The sum will be in the unit
      * of the object instance.
+     *
      * @param second another range
      */
     public void add(Unit second) {
@@ -49,6 +51,7 @@ public abstract class Unit {
      * Subtract another unit.
      * The subtraction will be in the unit
      * of the object instance.
+     *
      * @param second another range
      */
     public void subtract(Unit second) {
@@ -63,6 +66,7 @@ public abstract class Unit {
      * Multiply another unit.
      * The multiplication will be in the unit
      * of the object instance.
+     *
      * @param second another range
      */
     public void multiply(Unit second) {
@@ -77,6 +81,7 @@ public abstract class Unit {
      * Divide another unit.
      * The division will be in the unit
      * of the object instance.
+     *
      * @param second another range
      */
     public void divide(Unit second) {
@@ -89,6 +94,7 @@ public abstract class Unit {
 
     /**
      * Convert the value of one unit to another unit.
+     *
      * @param to different unit
      * @return converted value
      */

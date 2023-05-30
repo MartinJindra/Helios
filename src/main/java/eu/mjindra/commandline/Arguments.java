@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Create commandline arguments.
+ *
  * @author Martin Jindra
  * @version 27.05.2023
  */
@@ -15,6 +16,7 @@ public class Arguments {
 
     /**
      * Return default options.
+     *
      * @return default options
      */
     public static @NotNull Options getDefaultOptions() {
@@ -24,7 +26,7 @@ public class Arguments {
         options.addOptionGroup(Arguments.getInformationOptions());
 
         // IO Options
-        for (Option io: Arguments.getIOOptions()) {
+        for (Option io : Arguments.getIOOptions()) {
             options.addOption(io);
         }
 
@@ -36,6 +38,7 @@ public class Arguments {
 
     /**
      * Return options that inform about the program.
+     *
      * @return options
      */
     private static @NotNull OptionGroup getInformationOptions() {
@@ -57,11 +60,12 @@ public class Arguments {
 
     /**
      * Return options that use files.
+     *
      * @return options
      */
     @Contract(" -> new")
     private static Option @NotNull [] getIOOptions() {
-        return new Option[] {
+        return new Option[]{
                 Option.builder("i")
                         .longOpt("input")
                         .argName("file")
