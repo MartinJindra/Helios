@@ -3,10 +3,12 @@ package eu.mjindra.utils.dices;
 /**
  * A D4 die.
  * @author Martin Jindra
- * @version 28.05.2023
+ * @version 30.05.2023
  */
-public class D4 implements Dice {
-    public static Roll roll(byte amount) {
-        return Dice.roll(amount, (byte) 4);
+public class D4 extends Dice {
+
+    public D4() {
+        super((byte) 4);
     }
+
 }

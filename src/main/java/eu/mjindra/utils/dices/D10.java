@@ -3,10 +3,12 @@ package eu.mjindra.utils.dices;
 /**
  * A D10 die.
  * @author Martin Jindra
- * @version 28.05.2023
+ * @version 30.05.2023
  */
-public class D10 implements Dice {
-    public static Roll roll(byte amount) {
-        return Dice.roll(amount, (byte) 10);
+public class D10 extends Dice {
+
+    public D10() {
+        super((byte) 10);
     }
+
 }

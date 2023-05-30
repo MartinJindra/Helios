@@ -1,4 +1,4 @@
-package eu.mjindra.utils.dices;
+package eu.mjindra.utils.dices.roll;
 
 /**
  * Class representing a die roll.
