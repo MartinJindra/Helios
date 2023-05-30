@@ -15,7 +15,6 @@
               <option value="compile" />
               <option value="verify" />
               <option value="assembly:single" />
-              <option value="-X" />
             </list>
           </option>
           <option name="pomFileName" />

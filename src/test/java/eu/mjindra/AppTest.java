@@ -4,6 +4,7 @@ import eu.mjindra.character.DND5eParser;
 import eu.mjindra.units.Length;
 import eu.mjindra.units.Mass;
 import eu.mjindra.utils.dices.*;
+import eu.mjindra.utils.dices.mixer.DiceMixer;
 import eu.mjindra.utils.properties.Range;
 import eu.mjindra.utils.properties.Weight;
 import org.junit.jupiter.api.DisplayName;
@@ -313,8 +314,9 @@ public class AppTest {
         short total;
         short len = 4;
         HashSet<Short> res = new HashSet<>(len);
+        Dice d = new D4((byte) 1);
         while (true) {
-            total = D4.roll((byte) 1).getTotal();
+            total = d.roll().getTotal();
             res.add(total);
             assertTrue(total >= 1 && total <= len);
             if (res.size() == len)
@@ -323,8 +325,9 @@ public class AppTest {
         System.out.println(res);
         len = 6;
         res = new HashSet<>(len);
+        d = new D6((byte) 1);
         while (true) {
-            total = D6.roll((byte) 1).getTotal();
+            total = d.roll().getTotal();
             res.add(total);
             assertTrue(total >= 1 && total <= len);
             if (res.size() == len)
@@ -333,8 +336,9 @@ public class AppTest {
         System.out.println(res);
         len = 8;
         res = new HashSet<>(len);
+        d = new D8((byte) 1);
         while (true) {
-            total = D8.roll((byte) 1).getTotal();
+            total = d.roll().getTotal();
             res.add(total);
             assertTrue(total >= 1 && total <= len);
             if (res.size() == len)
@@ -343,8 +347,9 @@ public class AppTest {
         System.out.println(res);
         len = 10;
         res = new HashSet<>(len);
+        d = new D10((byte) 1);
         while (true) {
-            total = D10.roll((byte) 1).getTotal();
+            total = d.roll().getTotal();
             res.add(total);
             assertTrue(total >= 1 && total <= len);
             if (res.size() == len)
@@ -353,8 +358,9 @@ public class AppTest {
         System.out.println(res);
         len = 12;
         res = new HashSet<>(len);
+        d = new D12((byte) 1);
         while (true) {
-            total = D12.roll((byte) 1).getTotal();
+            total = d.roll().getTotal();
             res.add(total);
             assertTrue(total >= 1 && total <= len);
             if (res.size() == len)
@@ -363,8 +369,9 @@ public class AppTest {
         System.out.println(res);
         len = 20;
         res = new HashSet<>(len);
+        d = new D20((byte) 1);
         while (true) {
-            total = D20.roll((byte) 1).getTotal();
+            total = d.roll().getTotal();
             res.add(total);
             assertTrue(total >= 1 && total <= len);
             if (res.size() == len)
@@ -373,13 +380,42 @@ public class AppTest {
         System.out.println(res);
         len = 100;
         res = new HashSet<>(len);
+        d = new D100((byte) 1);
         while (true) {
-            total = D100.roll((byte) 1).getTotal();
+            total = d.roll().getTotal();
             res.add(total);
             assertTrue(total >= 1 && total <= len);
             if (res.size() == len)
                 break;
         }
         System.out.println(res);
+    }
+
+    @Test
+    @DisplayName("testDicesToString")
+    public void testDicesToString() {
+
+        DiceMixer mixer = new DiceMixer();
+        mixer.add(new D8((byte) 1));
+        mixer.add(new D8((byte) 1));
+        mixer.add(new D20((byte) 1));
+        mixer.add(new D12((byte) 2));
+        assertEquals("1d8+1d8+1d20+2d12", mixer.toString());
+
+        byte len = 10;
+        Dice d = new D4(len);
+        System.out.println(d.roll());
+        d = new D6(len);
+        System.out.println(d.roll());
+        d = new D8(len);
+        System.out.println(d.roll());
+        d = new D10(len);
+        System.out.println(d.roll());
+        d = new D12(len);
+        System.out.println(d.roll());
+        d = new D20(len);
+        System.out.println(d.roll());
+        d = new D100(len);
+        System.out.println(d.roll());
     }
 }

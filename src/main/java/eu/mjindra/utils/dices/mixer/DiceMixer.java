@@ -27,7 +27,7 @@ public class DiceMixer {
     public String toString() {
         StringBuilder str = new StringBuilder();
         for (Dice d : this.dice) {
-            str.append(d.toString());
+            str.append(d);
             str.append('+');
         }
         str.deleteCharAt(str.lastIndexOf("+"));
