@@ -46,14 +46,6 @@ public class Roll {
 
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder(String.format("%d ", this.total));
-        for (byte b : this.order) {
-            str.append('[');
-            str.append(b);
-            str.append(']');
-            str.append('+');
-        }
-        str.deleteCharAt(str.lastIndexOf("+"));
-        return str.toString();
+        return String.format("%d", this.total);
     }
 }

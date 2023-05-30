@@ -311,83 +311,76 @@ public class AppTest {
     @Test
     @DisplayName("testDices")
     public void testDices() {
+        // D4
         short total;
         short len = 4;
         HashSet<Short> res = new HashSet<>(len);
         Dice d = new D4((byte) 1);
-        while (true) {
+        do {
             total = d.roll().getTotal();
             res.add(total);
             assertTrue(total >= 1 && total <= len);
-            if (res.size() == len)
-                break;
-        }
+        } while (res.size() != len);
         System.out.println(res);
+        // D6
         len = 6;
         res = new HashSet<>(len);
         d = new D6((byte) 1);
-        while (true) {
+        do {
             total = d.roll().getTotal();
             res.add(total);
             assertTrue(total >= 1 && total <= len);
-            if (res.size() == len)
-                break;
-        }
+        } while (res.size() != len);
         System.out.println(res);
+        // D8
         len = 8;
         res = new HashSet<>(len);
         d = new D8((byte) 1);
-        while (true) {
+        do {
             total = d.roll().getTotal();
             res.add(total);
             assertTrue(total >= 1 && total <= len);
-            if (res.size() == len)
-                break;
-        }
+        } while (res.size() != len);
         System.out.println(res);
+        // D10
         len = 10;
         res = new HashSet<>(len);
         d = new D10((byte) 1);
-        while (true) {
+        do {
             total = d.roll().getTotal();
             res.add(total);
             assertTrue(total >= 1 && total <= len);
-            if (res.size() == len)
-                break;
-        }
+        } while (res.size() != len);
         System.out.println(res);
+        // D12
         len = 12;
         res = new HashSet<>(len);
         d = new D12((byte) 1);
-        while (true) {
+        do {
             total = d.roll().getTotal();
             res.add(total);
             assertTrue(total >= 1 && total <= len);
-            if (res.size() == len)
-                break;
-        }
+        } while (res.size() != len);
         System.out.println(res);
+        // D20
         len = 20;
         res = new HashSet<>(len);
         d = new D20((byte) 1);
-        while (true) {
+        do {
             total = d.roll().getTotal();
             res.add(total);
             assertTrue(total >= 1 && total <= len);
-            if (res.size() == len)
-                break;
-        }
+        } while (res.size() != len);
         System.out.println(res);
+        // D100
         len = 100;
         res = new HashSet<>(len);
         d = new D100((byte) 1);
-        while (true) {
+        do {
             total = d.roll().getTotal();
             res.add(total);
             assertTrue(total >= 1 && total <= len);
-            if (res.size() == len)
-                break;
-        }
+        } while (res.size() != len);
         System.out.println(res);
     }
 
@@ -400,9 +393,17 @@ public class AppTest {
         mixer.add(new D8((byte) 1));
         mixer.add(new D20((byte) 1));
         mixer.add(new D12((byte) 2));
-        assertEquals("1d8+1d8+1d20+2d12", mixer.toString());
+        System.out.println(mixer);
 
-        byte len = 10;
+        mixer = new DiceMixer();
+        mixer.add(new D100((byte) 1));
+        mixer.add(new D6((byte) 2));
+        mixer.add(new D4((byte) 2));
+        mixer.add(new D8((byte) 4));
+        mixer.add(new D4((byte) 2));
+        System.out.println(mixer);
+
+        byte len = 6;
         Dice d = new D4(len);
         System.out.println(d.roll());
         d = new D6(len);

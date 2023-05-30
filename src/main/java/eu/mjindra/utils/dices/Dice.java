@@ -14,13 +14,12 @@ public class Dice {
 
     private final byte sides;
 
-    private final short sum;
-
+    private final Roll roll;
 
     public Dice(byte amount, byte sides) {
         this.amount = amount;
         this.sides = sides;
-        this.sum = Roll.create(this.amount, this.sides).getTotal();
+        this.roll = Roll.create(this.amount, this.sides);
     }
 
     /**
@@ -38,11 +37,16 @@ public class Dice {
      * @return total sum
      */
     public short sum() {
-        return this.sum;
+        return this.roll.getTotal();
     }
 
     @Override
     public String toString() {
-        return String.format("%dd%d", this.amount, this.sides);
+        StringBuilder str = new StringBuilder();
+        for ( byte res : this.roll.getOrder() ) {
+            str.append(String.format("%d(d%d)+", res, this.sides));
+        }
+        str.deleteCharAt(str.lastIndexOf("+"));
+        return str.toString();
     }
 }

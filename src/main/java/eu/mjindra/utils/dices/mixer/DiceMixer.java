@@ -23,6 +23,14 @@ public class DiceMixer {
         this.dice.add(die);
     }
 
+    public short sum() {
+        short sum = 0;
+        for ( Dice d : this.dice ) {
+            sum += d.sum();
+        }
+        return sum;
+    }
+
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
@@ -31,6 +39,8 @@ public class DiceMixer {
             str.append('+');
         }
         str.deleteCharAt(str.lastIndexOf("+"));
+        str.append('=');
+        str.append(this.sum());
         return str.toString();
     }
 }
