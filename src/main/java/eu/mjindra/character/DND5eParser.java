@@ -1,5 +1,10 @@
 package eu.mjindra.character;
 
+import eu.mjindra.attacks.Attack;
+import eu.mjindra.attacks.Damage;
+import eu.mjindra.units.Length;
+import eu.mjindra.utils.properties.Ability;
+import eu.mjindra.utils.properties.Range;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -98,10 +103,47 @@ public class DND5eParser {
 
         // Attacks
         Element attackElement = inputElement.getChild("attacks");
-
         List<Element> attacks = attackElement.getChildren("attack");
-        for (Element attack : attacks) {
-            System.out.println(attack.getAttribute("name"));
+        Attack attack;
+        String rangeString, damageString, abilityString;
+        String[] stringArray;
+        for (Element att : attacks) {
+            attack = new Attack();
+            // UUID
+            attack.setUuid(Objects.requireNonNullElse(att.getAttributeValue("identifier"), ""));
+            // Name
+            attack.setName(Objects.requireNonNullElse(att.getAttributeValue("name"), ""));
+
+            // Range
+            rangeString = Objects.requireNonNullElse(att.getAttributeValue("range"), "");
+            // If range has long and short ranges
+            if (rangeString.contains("/")) {
+                stringArray = rangeString.split("/");
+                attack.setShortRange(new Range(Float.parseFloat(stringArray[0]), Length.FEET));
+                attack.setLongRange(new Range(Float.parseFloat(stringArray[1]), Length.FEET));
+            } else {
+                // If only one range exists
+                if (rangeString.endsWith("ft")) {
+                    stringArray = rangeString.split(" ");
+                    attack.setShortRange(new Range(Float.parseFloat(stringArray[0]), Length.FEET));
+                }
+            }
+
+            // Attack vs AC
+            attack.setAttack(Byte.parseByte(Objects.requireNonNullElse(att.getAttributeValue("attack").split(" ")[0], "")));
+
+            // Damage
+            damageString = Objects.requireNonNullElse(att.getAttributeValue("damage"), "");
+            attack.setDamage(Damage.parse(damageString));
+
+            // Is the weapon displayed
+            attack.setDisplayed(Boolean.parseBoolean(att.getAttributeValue("displayed")));
+
+            // Ability
+            abilityString = Objects.requireNonNullElse(att.getAttributeValue("ability").toUpperCase(), "");
+            attack.setAbility(Ability.valueOf(abilityString));
+
+            this.character.addAttack(attack);
         }
     }
 }

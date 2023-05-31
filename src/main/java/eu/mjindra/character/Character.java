@@ -1,17 +1,20 @@
 package eu.mjindra.character;
 
+import eu.mjindra.attacks.Attack;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 /**
  * Class to represent a DND character.
  *
  * @author Martin Jindra
- * @version 24.03.2023
+ * @version 31.03.2023
  */
 public class Character {
     String[] classesArray;
@@ -20,6 +23,28 @@ public class Character {
     private int experience;
     private String group, name, race, classesString, background, gender, playerName;
     private boolean isFavorite;
+
+    private final List<Attack> attacks;
+
+    /**
+     * Create an empty character.
+     */
+    public Character() {
+        this.classesArray = new String[0];
+        this.characterPortrait = new byte[0];
+        this.companionPortrait = new byte[0];
+        this.level = 0;
+        this.experience = 0;
+        this.group = "";
+        this.name = "";
+        this.race = "";
+        this.classesString = "";
+        this.background = "";
+        this.gender = "";
+        this.playerName = "";
+        this.isFavorite = false;
+        this.attacks = new ArrayList<>();
+    }
 
     public String getGender() {
         return gender;
@@ -141,6 +166,18 @@ public class Character {
         this.level = level;
     }
 
+    public void addAttack(Attack attack) {
+        this.attacks.add(attack);
+    }
+
+    public List<Attack> getAttacks() {
+        return this.attacks;
+    }
+
+    public void removeAttack(byte i) {
+        this.attacks.remove(i);
+    }
+
     /**
      * Sums up all information into a printable format.
      *
@@ -159,6 +196,12 @@ public class Character {
         str.append(String.format("Level:\t\t%d\n", this.level));
         str.append(String.format("Experience:\t%d\n", this.experience));
         str.append(String.format("Background:\t%s\n", this.background));
+        str.append("\nAttacks:\n");
+        str.append(String.format("%s\n", "-".repeat("Attacks:".length())));
+        for (Attack attack : this.attacks)
+            str.append(String.format("\n%s", attack));
+        str.append(String.format("%s\n", "-".repeat(48)));
+        str.append(String.format("%s\n", "-".repeat(48)));
         return str.toString();
     }
 
@@ -166,5 +209,4 @@ public class Character {
     public String toString() {
         return this.summarizeInformation();
     }
-
 }

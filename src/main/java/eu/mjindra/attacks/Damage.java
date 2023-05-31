@@ -1,7 +1,7 @@
 package eu.mjindra.attacks;
 
+import eu.mjindra.utils.dices.D0;
 import eu.mjindra.utils.dices.Dice;
-import eu.mjindra.utils.dices.Dices;
 
 /**
  * Class representing damage.
@@ -21,7 +21,7 @@ public class Damage {
     }
 
     public Damage(byte modifier, DamageType type) {
-        this.dice = Dices.D0.die();
+        this.dice = new D0((byte) 1, modifier);
         this.type = type;
     }
 

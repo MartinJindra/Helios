@@ -67,12 +67,18 @@ public class Dice {
             return String.format("%d", this.modifier);
 
         StringBuilder str = new StringBuilder();
-        for ( byte res : this.roll.getOrder() ) {
+        if (this.roll.getOrder().length == 1) {
             if (this.modifier != 0)
-                str.append(String.format("%d(d%d+%d)+", res, this.sides, modifier));
-            else str.append(String.format("%d(d%d)+", res, this.sides));
+                str.append(String.format("(%dd%d+%d)", this.amount, this.sides, modifier));
+            else str.append(String.format("%dd%d", this.amount, this.sides));
+        } else {
+            for (byte res : this.roll.getOrder()) {
+                if (this.modifier != 0)
+                    str.append(String.format("(%dd%d+%d)+", this.amount, this.sides, modifier));
+                else str.append(String.format("%dd%d+", this.amount, this.sides));
+            }
+            str.deleteCharAt(str.lastIndexOf("+"));
         }
-        str.deleteCharAt(str.lastIndexOf("+"));
         return str.toString();
     }
 

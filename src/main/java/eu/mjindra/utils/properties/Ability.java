@@ -8,10 +8,20 @@ package eu.mjindra.utils.properties;
  */
 public enum Ability {
 
-    STRENGTH,
-    DEXTERITY,
-    CONSTITUTION,
-    INTELLIGENCE,
-    WISDOM,
-    CHARISMA,
+    STRENGTH("Strength"),
+    DEXTERITY("Dexterity"),
+    CONSTITUTION("Constitution"),
+    INTELLIGENCE("Intelligence"),
+    WISDOM("Wisdom"),
+    CHARISMA("Charisma");
+
+    private final String desc;
+
+    Ability(String desc) {
+        this.desc = desc;
+    }
+
+    public String desc() {
+        return this.desc;
+    }
 }
