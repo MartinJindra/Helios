@@ -4,12 +4,16 @@ package eu.mjindra.utils.dices;
  * A D8 die.
  *
  * @author Martin Jindra
- * @version 30.05.2023
+ * @version 31.05.2023
  */
 public class D8 extends Dice {
 
     public D8(byte amount) {
-        super(amount, (byte) 8);
+        this(amount, (byte) 8);
+    }
+
+    public D8(byte amount, byte modifier) {
+        super(amount, (byte) 8, modifier);
     }
 
 }

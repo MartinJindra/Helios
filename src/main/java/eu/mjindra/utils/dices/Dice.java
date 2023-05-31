@@ -61,6 +61,11 @@ public class Dice {
 
     @Override
     public String toString() {
+
+        // if empty die only modifier
+        if (this.sides == 0)
+            return String.format("%d", this.modifier);
+
         StringBuilder str = new StringBuilder();
         for ( byte res : this.roll.getOrder() ) {
             if (this.modifier != 0)

@@ -4,12 +4,16 @@ package eu.mjindra.utils.dices;
  * A D12 die.
  *
  * @author Martin Jindra
- * @version 30.05.2023
+ * @version 31.05.2023
  */
 public class D12 extends Dice {
 
     public D12(byte amount) {
-        super(amount, (byte) 12);
+        this(amount, (byte) 12);
+    }
+
+    public D12(byte amount, byte modifier) {
+        super(amount, (byte) 12, modifier);
     }
 
 }
