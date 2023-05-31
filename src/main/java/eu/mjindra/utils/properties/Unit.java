@@ -99,4 +99,8 @@ public abstract class Unit {
      * @return converted value
      */
     public abstract Unit convert(Base to);
+
+    public String toString() {
+        return String.format("%d %s", (short) this.amount, this.unit.toString().toLowerCase());
+    }
 }
