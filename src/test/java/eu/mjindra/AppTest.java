@@ -43,7 +43,6 @@ public class AppTest {
         }
     }
 
-
     /**
      * Test the unit converter
      */

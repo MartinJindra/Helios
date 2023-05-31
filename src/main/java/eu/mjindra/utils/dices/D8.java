@@ -9,7 +9,7 @@ package eu.mjindra.utils.dices;
 public class D8 extends Dice {
 
     public D8(byte amount) {
-        this(amount, (byte) 8);
+        this(amount, (byte) 0);
     }
 
     public D8(byte amount, byte modifier) {
