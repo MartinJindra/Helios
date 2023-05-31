@@ -1,10 +1,12 @@
 package eu.mjindra.utils.dices.roll;
 
+import eu.mjindra.utils.dices.Dice;
+
 /**
  * Class representing a die roll.
  *
  * @author Martin Jindra
- * @version 28.05.2023
+ * @version 31.05.2023
  */
 public class Roll {
 
@@ -12,9 +14,18 @@ public class Roll {
 
     private final short total;
 
-    private Roll(byte amount, byte dice) {
+    /**
+     * Generate a roll.
+     * Runs loops over amount and generates
+     * a random number from 0 (exclusive) and dice (inclusive).
+     * Plus modifier.
+     * @param amount how often a die is rolled
+     * @param dice which die it is
+     * @param modifier a positive or negative modifier
+     */
+    private Roll(byte amount, byte dice, byte modifier) {
         this.order = new byte[amount];
-        short total = 0;
+        short total = modifier;
         for (short i = 0; i < amount; i++) {
             this.order[i] = (byte) (Math.random() * dice + 1);
             total += this.order[i];
@@ -22,9 +33,11 @@ public class Roll {
         this.total = total;
     }
 
-    public static Roll create(byte amount, byte dice) {
-        return new Roll(amount, dice);
+    public static Roll create(byte amount, byte dice, byte modifier) {
+        return new Roll(amount, dice, modifier);
     }
+
+    public static Roll create(Dice die) { return new Roll(die.getAmount(), die.getSides(), die.getModifier()); }
 
     /**
      * Get the total sum of the roll.

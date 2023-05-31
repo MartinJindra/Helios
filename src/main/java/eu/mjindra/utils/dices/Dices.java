@@ -8,7 +8,7 @@ package eu.mjindra.utils.dices;
  */
 public enum Dices {
 
-    D0(new D0((byte) 0)),
+    D0(new D0((byte) 1)),
 
     D10(new D10((byte) 1)),
 
@@ -28,6 +28,10 @@ public enum Dices {
 
     Dices(Dice die) {
         this.die = die;
+    }
+
+    public Dice die() {
+        return this.die;
     }
 
 }

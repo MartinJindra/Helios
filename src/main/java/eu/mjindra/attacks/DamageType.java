@@ -7,18 +7,28 @@ package eu.mjindra.attacks;
  * @version 30.05.2023
  */
 public enum DamageType {
-    ACID,
-    BLUDGEONING,
-    COLD,
-    FIRE,
-    FORCE,
-    LIGHTNING,
-    NECROTIC,
-    PIERCING,
-    POISON,
-    PSYCHIC,
-    RADIANT,
-    SLASHING,
-    THUNDER,
-    NONE
+    ACID("Acid"),
+    BLUDGEONING("Bludgeoning"),
+    COLD("Cold"),
+    FIRE("Fire"),
+    FORCE("Force"),
+    LIGHTNING("Lightning"),
+    NECROTIC("Necrotic"),
+    PIERCING("Piercing"),
+    POISON("Poison"),
+    PSYCHIC("Psychic"),
+    RADIANT("Radiant"),
+    SLASHING("Slashing"),
+    THUNDER("Thunder"),
+    NONE("");
+
+    private final String desc;
+
+    DamageType(String desc) {
+        this.desc = desc;
+    }
+
+    public String desc() {
+        return this.desc;
+    }
 }

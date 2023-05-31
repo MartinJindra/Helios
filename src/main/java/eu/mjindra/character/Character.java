@@ -147,19 +147,19 @@ public class Character {
      * @return all information
      */
     public String summarizeInformation() {
-        StringBuilder info = new StringBuilder();
+        StringBuilder str = new StringBuilder();
 
         // TODO implement printable format for a character
         String header = String.format("%s (%s):", this.name, this.playerName);
-        info.append(String.format("%s\n", header));
-        info.append(String.format("%s\n", "-".repeat(header.length())));
-        info.append(String.format("Class:\t\t%s\n", this.classesString));
-        info.append(String.format("Race:\t\t%s\n", this.race));
-        info.append(String.format("Gender:\t\t%s\n", this.gender));
-        info.append(String.format("Level:\t\t%d\n", this.level));
-        info.append(String.format("Experience:\t%d\n", this.experience));
-        info.append(String.format("Background:\t%s\n", this.background));
-        return info.toString();
+        str.append(String.format("%s\n", header));
+        str.append(String.format("%s\n", "-".repeat(header.length())));
+        str.append(String.format("Class:\t\t%s\n", this.classesString));
+        str.append(String.format("Race:\t\t%s\n", this.race));
+        str.append(String.format("Gender:\t\t%s\n", this.gender));
+        str.append(String.format("Level:\t\t%d\n", this.level));
+        str.append(String.format("Experience:\t%d\n", this.experience));
+        str.append(String.format("Background:\t%s\n", this.background));
+        return str.toString();
     }
 
     @Override

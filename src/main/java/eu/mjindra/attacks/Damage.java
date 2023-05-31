@@ -1,6 +1,7 @@
 package eu.mjindra.attacks;
 
 import eu.mjindra.utils.dices.Dice;
+import eu.mjindra.utils.dices.Dices;
 
 /**
  * Class representing damage.
@@ -20,7 +21,8 @@ public class Damage {
     }
 
     public Damage(byte modifier, DamageType type) {
-
+        this.dice = Dices.D0.die();
+        this.type = type;
     }
 
     public Dice getDice() {
@@ -56,5 +58,9 @@ public class Damage {
         Dice damage = Dice.parse(stringSplit[0]);
 
         return new Damage(damage, type);
+    }
+
+    public String toString() {
+        return String.format("%s %s", this.dice, this.type.desc());
     }
 }
