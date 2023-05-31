@@ -187,21 +187,19 @@ public class Character {
         StringBuilder str = new StringBuilder();
 
         // TODO implement printable format for a character
-        String header = String.format("%s (%s):", this.name, this.playerName);
+        String header = String.format("# %s (%s):", this.name, this.playerName);
         str.append(String.format("%s\n", header));
-        str.append(String.format("%s\n", "-".repeat(header.length())));
-        str.append(String.format("Class:\t\t%s\n", this.classesString));
-        str.append(String.format("Race:\t\t%s\n", this.race));
-        str.append(String.format("Gender:\t\t%s\n", this.gender));
-        str.append(String.format("Level:\t\t%d\n", this.level));
-        str.append(String.format("Experience:\t%d\n", this.experience));
-        str.append(String.format("Background:\t%s\n", this.background));
-        str.append("\nAttacks:\n");
-        str.append(String.format("%s\n", "-".repeat("Attacks:".length())));
+        str.append(String.format("%s\n\n", "-".repeat(header.length())));
+        str.append(String.format("Class: %s\n", this.classesString));
+        str.append(String.format("Race: %s\n", this.race));
+        str.append(String.format("Gender: %s\n", this.gender));
+        str.append(String.format("Level: %d\n", this.level));
+        str.append(String.format("Experience: %d\n", this.experience));
+        str.append(String.format("Background: %s\n", this.background));
+        str.append("\n## Attacks:\n");
+        str.append(String.format("%s\n", "-".repeat("## Attacks:".length())));
         for (Attack attack : this.attacks)
             str.append(String.format("\n%s", attack));
-        str.append(String.format("%s\n", "-".repeat(48)));
-        str.append(String.format("%s\n", "-".repeat(48)));
         return str.toString();
     }
 

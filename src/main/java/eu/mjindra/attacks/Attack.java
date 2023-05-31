@@ -95,14 +95,13 @@ public class Attack {
     public String toString() {
         StringBuilder str = new StringBuilder();
 
-        str.append(String.format("%s\n", this.name));
-        str.append(String.format("%s\n", "-".repeat(this.name.length())));
-        str.append(String.format("Short range:\t\t%s\n", this.shortRange));
+        str.append(String.format("### %s:\n", this.name));
+        str.append(String.format("Short range: %s\n", this.shortRange));
         if (this.longRange != null)
-            str.append(String.format("Long range:\t\t%s\n", this.longRange));
-        str.append(String.format("Attack:\t\t\t%d + AC\n", this.attack));
-        str.append(String.format("Damage:\t\t\t%s\n", this.damage));
-        str.append(String.format("Ability:\t\t%s\n", this.ability.desc()));
+            str.append(String.format("Long range: %s\n", this.longRange));
+        str.append(String.format("Attack: %d + AC\n", this.attack));
+        str.append(String.format("Damage: %s\n", this.damage));
+        str.append(String.format("Ability: %s\n", this.ability.desc()));
 
         return str.toString();
     }

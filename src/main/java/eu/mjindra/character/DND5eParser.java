@@ -63,7 +63,7 @@ public class DND5eParser {
             this.parseBuild();
 
         } catch (JDOMException | IOException e) {
-            throw new RuntimeException(e);
+            System.err.println(e.getMessage());
         }
     }
 
