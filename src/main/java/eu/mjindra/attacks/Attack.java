@@ -97,7 +97,7 @@ public class Attack {
 
         str.append(String.format("%s\n", this.name));
         str.append(String.format("%s\n", "-".repeat(this.name.length())));
-        str.append(String.format("Short range:\t%s\n", this.shortRange));
+        str.append(String.format("Short range:\t\t%s\n", this.shortRange));
         if (this.longRange != null)
             str.append(String.format("Long range:\t\t%s\n", this.longRange));
         str.append(String.format("Attack:\t\t\t%d + AC\n", this.attack));
