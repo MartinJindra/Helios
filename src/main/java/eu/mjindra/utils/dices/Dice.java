@@ -16,10 +16,29 @@ public class Dice {
 
     private final Roll roll;
 
+    private final byte modifier;
+
     public Dice(byte amount, byte sides) {
+        this(amount, sides, (byte) 0);
+    }
+
+    public Dice(byte amount, byte sides, byte modifier) {
         this.amount = amount;
         this.sides = sides;
-        this.roll = Roll.create(this.amount, this.sides);
+        this.modifier = modifier;
+        this.roll = Roll.create(this.amount, this.sides, this.modifier);
+    }
+
+    public byte getAmount() {
+        return amount;
+    }
+
+    public byte getSides() {
+        return sides;
+    }
+
+    public byte getModifier() {
+        return modifier;
     }
 
     /**
@@ -28,7 +47,7 @@ public class Dice {
      * @return the roll
      */
     public Roll roll() {
-        return Roll.create(this.amount, this.sides);
+        return Roll.create(this.amount, this.sides, this.modifier);
     }
 
     /**
@@ -44,9 +63,41 @@ public class Dice {
     public String toString() {
         StringBuilder str = new StringBuilder();
         for ( byte res : this.roll.getOrder() ) {
-            str.append(String.format("%d(d%d)+", res, this.sides));
+            if (this.modifier != 0)
+                str.append(String.format("%d(d%d+%d)+", res, this.sides, modifier));
+            else str.append(String.format("%d(d%d)+", res, this.sides));
         }
         str.deleteCharAt(str.lastIndexOf("+"));
         return str.toString();
     }
+
+    /**
+     * Parse a string into a dice.
+     * Examples:
+     *     `3d3 + 2`
+     *     `1d4`
+     *     `1    d    2`
+     * @param dice dice as a string.
+     * @return processed dice
+     */
+    public static Dice parse(String dice) {
+        dice = dice.replace(" ", "");
+        String[] splits;
+        byte amount = 0, sides = 0, modifier = 0;
+        // if modifier is present
+        if (dice.contains("+")) {
+            splits = dice.split("\\+");
+            dice = splits[0];
+            modifier = Byte.parseByte(splits[1]);
+        }
+        // if only the dice is present
+        if (dice.contains("d")) {
+            splits = dice.split("d");
+            amount = Byte.parseByte(splits[0]);
+            sides = Byte.parseByte(splits[1]);
+        }
+        return new Dice(amount, sides, modifier);
+    }
+
+    // TODO add an optional modifier for dices
 }
