@@ -88,9 +88,11 @@ public class DND5eParser {
         String portrait;
         if ((portrait = portraitElement.getChildText("base64")) != null)
             this.character.setCharacterPortrait(portrait);
-        if ((portrait = portraitElement.getChildText("local")) != null)
+        if ((portrait = portraitElement.getChildText("local")) != null && Files.exists(Path.of(portrait)))
             this.character.setCharacterPortrait(Path.of(portrait));
-        this.character.setCompanionPortrait(Path.of(Objects.requireNonNullElse(portraitElement.getChildText("companion"), "")));
+        String companion = Objects.requireNonNullElse(portraitElement.getChildText("companion").trim(), "");
+        if (!companion.isBlank())
+            this.character.setCompanionPortrait(Path.of(companion));
     }
 
     /**

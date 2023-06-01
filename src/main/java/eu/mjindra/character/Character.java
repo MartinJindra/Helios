@@ -85,7 +85,7 @@ public class Character {
             try {
                 this.characterPortrait = Files.readAllBytes(portraitPath);
             } catch (IOException e) {
-                System.err.format("Portrait %s does not exists.\n", portraitPath);
+                System.err.format("Character portrait \'%s\' does not exists.\n", portraitPath);
             }
         }
     }
@@ -103,7 +103,7 @@ public class Character {
             try {
                 this.companionPortrait = Files.readAllBytes(portraitPath);
             } catch (IOException e) {
-                System.err.format("Portrait %s does not exists.", portraitPath);
+                System.err.format("Companion portrait \'%s\' does not exists.", portraitPath);
             }
         }
     }

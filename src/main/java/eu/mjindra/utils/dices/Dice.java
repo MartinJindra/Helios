@@ -66,15 +66,19 @@ public class Dice {
         if (this.sides == 0)
             return String.format("%d", this.modifier);
 
+        String operator = " ";
+        if (this.modifier >= 0)
+            operator = "+";
+
         StringBuilder str = new StringBuilder();
         if (this.roll.getOrder().length == 1) {
             if (this.modifier != 0)
-                str.append(String.format("(%dd%d+%d)", this.amount, this.sides, modifier));
+                str.append(String.format("(%dd%d%s%d)", this.amount, this.sides, operator, modifier));
             else str.append(String.format("%dd%d", this.amount, this.sides));
         } else {
             for (byte res : this.roll.getOrder()) {
                 if (this.modifier != 0)
-                    str.append(String.format("(%dd%d+%d)+", this.amount, this.sides, modifier));
+                    str.append(String.format("(%dd%d%c%d)+", this.amount, this.sides, operator, modifier));
                 else str.append(String.format("%dd%d+", this.amount, this.sides));
             }
             str.deleteCharAt(str.lastIndexOf("+"));
@@ -100,7 +104,12 @@ public class Dice {
             splits = dice.split("\\+");
             dice = splits[0];
             modifier = Byte.parseByte(splits[1]);
-        }
+        } else if (dice.contains("-")) {
+            splits = dice.split("-");
+            dice = splits[0];
+            modifier = Byte.parseByte(splits[1]);
+            modifier *= -1;
+        } 
         // if only the dice is present
         if (dice.contains("d")) {
             splits = dice.split("d");
