@@ -30,12 +30,8 @@ public class DND5eParser {
     private Element rootElement;
 
     public DND5eParser(String file) throws FileNotFoundException {
-        this();
-        this.setFile(file);
-    }
-
-    public DND5eParser() {
         this.character = new Character();
+        this.setFile(file);
     }
 
     public Character getCharacter() {
@@ -168,6 +164,15 @@ public class DND5eParser {
         Background.Feature backgroundFeature = new Background.Feature(backgroundName);
         backgroundFeature.setDescription(backgroundDesc);
         br.setFeature(backgroundFeature);
+
+        // Organization
+        Element originationElement = inputElement.getChild("organization");
+        Organization org = new Organization();
+        org.setName(Objects.requireNonNullElse(originationElement.getChildText("name"), ""));
+        org.setSymbol(Objects.requireNonNullElse(originationElement.getChildText("symbol"), ""));
+        org.setAllies(Objects.requireNonNullElse(originationElement.getChildText("allies"), ""));
+        this.character.setOrganization(org);
+
 
     }
 }

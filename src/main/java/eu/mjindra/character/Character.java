@@ -28,6 +28,8 @@ public class Character {
 
     private Background background;
 
+    private Organization organization;
+
     /**
      * Create an empty character.
      */
@@ -180,6 +182,14 @@ public class Character {
         this.attacks.remove(i);
     }
 
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
+
     /**
      * Sums up all information into a printable format.
      *
@@ -202,6 +212,7 @@ public class Character {
         for (Attack attack : this.attacks)
             str.append(String.format("\n%s", attack));
         str.append(String.format("\n%s\n", this.background));
+        str.append(String.format("%s", this.organization));
         return str.toString();
     }
 
@@ -209,4 +220,6 @@ public class Character {
     public String toString() {
         return this.summarizeInformation();
     }
+
+
 }

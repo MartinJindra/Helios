@@ -30,11 +30,11 @@ public class AppTest {
     public void testDNDParser() {
         try (Stream<Path> examples = Files.list(Path.of("examples"))) {
 
-            DND5eParser parser = new eu.mjindra.character.DND5eParser();
+            DND5eParser parser;
             Character character;
 
             for (Path example : examples.toList()) {
-                parser.setFile(example.toString());
+                parser = new DND5eParser(example.toString());
                 parser.parseXML();
                 character = parser.getCharacter();
                 System.out.println(character.summarizeInformation());
