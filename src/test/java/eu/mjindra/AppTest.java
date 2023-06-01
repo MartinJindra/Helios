@@ -1,5 +1,6 @@
 package eu.mjindra;
 
+import eu.mjindra.character.Character;
 import eu.mjindra.character.DND5eParser;
 import eu.mjindra.utils.dices.*;
 import eu.mjindra.utils.dices.mixer.DiceMixer;
@@ -30,7 +31,7 @@ public class AppTest {
         try (Stream<Path> examples = Files.list(Path.of("examples"))) {
 
             DND5eParser parser = new eu.mjindra.character.DND5eParser();
-            eu.mjindra.character.Character character;
+            Character character;
 
             for (Path example : examples.toList()) {
                 parser.setFile(example.toString());

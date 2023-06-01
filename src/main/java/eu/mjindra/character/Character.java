@@ -21,10 +21,12 @@ public class Character {
     private byte[] characterPortrait, companionPortrait;
     private byte level;
     private int experience;
-    private String group, name, race, classesString, background, gender, playerName;
+    private String group, name, race, classesString, gender, playerName;
     private boolean isFavorite;
 
     private final List<Attack> attacks;
+
+    private Background background;
 
     /**
      * Create an empty character.
@@ -39,7 +41,7 @@ public class Character {
         this.name = "";
         this.race = "";
         this.classesString = "";
-        this.background = "";
+        this.background = new Background("");
         this.gender = "";
         this.playerName = "";
         this.isFavorite = false;
@@ -150,11 +152,11 @@ public class Character {
         }
     }
 
-    public String getBackground() {
+    public Background getBackground() {
         return background;
     }
 
-    public void setBackground(String background) {
+    public void setBackground(Background background) {
         this.background = background;
     }
 
@@ -195,11 +197,11 @@ public class Character {
         str.append(String.format("Gender: %s\n", this.gender));
         str.append(String.format("Level: %d\n", this.level));
         str.append(String.format("Experience: %d\n", this.experience));
-        str.append(String.format("Background: %s\n", this.background));
         str.append("\n## Attacks:\n");
         str.append(String.format("%s\n", "-".repeat("## Attacks:".length())));
         for (Attack attack : this.attacks)
             str.append(String.format("\n%s", attack));
+        str.append(String.format("\n%s\n", this.background));
         return str.toString();
     }
 

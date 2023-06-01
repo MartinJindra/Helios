@@ -78,7 +78,10 @@ public class DND5eParser {
         this.character.setName(Objects.requireNonNullElse(displayElement.getChildText("name"), "").trim());
         this.character.setRace(Objects.requireNonNullElse(displayElement.getChildText("race"), "").trim());
         this.character.setClasses(Objects.requireNonNullElse(displayElement.getChildText("class"), "").trim());
-        this.character.setBackground(Objects.requireNonNullElse(displayElement.getChildText("background"), "").trim());
+
+        Background br = new Background(Objects.requireNonNullElse(displayElement.getChildText("background"), "").trim());
+        this.character.setBackground(br);
+
         this.character.setLevel(Byte.parseByte(Objects.requireNonNullElse(displayElement.getChildText("level"), "0").trim()));
 
         Element portraitElement = displayElement.getChild("portrait");
@@ -148,6 +151,21 @@ public class DND5eParser {
 
         }
 
+        // Backstory
+        Background br = this.character.getBackground();
+        br.setStory(Objects.requireNonNullElse(inputElement.getChildText("background"), ""));
+        br.setTrinket(Objects.requireNonNullElse(inputElement.getChildText("background-trinket"), ""));
+        br.setTraits(Objects.requireNonNullElse(inputElement.getChildText("background-traits"), ""));
+        br.setIdeals(Objects.requireNonNullElse(inputElement.getChildText("background-ideals"), ""));
+        br.setBonds(Objects.requireNonNullElse(inputElement.getChildText("background-bonds"), ""));
+        br.setFlaws(Objects.requireNonNullElse(inputElement.getChildText("background-flaws"), ""));
+
+        Element brackgroundElement = inputElement.getChild("background");
+        String backgroundName = Objects.requireNonNullElse(brackgroundElement.getChild("feature").getAttributeValue("name"), "");
+        String backgroundDesc = Objects.requireNonNullElse(brackgroundElement.getChild("feature").getChildText("description"), "");
+        Background.Feature backgroundFeature = new Background.Feature(backgroundName);
+        backgroundFeature.setDescription(backgroundDesc);
+        br.setFeature(backgroundFeature);
 
     }
 }
