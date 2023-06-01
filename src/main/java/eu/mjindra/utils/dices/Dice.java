@@ -66,9 +66,9 @@ public class Dice {
         if (this.sides == 0)
             return String.format("%d", this.modifier);
 
-        String operator = " ";
+        char operator = '\u200B';
         if (this.modifier >= 0)
-            operator = "+";
+            operator = '+';
 
         StringBuilder str = new StringBuilder();
         if (this.roll.getOrder().length == 1) {
