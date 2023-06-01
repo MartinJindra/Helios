@@ -1,4 +1,4 @@
-package eu.mjindra.units;
+package eu.mjindra.utils.units;
 
 /**
  * An enum representing mass in DND.

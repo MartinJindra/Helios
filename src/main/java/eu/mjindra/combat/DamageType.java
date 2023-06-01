@@ -1,4 +1,4 @@
-package eu.mjindra.attacks;
+package eu.mjindra.combat;
 
 /**
  * Different damage types an attack or spell can do.

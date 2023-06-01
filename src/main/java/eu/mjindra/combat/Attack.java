@@ -1,4 +1,4 @@
-package eu.mjindra.attacks;
+package eu.mjindra.combat;
 
 import eu.mjindra.utils.properties.Ability;
 import eu.mjindra.utils.properties.Range;

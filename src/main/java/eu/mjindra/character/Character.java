@@ -1,6 +1,6 @@
 package eu.mjindra.character;
 
-import eu.mjindra.attacks.Attack;
+import eu.mjindra.combat.Attack;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;

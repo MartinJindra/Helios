@@ -1,6 +1,6 @@
 package eu.mjindra.utils.properties;
 
-import eu.mjindra.units.Base;
+import eu.mjindra.utils.units.Base;
 import org.apache.commons.math3.util.Precision;
 
 /**

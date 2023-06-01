@@ -1,10 +1,10 @@
 package eu.mjindra.character;
 
-import eu.mjindra.attacks.Attack;
-import eu.mjindra.attacks.Damage;
-import eu.mjindra.units.Length;
+import eu.mjindra.combat.Attack;
+import eu.mjindra.combat.Damage;
 import eu.mjindra.utils.properties.Ability;
 import eu.mjindra.utils.properties.Range;
+import eu.mjindra.utils.units.Length;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -144,6 +144,10 @@ public class DND5eParser {
             attack.setAbility(Ability.valueOf(abilityString));
 
             this.character.addAttack(attack);
+
+
         }
+
+
     }
 }

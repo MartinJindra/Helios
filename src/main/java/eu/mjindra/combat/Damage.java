@@ -1,4 +1,4 @@
-package eu.mjindra.attacks;
+package eu.mjindra.combat;
 
 import eu.mjindra.utils.dices.D0;
 import eu.mjindra.utils.dices.Dice;
