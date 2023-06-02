@@ -3,7 +3,9 @@ package eu.mjindra.character;
 import eu.mjindra.combat.Attack;
 import eu.mjindra.combat.Damage;
 import eu.mjindra.utils.properties.Ability;
+import eu.mjindra.utils.properties.Money;
 import eu.mjindra.utils.properties.Range;
+import eu.mjindra.utils.units.Coin;
 import eu.mjindra.utils.units.Length;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -14,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,7 +24,7 @@ import java.util.Objects;
  * Parser for .dnd5e character file.
  *
  * @author Martin Jindra
- * @version 23.05.2023
+ * @version 02.06.2023
  */
 public class DND5eParser {
 
@@ -173,6 +176,13 @@ public class DND5eParser {
         org.setAllies(Objects.requireNonNullElse(originationElement.getChildText("allies"), ""));
         this.character.setOrganization(org);
 
-
+        // Currency
+        Element currencyElement = inputElement.getChild("currency");
+        HashMap<Coin, Money> currencies = new HashMap<>();
+        for (Coin c : Coin.values()) {
+            Money money = new Money(Objects.requireNonNullElse(Float.parseFloat(currencyElement.getChildText(c.name().toLowerCase())), 0F), c);
+            currencies.put(c, money);
+        }
+        this.character.setCurrencies(currencies);
     }
 }

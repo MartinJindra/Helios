@@ -4,8 +4,10 @@ import eu.mjindra.character.Character;
 import eu.mjindra.character.DND5eParser;
 import eu.mjindra.utils.dices.*;
 import eu.mjindra.utils.dices.mixer.DiceMixer;
+import eu.mjindra.utils.properties.Money;
 import eu.mjindra.utils.properties.Range;
 import eu.mjindra.utils.properties.Weight;
+import eu.mjindra.utils.units.Coin;
 import eu.mjindra.utils.units.Length;
 import eu.mjindra.utils.units.Mass;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +16,9 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -418,5 +422,57 @@ public class AppTest {
         System.out.println(d.roll());
         d = new D100(len);
         System.out.println(d.roll());
+    }
+
+    @Test
+    @DisplayName("testCurrenciest")
+    public void testCurrencies() {
+        Map<Coin, Money> currencies = new HashMap<>();
+        for (Coin c : Coin.values()) {
+            currencies.put(c, new Money(10F, c));
+            assertEquals(String.format("10 %s", c.name().toLowerCase()), currencies.get(c).toString());
+        }
+
+        Money m = new Money(0, Coin.COPPER);
+        // Setting new money
+        for (Coin c : Coin.values()) {
+            m = new Money(20, c);
+            currencies.put(c, m);
+            assertEquals(20F, currencies.get(c).getAmount());
+        }
+
+        // Converting money
+        Money pocketMoney = new Money(10, Coin.SILVER);
+        pocketMoney = pocketMoney.convert(Coin.PLATINUM);
+        assertEquals(0.1F, pocketMoney.getAmount());
+        assertEquals(Coin.PLATINUM, pocketMoney.getUnit());
+
+        pocketMoney = pocketMoney.convert(Coin.GOLD);
+        assertEquals(1, pocketMoney.getAmount());
+        assertEquals(Coin.GOLD, pocketMoney.getUnit());
+
+        pocketMoney = pocketMoney.convert(Coin.ELECTRUM);
+        assertEquals(2, pocketMoney.getAmount());
+        assertEquals(Coin.ELECTRUM, pocketMoney.getUnit());
+
+        pocketMoney = pocketMoney.convert(Coin.COPPER);
+        assertEquals(100, pocketMoney.getAmount());
+        assertEquals(Coin.COPPER, pocketMoney.getUnit());
+
+        // Increasing money
+        for (Coin c : Coin.values()) {
+            m = new Money(20, c);
+            m.add(currencies.get(c));
+            currencies.put(c, m);
+            assertEquals(40, currencies.get(c).getAmount());
+        }
+
+        // Decreasing money
+        for (Coin c : Coin.values()) {
+            m = new Money(60, c);
+            m.subtract(currencies.get(c));
+            currencies.put(c, m);
+            assertEquals(20, currencies.get(c).getAmount());
+        }
     }
 }

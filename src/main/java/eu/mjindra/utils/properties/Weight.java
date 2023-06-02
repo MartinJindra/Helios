@@ -22,7 +22,7 @@ public class Weight extends Unit {
      * @return converted value
      */
     @Override
-    public Unit convert(Base to) {
+    public Weight convert(Base to) {
         Mass m = (Mass) to;
         float f = super.getAmount() * ((Mass) super.getUnit()).val;
         return new Weight(Precision.round(f / ((Mass) to).val, 4), m);

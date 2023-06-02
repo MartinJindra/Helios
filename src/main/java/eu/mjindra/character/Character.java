@@ -1,6 +1,8 @@
 package eu.mjindra.character;
 
 import eu.mjindra.combat.Attack;
+import eu.mjindra.utils.properties.Money;
+import eu.mjindra.utils.units.Coin;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -8,13 +10,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Class to represent a DND character.
  *
  * @author Martin Jindra
- * @version 31.03.2023
+ * @version 02.06.2023
  */
 public class Character {
     String[] classesArray;
@@ -29,6 +32,8 @@ public class Character {
     private Background background;
 
     private Organization organization;
+
+    private HashMap<Coin, Money> currencies;
 
     /**
      * Create an empty character.
@@ -48,6 +53,8 @@ public class Character {
         this.playerName = "";
         this.isFavorite = false;
         this.attacks = new ArrayList<>();
+        this.organization = new Organization();
+        this.currencies = new HashMap<>();
     }
 
     public String getGender() {
@@ -190,6 +197,14 @@ public class Character {
         this.organization = organization;
     }
 
+    public HashMap<Coin, Money> getCurrencies() {
+        return currencies;
+    }
+
+    public void setCurrencies(HashMap<Coin, Money> currencies) {
+        this.currencies = currencies;
+    }
+
     /**
      * Sums up all information into a printable format.
      *
@@ -212,7 +227,10 @@ public class Character {
         for (Attack attack : this.attacks)
             str.append(String.format("\n%s", attack));
         str.append(String.format("\n%s\n", this.background));
-        str.append(String.format("%s", this.organization));
+        str.append(String.format("%s\n", this.organization));
+        str.append("\n## Currencies:\n");
+        for (Money m : this.currencies.values())
+            str.append(String.format("%s\n", m));
         return str.toString();
     }
 

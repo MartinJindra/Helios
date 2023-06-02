@@ -23,7 +23,7 @@ public class Range extends Unit {
      * @return converted value
      */
     @Override
-    public Unit convert(Base to) {
+    public Range convert(Base to) {
         Length l = (Length) to;
         float f = super.getAmount() / ((Length) super.getUnit()).val;
         return new Range(Precision.round(f * l.val, 4), l);
