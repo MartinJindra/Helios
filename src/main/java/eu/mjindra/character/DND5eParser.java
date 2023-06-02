@@ -100,7 +100,7 @@ public class DND5eParser {
     private void parseBuild() {
         Element buildElement = this.rootElement.getChild("build");
         this.parseInput(buildElement);
-
+        this.parseAppearance(buildElement);
     }
 
     /**
@@ -108,7 +108,7 @@ public class DND5eParser {
      *
      * @param buildElement
      */
-    public void parseInput(Element buildElement) {
+    private void parseInput(Element buildElement) {
         Element inputElement = buildElement.getChild("input");
 
         this.character.setGender(Objects.requireNonNullElse(inputElement.getChildText("gender"), "").trim());
@@ -202,5 +202,18 @@ public class DND5eParser {
         for (Element el : notesElement.getChildren("note"))
             this.character.addNotes(el.getAttributeValue("column"), el.getText());
         this.character.setQuests(Objects.requireNonNullElse(notesElement.getChildText("quest"), ""));
+    }
+
+    private void parseAppearance(Element buildElement) {
+        // Appearance
+        Element appearanceElement = buildElement.getChild("appearance");
+        Appearance appearance = new Appearance();
+        appearance.setAge(Short.parseShort(Objects.requireNonNullElse(appearanceElement.getChildText("age"), "0")));
+        appearance.setHeight(Objects.requireNonNullElse(appearanceElement.getChildText("height"), "0"));
+        appearance.setWeight(Objects.requireNonNullElse(appearanceElement.getChildText("weight"), "0"));
+        appearance.setEyes(Objects.requireNonNullElse(appearanceElement.getChildText("eyes"), "0"));
+        appearance.setSkin(Objects.requireNonNullElse(appearanceElement.getChildText("skin"), "0"));
+        appearance.setHair(Objects.requireNonNullElse(appearanceElement.getChildText("hair"), "0"));
+        this.character.setAppearance(appearance);
     }
 }

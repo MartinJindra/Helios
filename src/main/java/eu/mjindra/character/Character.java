@@ -28,6 +28,7 @@ public class Character {
     private Organization organization;
     private Map<Coin, Money> currencies;
     private Map<String, String> notes;
+    private Appearance appearance;
 
     /**
      * Create an empty character.
@@ -53,6 +54,7 @@ public class Character {
         this.treasure = "";
         this.notes = new HashMap<>();
         this.quests = "";
+        this.appearance = new Appearance();
     }
 
     public String getGender() {
@@ -235,6 +237,14 @@ public class Character {
         this.quests = quests;
     }
 
+    public Appearance getAppearance() {
+        return appearance;
+    }
+
+    public void setAppearance(Appearance appearance) {
+        this.appearance = appearance;
+    }
+
     /**
      * Sums up all information into a printable format.
      *
@@ -270,6 +280,8 @@ public class Character {
             str.append(String.format("%s\n", content));
         str.append("\n## Quests:\n");
         str.append(this.quests);
+        str.append("\n## Appearance:\n");
+        str.append(this.appearance);
         return str.toString();
     }
 
