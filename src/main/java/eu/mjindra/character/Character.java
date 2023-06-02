@@ -8,10 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Class to represent a DND character.
@@ -24,16 +21,13 @@ public class Character {
     private byte[] characterPortrait, companionPortrait;
     private byte level;
     private int experience;
-    private String group, name, race, classesString, gender, playerName, equipment, treasure;
+    private String group, name, race, classesString, gender, playerName, equipment, treasure, quests;
     private boolean isFavorite;
-
     private final List<Attack> attacks;
-
     private Background background;
-
     private Organization organization;
-
-    private HashMap<Coin, Money> currencies;
+    private Map<Coin, Money> currencies;
+    private Map<String, String> notes;
 
     /**
      * Create an empty character.
@@ -57,6 +51,8 @@ public class Character {
         this.currencies = new HashMap<>();
         this.equipment = "";
         this.treasure = "";
+        this.notes = new HashMap<>();
+        this.quests = "";
     }
 
     public String getGender() {
@@ -199,7 +195,7 @@ public class Character {
         this.organization = organization;
     }
 
-    public HashMap<Coin, Money> getCurrencies() {
+    public Map<Coin, Money> getCurrencies() {
         return currencies;
     }
 
@@ -221,6 +217,22 @@ public class Character {
 
     public void setTreasure(String treasure) {
         this.treasure = treasure;
+    }
+
+    public void addNotes(String side, String content) {
+        this.notes.put(side, content);
+    }
+
+    public Map getNotes() {
+        return this.notes;
+    }
+
+    public String getQuests() {
+        return quests;
+    }
+
+    public void setQuests(String quests) {
+        this.quests = quests;
     }
 
     /**
@@ -253,6 +265,11 @@ public class Character {
         str.append(String.format("%s\n", this.equipment));
         str.append("\n## Treasure:\n");
         str.append(String.format("%s", this.treasure));
+        str.append("\n## Notes:\n");
+        for (String content : this.notes.values())
+            str.append(String.format("%s\n", content));
+        str.append("\n## Quests:\n");
+        str.append(this.quests);
         return str.toString();
     }
 

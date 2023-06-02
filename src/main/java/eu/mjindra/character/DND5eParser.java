@@ -99,6 +99,16 @@ public class DND5eParser {
      */
     private void parseBuild() {
         Element buildElement = this.rootElement.getChild("build");
+        this.parseInput(buildElement);
+
+    }
+
+    /**
+     * Parse the child element "input" of parent "build".
+     *
+     * @param buildElement
+     */
+    public void parseInput(Element buildElement) {
         Element inputElement = buildElement.getChild("input");
 
         this.character.setGender(Objects.requireNonNullElse(inputElement.getChildText("gender"), "").trim());
@@ -186,5 +196,11 @@ public class DND5eParser {
             currencies.put(c, money);
         }
         this.character.setCurrencies(currencies);
+
+        // Notes and Quest
+        Element notesElement = inputElement.getChild("notes");
+        for (Element el : notesElement.getChildren("note"))
+            this.character.addNotes(el.getAttributeValue("column"), el.getText());
+        this.character.setQuests(Objects.requireNonNullElse(notesElement.getChildText("quest"), ""));
     }
 }

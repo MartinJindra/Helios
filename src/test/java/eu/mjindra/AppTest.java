@@ -433,7 +433,7 @@ public class AppTest {
             assertEquals(String.format("10 %s", c.name().toLowerCase()), currencies.get(c).toString());
         }
 
-        Money m = new Money(0, Coin.COPPER);
+        Money m;
         // Setting new money
         for (Coin c : Coin.values()) {
             m = new Money(20, c);
