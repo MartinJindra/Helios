@@ -18,6 +18,19 @@ To compile the package with all needed dependencies.
 
 ### Installing dependencies
 
+**Windows**
+
+Chocolatey (with admin privileges)
+```
+choco install oracle17jdk maven
+```
+
+Winget
+```
+winget install Microsoft.OpenJDK.17
+```
+And for Maven follow instructions on [apache.org](https://maven.apache.org/install.html).
+
 **Fedora 38+**
 ```
 sudo dnf install java-17-openjdk-devel maven
