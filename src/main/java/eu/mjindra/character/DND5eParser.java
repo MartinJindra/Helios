@@ -178,6 +178,8 @@ public class DND5eParser {
 
         // Currency
         Element currencyElement = inputElement.getChild("currency");
+        this.character.setEquipment(Objects.requireNonNullElse(currencyElement.getChildText("equipment"), ""));
+        this.character.setTreasure(Objects.requireNonNullElse(currencyElement.getChildText("treasure"), ""));
         HashMap<Coin, Money> currencies = new HashMap<>();
         for (Coin c : Coin.values()) {
             Money money = new Money(Objects.requireNonNullElse(Float.parseFloat(currencyElement.getChildText(c.name().toLowerCase())), 0F), c);

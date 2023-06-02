@@ -24,7 +24,7 @@ public class Character {
     private byte[] characterPortrait, companionPortrait;
     private byte level;
     private int experience;
-    private String group, name, race, classesString, gender, playerName;
+    private String group, name, race, classesString, gender, playerName, equipment, treasure;
     private boolean isFavorite;
 
     private final List<Attack> attacks;
@@ -55,6 +55,8 @@ public class Character {
         this.attacks = new ArrayList<>();
         this.organization = new Organization();
         this.currencies = new HashMap<>();
+        this.equipment = "";
+        this.treasure = "";
     }
 
     public String getGender() {
@@ -205,6 +207,22 @@ public class Character {
         this.currencies = currencies;
     }
 
+    public String getEquipment() {
+        return equipment;
+    }
+
+    public void setEquipment(String equipment) {
+        this.equipment = equipment;
+    }
+
+    public String getTreasure() {
+        return treasure;
+    }
+
+    public void setTreasure(String treasure) {
+        this.treasure = treasure;
+    }
+
     /**
      * Sums up all information into a printable format.
      *
@@ -231,6 +249,10 @@ public class Character {
         str.append("\n## Currencies:\n");
         for (Money m : this.currencies.values())
             str.append(String.format("%s\n", m));
+        str.append("\n## Equipment:\n");
+        str.append(String.format("%s\n", this.equipment));
+        str.append("\n## Treasure:\n");
+        str.append(String.format("%s", this.treasure));
         return str.toString();
     }
 
