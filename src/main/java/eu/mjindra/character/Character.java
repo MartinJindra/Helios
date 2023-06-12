@@ -1,6 +1,7 @@
 package eu.mjindra.character;
 
 import eu.mjindra.combat.Attack;
+import eu.mjindra.utils.properties.Ability;
 import eu.mjindra.utils.properties.Money;
 import eu.mjindra.utils.units.Coin;
 import org.jetbrains.annotations.Nullable;
@@ -29,6 +30,7 @@ public class Character {
     private Map<Coin, Money> currencies;
     private Map<String, String> notes;
     private Appearance appearance;
+    private Map<Ability, Byte> abilities;
 
     /**
      * Create an empty character.
@@ -55,6 +57,9 @@ public class Character {
         this.notes = new HashMap<>();
         this.quests = "";
         this.appearance = new Appearance();
+        this.abilities = new HashMap<>();
+        for (Ability a : Ability.values())
+            this.abilities.put(a, (byte) 0);
     }
 
     public String getGender() {
@@ -245,6 +250,14 @@ public class Character {
         this.appearance = appearance;
     }
 
+    public Map<Ability, Byte> getAbilities() {
+        return abilities;
+    }
+
+    public void setAbilities(Ability ability, byte value) {
+        this.abilities.put(ability, value);
+    }
+
     /**
      * Sums up all information into a printable format.
      *
@@ -282,6 +295,9 @@ public class Character {
         str.append(this.quests);
         str.append("\n## Appearance:\n");
         str.append(this.appearance);
+        str.append("\n## Abilities:\n");
+        for (Ability ability : Ability.values())
+            str.append(String.format("%s: %d\n", ability.desc(), this.abilities.get(ability)));
         return str.toString();
     }
 }

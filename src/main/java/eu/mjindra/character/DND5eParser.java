@@ -101,6 +101,7 @@ public class DND5eParser {
         Element buildElement = this.rootElement.getChild("build");
         this.parseInput(buildElement);
         this.parseAppearance(buildElement);
+        this.parseAbilities(buildElement);
     }
 
     /**
@@ -158,8 +159,6 @@ public class DND5eParser {
             attack.setAbility(Ability.valueOf(abilityString));
 
             this.character.addAttack(attack);
-
-
         }
 
         // Backstory
@@ -215,5 +214,13 @@ public class DND5eParser {
         appearance.setSkin(Objects.requireNonNullElse(appearanceElement.getChildText("skin"), "0"));
         appearance.setHair(Objects.requireNonNullElse(appearanceElement.getChildText("hair"), "0"));
         this.character.setAppearance(appearance);
+    }
+
+    private void parseAbilities(Element buildElement) {
+        // Abilities
+        Element abilitiesElement = buildElement.getChild("abilities");
+        for (Ability ability : Ability.values())
+            this.character.setAbilities(ability, Byte.parseByte(Objects.requireNonNullElse(abilitiesElement.getChildText(ability.desc().toLowerCase()), "0")));
+
     }
 }
