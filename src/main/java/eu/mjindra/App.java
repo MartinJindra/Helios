@@ -28,7 +28,7 @@ public class App {
                 dnd5eParser.parseXML();
 
                 if (arguments.containsKey("display"))
-                    System.out.println(dnd5eParser.getCharacter().summarizeInformation());
+                    System.out.println(dnd5eParser.getCharacter());
 
             }
         } catch (ParseException | FileNotFoundException e) {

@@ -41,7 +41,7 @@ public class AppTest {
                 parser = new DND5eParser(example.toString());
                 parser.parseXML();
                 character = parser.getCharacter();
-                System.out.println(character.summarizeInformation());
+                System.out.println(character);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

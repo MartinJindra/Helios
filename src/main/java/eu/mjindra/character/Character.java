@@ -250,7 +250,7 @@ public class Character {
      *
      * @return all information
      */
-    public String summarizeInformation() {
+    public String toString() {
         StringBuilder str = new StringBuilder();
 
         // TODO implement printable format for a character
@@ -284,11 +284,4 @@ public class Character {
         str.append(this.appearance);
         return str.toString();
     }
-
-    @Override
-    public String toString() {
-        return this.summarizeInformation();
-    }
-
-
 }
