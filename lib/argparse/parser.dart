@@ -6,42 +6,44 @@ import 'package:args/args.dart' show ArgParser;
 class Parser {
   static final ArgParser _parser = ArgParser();
 
-  Parser() {
+  /// Parse the arguments.
+  static List<String> parse(List<String> args) {
     _parser.addOption('input',
         abbr: 'i', valueHelp: 'file', help: 'Input .dnd5e file.');
     _parser.addFlag('help',
         abbr: 'h', negatable: false, help: 'Show this help message.');
+    _parser.addFlag('version',
+        abbr: 'v', negatable: false, help: 'Display version.');
     final display = ArgParser();
     _parser.addCommand('display', display);
-  }
 
-  /// Parse the arguments.
-  List<String> parse(List<String> args) {
     try {
       return _parser.parse(args).arguments;
     } on FormatException catch (fe) {
-      stderr.write(fe.message);
+      stderr.writeln(fe.message);
       exit(1);
     }
   }
 
   /// Print the help message.
   static printUsage() {
-    stdout.write(_parser.usage);
+    stdout.writeln(_parser.usage);
   }
 }
 
 class Runner {
-
   /// Run the parsed arguments.
-  static run(List<String> parsedArgs) {
+  static run(List<String> parsedArgs) async {
     for (String arg in parsedArgs) {
       switch (arg) {
-        case "-h":
+        case '-h' || '--help':
           Parser.printUsage();
-          break;
+          exit(0);
+        case '-v' || '--version':
+          // TODO: Display Version
+          stdout.writeln('WIP');
+          exit(0);
       }
     }
   }
-
 }
