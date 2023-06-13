@@ -1,13 +1,14 @@
 import 'dart:io';
 
-import 'package:args/args.dart' show ArgParser;
+import 'package:args/args.dart' show ArgParser, ArgResults;
+import 'package:helios/util/file.dart' as util;
 
 /// Parse commandline arguments.
 class Parser {
   static final ArgParser _parser = ArgParser();
 
   /// Parse the arguments.
-  static List<String> parse(List<String> args) {
+  static ArgResults parse(List<String> args) {
     _parser.addOption('input',
         abbr: 'i', valueHelp: 'file', help: 'Input .dnd5e file.');
     _parser.addFlag('help',
@@ -18,7 +19,7 @@ class Parser {
     _parser.addCommand('display', display);
 
     try {
-      return _parser.parse(args).arguments;
+      return _parser.parse(args);
     } on FormatException catch (fe) {
       stderr.writeln(fe.message);
       exit(1);
@@ -33,9 +34,11 @@ class Parser {
 
 class Runner {
   /// Run the parsed arguments.
-  static run(List<String> parsedArgs) async {
-    for (String arg in parsedArgs) {
-      switch (arg) {
+  static run(ArgResults parsedArgs) {
+    List<String> arguments = parsedArgs.arguments;
+
+    for (int i = 0; i < arguments.length; i++) {
+      switch (arguments[i]) {
         case '-h' || '--help':
           Parser.printUsage();
           exit(0);
@@ -43,6 +46,12 @@ class Runner {
           // TODO: Display Version
           stdout.writeln('WIP');
           exit(0);
+        case '-i' || '--input':
+          String content = util.read(arguments[i + 1]);
+          break;
+        default:
+          Parser.printUsage();
+          break;
       }
     }
   }
