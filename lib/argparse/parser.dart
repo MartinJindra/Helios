@@ -48,7 +48,8 @@ class Runner {
           stdout.writeln('WIP');
           exit(0);
         case '-i' || '--input':
-          if (util.exists(arguments[i + 1])) CharacterParser(arguments[i + 1]);
+          if (util.exists(arguments[i + 1]))
+            CharacterParser(arguments[i + 1]).parse();
           break;
       }
     }
