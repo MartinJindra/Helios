@@ -1,0 +1,23 @@
+icon: assets/logo.png
+summary: A simple project to create a DND character builder.
+group: Application/Utility
+vendor: Martin Jindra
+packager: Martin Jindra
+packagerEmail: martin@mjindra.eu
+license: GPLv3
+url: https://github.com/MartinJindra/Helios
+
+display_name: Helios
+
+keywords:
+  - Helios
+  - DnD
+  - Aurora
+  - character builder
+
+generic_name: Helios
+
+categories:
+  - Utility
+
+startup_notify: true
