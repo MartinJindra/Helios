@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:args/args.dart' show ArgParser, ArgResults;
-import 'package:helios/characterparse/parser.dart' show CharacterParser;
+import 'package:helios/characterparse/characterparser.dart'
+    show CharacterParser;
 import 'package:helios/util/file.dart' as util;
 
 /// Parse commandline arguments.
@@ -48,8 +49,11 @@ class Runner {
           stdout.writeln('WIP');
           exit(0);
         case '-i' || '--input':
-          if (util.exists(arguments[i + 1]))
-            CharacterParser(arguments[i + 1]).parse();
+          if (util.exists(arguments[i + 1])) {
+            CharacterParser characterParser = CharacterParser(arguments[i + 1]);
+            characterParser.parse();
+            print(characterParser.getCharacter());
+          }
           break;
       }
     }
