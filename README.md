@@ -20,7 +20,7 @@ When installed the binary for the specific platform can be built with:
 **Windows**
 
 ```
-flutter build windows --release
+flutter build windows
 ```
 
 The binary then can be found in [build/windows/x64/release/bundle](build/windows/x64/release/bundle)
@@ -29,7 +29,7 @@ The binary then can be found in [build/windows/x64/release/bundle](build/windows
 **MacOS**
 
 ```
-flutter build macos --release
+flutter build macos
 ```
 
 The binary then can be found in [build/macos/x64/release/bundle](build/macos/x64/release/bundle).
@@ -37,7 +37,34 @@ The binary then can be found in [build/macos/x64/release/bundle](build/macos/x64
 **Linux**
 
 ```
-flutter build linux --release
+flutter build linux
 ```
 
 The binary then can be found in [build/linux/x64/release/bundle](build/linux/x64/release/bundle).
+
+## Distributing
+
+To build a package for distribution [flutter_distributor](https://distributor.leanflutter.org) is used.
+
+Install the packager globally
+
+```
+dart pub global activate flutter_distributor
+```
+
+On Windows it should be in [$HOME\AppData\Local\Pub\Cache\bin\flutter_distributor]($HOME\AppData\Local\Pub\Cache\bin\flutter_distributor).
+On Linux in [~/.pub-cache/bin/flutter_distributor](~/.pub-cache/bin/flutter_distributor).
+
+### Windows
+
+**exe**
+
+```flutter_distributor package --platform windows --targets exe```
+
+Binary will be in [$PWD\build\windows\runner\Release\helios.exe]($PWD\build\windows\runner\Release\helios.exe).
+
+**msi**
+
+```flutter_distributor package --platform windows --targets msix```
+
+Binary will be in [$PWD\build\windows\runner\Release\helios.exe]($PWD\build\windows\runner\Release\helios.msi).
