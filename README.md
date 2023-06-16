@@ -59,12 +59,38 @@ On Linux in [~/.pub-cache/bin/flutter_distributor](~/.pub-cache/bin/flutter_dist
 
 **exe**
 
-```flutter_distributor package --platform windows --targets exe```
+`flutter_distributor package --platform windows --targets exe`
 
 Binary will be in [$PWD\build\windows\runner\Release\helios.exe]($PWD\build\windows\runner\Release\helios.exe).
 
 **msi**
 
-```flutter_distributor package --platform windows --targets msix```
+`flutter_distributor package --platform windows --targets msix`
 
 Binary will be in [$PWD\build\windows\runner\Release\helios.exe]($PWD\build\windows\runner\Release\helios.msi).
+
+### Linux
+
+**rpm**
+
+Install dependencies:
+
+- Debian/Ubuntu: apt install rpm patchelf
+- Fedora: dnf install gcc rpm-build rpm-devel rpmlint make python bash coreutils diffutils patch rpmdevtools patchelf
+- Arch: yay -S rpmdevtools patchelf or pamac install rpmdevtools patchelf
+
+`flutter_distributor package --platform linux --targets rpm`
+
+Binary will be in [$PWD/dist/1.0.0+1/helios-1.0.0+1-linux.rpm]($PWD/dist/1.0.0+1/helios-1.0.0+1-linux.rpm).
+
+**appimage**
+
+Install dependencies:
+
+wget -O appimagetool "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+chmod +x appimagetool
+sudo mv appimagetool /usr/local/bin/
+
+`flutter_distributor package --platform windows --targets appimage`
+
+Binary will be in [$PWD/dist/1.0.0+1/helios-1.0.0+1-linux.appimage]($PWD/dist/1.0.0+1/helios-1.0.0+1-linux.appimage).
