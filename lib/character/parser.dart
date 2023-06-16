@@ -12,7 +12,7 @@ class CharacterParser {
       _displayPropertiesElement,
       _buildElement;
 
-  CharacterParser(String path) {
+  setFile(String path) {
     _document = XmlDocument.parse(util.read(path));
     _characterElement = getRootElement(_document, 'character');
     _informationElement = getElement(_characterElement, 'information');
@@ -31,8 +31,8 @@ class CharacterParser {
   }
 
   parse() {
-    _getCharacterInformation();
+    _processDisplayInformationElement();
   }
 
-  _getCharacterInformation() {}
+  _processDisplayInformationElement() {}
 }
