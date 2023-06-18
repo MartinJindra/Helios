@@ -1,4 +1,5 @@
-import 'package:xml/xml.dart';
+import 'package:xml/xml.dart'
+    show XmlDocument, XmlElement, XmlName, XmlStringExtension;
 
 /// Null safe implementation for getting a child element.
 XmlElement getElement(XmlElement parent, String childName) =>

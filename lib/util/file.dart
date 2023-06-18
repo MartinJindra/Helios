@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:io' show File, FileSystemException, exit, stderr;
 
 /// some useful utilities.
 
