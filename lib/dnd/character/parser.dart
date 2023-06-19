@@ -4,7 +4,7 @@ import 'package:helios/util/xml.dart'
     show getElement, getRootElement, getElementText;
 import 'package:xml/xml.dart' show XmlDocument, XmlElement;
 
-class CharacterParser {
+class Parser {
   late Character _character;
   late final XmlDocument _document;
   late final XmlElement _characterElement,
@@ -12,7 +12,7 @@ class CharacterParser {
       _displayPropertiesElement,
       _buildElement;
 
-  setFile(String path) {
+  Parser(String path) {
     _document = XmlDocument.parse(util.read(path));
     _characterElement = getRootElement(_document, 'character');
     _informationElement = getElement(_characterElement, 'information');

@@ -1,4 +1,4 @@
-import 'package:helios/dnd/unit/unit.dart';
+import 'package:helios/dnd/quantity/unit.dart' show Unit;
 
 /// A super class to represent a value.
 /// For example: 1 Meter, 20 Kilogram

@@ -1,6 +1,6 @@
-import 'package:helios/dnd/unit/length.dart';
-import 'package:helios/dnd/unit/unit.dart';
-import 'package:helios/dnd/unit/value.dart';
+import 'package:helios/dnd/quantity/length.dart' show Length;
+import 'package:helios/dnd/quantity/unit.dart' show Unit;
+import 'package:helios/dnd/quantity/value.dart' show Value;
 
 /// A class representing range in DND.
 class Range extends Value {

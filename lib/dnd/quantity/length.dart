@@ -1,4 +1,4 @@
-import 'package:helios/dnd/unit/unit.dart';
+import 'package:helios/dnd/quantity/unit.dart' show Unit;
 
 /// An enum representing length in DND.
 enum Length implements Unit {

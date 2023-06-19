@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:args/args.dart' show ArgParser, ArgResults;
-import 'package:helios/dnd/character/parser.dart' show CharacterParser;
+import 'package:helios/dnd/character/parser.dart' as char;
 import 'package:helios/util/file.dart' as util;
 
 /// Parse commandline arguments.
@@ -37,7 +37,7 @@ class Runner {
   /// Run the parsed arguments.
   static run(ArgResults parsedArgs) {
     List<String> arguments = parsedArgs.arguments;
-    CharacterParser characterParser = CharacterParser();
+    late char.Parser characterParser;
     bool isInput = false;
 
     for (int i = 0; i < arguments.length; i++) {
@@ -51,7 +51,7 @@ class Runner {
           exit(0);
         case '-i' || '--input':
           if (util.exists(arguments[i + 1])) {
-            characterParser.setFile(arguments[i + 1]);
+            characterParser = char.Parser(arguments[i + 1]);
             characterParser.parse();
             isInput = true;
           }
