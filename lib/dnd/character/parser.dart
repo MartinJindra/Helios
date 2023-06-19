@@ -5,29 +5,22 @@ import 'package:helios/util/xml.dart'
 import 'package:xml/xml.dart' show XmlDocument, XmlElement;
 
 class Parser {
-  late Character _character;
+  late Character character = Character('');
   late final XmlDocument _document;
   late final XmlElement _characterElement,
       _informationElement,
       _displayPropertiesElement,
       _buildElement;
 
-  Parser(String path) {
+  Parser.empty();
+
+  Parser.path(String path) {
     _document = XmlDocument.parse(util.read(path));
     _characterElement = getRootElement(_document, 'character');
     _informationElement = getElement(_characterElement, 'information');
     _displayPropertiesElement =
         getElement(_characterElement, 'display-properties');
     _buildElement = getElement(_characterElement, 'build');
-    _character = Character(_getCharacterName());
-  }
-
-  Character getCharacter() {
-    return _character;
-  }
-
-  String _getCharacterName() {
-    return getElementText(_displayPropertiesElement, 'name');
   }
 
   parse() {

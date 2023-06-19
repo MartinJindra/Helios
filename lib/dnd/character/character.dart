@@ -1,34 +1,27 @@
+import 'package:helios/dnd/character/background.dart';
+
 class Character {
-  late String _name = '',
-      _playerName = '',
-      _race = '',
-      _gender = '',
-      _className = '',
-      _background = '';
-  late int _level = 0;
-  late int _experience = 0;
-  late List<int> _characterPortrait = List.empty();
-  late List<int> _companionPortrait = List.empty();
+  String name = '', playerName = '', race = '', gender = '', className = '';
+  late Background background = Background('');
+  int level = 0, experience = 0;
+  late List<int> characterPortrait;
+  late List<int> companionPortrait;
 
-  Character(this._name);
-
-  set playerName(String value) {
-    _playerName = value;
-  }
+  Character(this.name);
 
   @override
   String toString() {
-    String header = '# $_name ($_playerName):';
+    String header = '# $name ($playerName):';
     final buffer = StringBuffer();
     buffer.writeln(header);
     buffer.writeln('-' * header.length);
+    buffer.writeln('Class: $className');
+    buffer.writeln('Race: $race');
+    buffer.writeln('Gender: $gender');
     buffer.writeln();
-    buffer.writeln('Class: $_className');
-    buffer.writeln('Race: $_race');
-    buffer.writeln('Gender: $_gender');
-    buffer.writeln('Background: $_background');
-    buffer.writeln('Level: $_level');
-    buffer.writeln('Experience: $_experience');
+    buffer.writeln('$background');
+    buffer.writeln('Level: $level');
+    buffer.writeln('Experience: $experience');
     return buffer.toString();
   }
 }

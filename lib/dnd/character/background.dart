@@ -1,13 +1,13 @@
 /// The backstory of a DnD character.
 class Background {
-  late final String roll;
-  late String story = '',
+  String roll;
+  String story = '',
       trinket = '',
       traits = '',
       ideals = '',
       bonds = '',
       flaws = '';
-  late Feature feature;
+  Feature feature = Feature('', '');
 
   Background(this.roll);
 
