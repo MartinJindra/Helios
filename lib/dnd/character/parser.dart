@@ -1,8 +1,8 @@
-import 'package:helios/character/character.dart';
+import 'package:helios/dnd/character/character.dart' show Character;
 import 'package:helios/util/file.dart' as util;
 import 'package:helios/util/xml.dart'
     show getElement, getRootElement, getElementText;
-import 'package:xml/xml.dart';
+import 'package:xml/xml.dart' show XmlDocument, XmlElement;
 
 class CharacterParser {
   late Character _character;

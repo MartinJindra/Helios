@@ -1,5 +1,5 @@
 // A base class for dice.
-import 'package:helios/dnd/roll/roll.dart' show Roll;
+import 'package:helios/dnd/roll.dart' show Roll;
 
 class Dice {
   late final int _amount, _sides, _modifier;

@@ -1,4 +1,4 @@
-import 'package:helios/dnd/dices/basedice.dart' show Dice;
+import 'package:helios/dnd/dices/dice.dart' show Dice;
 
 /// A D6 die.
 class D6 extends Dice {

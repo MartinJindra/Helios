@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:args/args.dart' show ArgParser, ArgResults;
-import 'package:helios/character/parser.dart' show CharacterParser;
+import 'package:helios/dnd/character/parser.dart' show CharacterParser;
 import 'package:helios/util/file.dart' as util;
 
 /// Parse commandline arguments.

@@ -1,8 +1,7 @@
-import 'package:helios/dnd/unit.dart' show BaseUnit;
+import 'package:helios/dnd/unit/unit.dart';
 
 /// All coins for DnD.
-
-enum Coin implements BaseUnit {
+enum Coin implements Unit {
   copper(10),
   silver(1),
   electrum(0.2),

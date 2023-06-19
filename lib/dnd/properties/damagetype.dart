@@ -12,5 +12,6 @@ enum DamageType {
   psychic,
   radiant,
   slashing,
-  thunder;
+  thunder,
+  none;
 }
