@@ -15,7 +15,6 @@ class Portrait {
       _bytes = File(path).readAsBytesSync();
     } else {
       _bytes = List.empty();
-      stderr.writeln('\'$path\' does not exists.');
     }
   }
 

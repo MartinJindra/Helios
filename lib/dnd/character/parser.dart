@@ -23,12 +23,13 @@ class Parser {
     _buildElement = getElement(_characterElement, 'build');
   }
 
-  parse() {
+  void parse() {
     _processDisplayInformationElement();
+    _processBuildElement();
   }
 
-  _processDisplayInformationElement() {
-    character.name = getElementValueText(_displayPropertiesElement, 'name');
+  /// Process the 'display-information' tag.
+  void _processDisplayInformationElement() {
     character.race = getElementValueText(_displayPropertiesElement, 'race');
     character.className =
         getElementValueText(_displayPropertiesElement, 'class');
@@ -41,5 +42,14 @@ class Parser {
         .setBase64(getElementValueText(portraitElement, 'base64'));
     character.companionPortrait
         .setPath(getElementValueText(portraitElement, 'companion'));
+  }
+
+  /// Process the 'build' tag.
+  void _processBuildElement() {
+    XmlElement inputElement = getElement(_buildElement, 'input');
+    character.name = getElementValueText(inputElement, 'name');
+    character.gender = getElementValueText(inputElement, 'gender');
+    character.playerName = getElementValueText(inputElement, 'player-name');
+    character.experience = getElementValueNumber(inputElement, 'experience');
   }
 }

@@ -13,7 +13,7 @@ XmlElement getRootElement(XmlDocument document, String childName) =>
 String getElementValueText(XmlElement parent, String childName) {
   XmlElement childElement =
       parent.getElement(childName) ?? XmlElement(XmlName(childName));
-  return childElement.innerText == 'null' ? '' : childElement.innerText;
+  return childElement.innerText == 'null' ? '' : childElement.innerText.trim();
 }
 
 /// Null safe implementation for getting the number of a child element.
