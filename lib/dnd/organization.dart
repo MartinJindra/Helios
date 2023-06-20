@@ -1,18 +1,16 @@
-import 'dart:io' show File;
+import 'package:helios/util/file.dart' as util;
 
 /// An organization for DnD.
 class Organization {
-  late final String name, allies;
-  late List<int> symbol;
+  final String name;
+  String allies = '';
+  List<int> symbol = List.empty();
 
-  Organization(this.name, this.allies);
+  Organization(this.name);
 
   ///Set the symbol of an organization via a path.
   void setSymbol(String symbolPath) {
-    File f = File(symbolPath);
-    if (f.existsSync()) {
-      symbol = f.readAsBytesSync();
-    }
+    symbol = util.read(symbolPath);
   }
 
   @override

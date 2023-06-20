@@ -7,13 +7,23 @@ bool exists(String path) {
   return File(path).existsSync();
 }
 
-/// read all contents from a file.
-String read(String path) {
+/// read all contents as a string from a file.
+String readString(String path) {
   try {
     return File(path).readAsStringSync();
   } on FileSystemException catch (fe) {
     stderr.writeln('${fe.message} \'$path\'');
     exit(1);
+  }
+}
+
+/// read all contents as a byte list from a file.
+List<int> read(String path) {
+  try {
+    return File(path).readAsBytesSync();
+  } on FileSystemException catch (fe) {
+    stderr.writeln('${fe.message} \'$path\'');
+    return List.empty();
   }
 }
 

@@ -1,5 +1,5 @@
 import 'dart:convert' show Base64Decoder;
-import 'dart:io' show File;
+
 import 'package:helios/util/file.dart' as util;
 
 /// A character or companion portrait
@@ -10,11 +10,7 @@ class Portrait {
 
   /// Specify a portrait via a file path.
   setPath(String path) {
-    if (util.exists(path)) {
-      _bytes = File(path).readAsBytesSync();
-    } else {
-      _bytes = List.empty();
-    }
+    _bytes = util.read(path);
   }
 
   /// Set a portrait as an Base64 encoded image.

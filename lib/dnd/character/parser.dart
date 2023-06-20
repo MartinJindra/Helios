@@ -1,7 +1,9 @@
 import 'package:helios/dnd/character/background.dart' show Feature;
 import 'package:helios/dnd/character/character.dart' show Character;
+import 'package:helios/dnd/coins.dart';
 import 'package:helios/dnd/combat/attack.dart' show Attack;
 import 'package:helios/dnd/combat/damage.dart' show Damage;
+import 'package:helios/dnd/organization.dart';
 import 'package:helios/dnd/properties/ability.dart' show Ability;
 import 'package:helios/dnd/properties/range.dart' show Range;
 import 'package:helios/util/file.dart' as util;
@@ -25,7 +27,7 @@ class Parser {
   Parser.empty();
 
   Parser(String path) {
-    _document = XmlDocument.parse(util.read(path));
+    _document = XmlDocument.parse(util.readString(path));
     _characterElement = getRootElement(_document, 'character');
     _informationElement = getElement(_characterElement, 'information');
     _displayPropertiesElement =
@@ -61,6 +63,7 @@ class Parser {
     character.gender = getElementValueText(inputElement, 'gender');
     character.playerName = getElementValueText(inputElement, 'player-name');
     character.experience = getElementValueNumber(inputElement, 'experience');
+
     XmlElement attacksElement = getElement(inputElement, 'attacks');
     Attack tmpAttack;
     for (XmlElement attackElement in attacksElement.childElements) {
@@ -79,6 +82,7 @@ class Parser {
         character.attacks.add(tmpAttack);
       }
     }
+
     character.background.story = getElementValueText(inputElement, 'backstory');
     character.background.trinket =
         getElementValueText(inputElement, 'background-trinket');
@@ -95,5 +99,26 @@ class Parser {
     character.background.feature = Feature(
         getAttributeValueText(featureElement, 'name'),
         getElementValueText(featureElement, 'description'));
+
+    XmlElement organizationElement = getElement(inputElement, 'organization');
+    character.organization =
+        Organization(getElementValueText(organizationElement, 'name'));
+    character.organization.symbol =
+        util.read(getElementValueText(organizationElement, 'symbol'));
+    character.organization.allies =
+        getElementValueText(organizationElement, 'allies');
+
+    character.additionalFeatures =
+        getElementValueText(inputElement, 'additional-features');
+
+    XmlElement currencyElement = getElement(inputElement, 'currency');
+    for (Coin c in Coin.values) {
+      character.inventory
+          .setCoin(c, getElementValueNumber(currencyElement, c.name));
+    }
+    character.inventory.equipment =
+        getElementValueText(currencyElement, 'equipment');
+    character.inventory.treasure =
+        getElementValueText(currencyElement, 'treasure');
   }
 }

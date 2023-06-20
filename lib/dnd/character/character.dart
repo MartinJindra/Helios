@@ -1,13 +1,18 @@
 import 'package:helios/dnd/character/background.dart' show Background;
+import 'package:helios/dnd/character/inventory.dart' show Inventory;
 import 'package:helios/dnd/character/portrait.dart' show Portrait;
 import 'package:helios/dnd/combat/attack.dart' show Attack;
+import 'package:helios/dnd/organization.dart' show Organization;
 
 class Character {
   String name, playerName = '', race = '', gender = '', className = '';
   int level = 0, experience = 0;
   final Portrait characterPortrait = Portrait(), companionPortrait = Portrait();
   final List<Attack> attacks = List.empty(growable: true);
-  late Background background = Background('');
+  Background background = Background('');
+  Organization organization = Organization('');
+  String additionalFeatures = '';
+  Inventory inventory = Inventory();
 
   Character(this.name);
 
@@ -30,7 +35,8 @@ class Character {
     for (Attack attack in attacks) {
       buffer.writeln(attack);
     }
-    buffer.writeln('$background');
+    buffer.writeln(background);
+    buffer.writeln(inventory);
     return buffer.toString();
   }
 }
