@@ -9,9 +9,22 @@ XmlElement getElement(XmlElement parent, String childName) =>
 XmlElement getRootElement(XmlDocument document, String childName) =>
     document.getElement(childName) ?? XmlElement(XmlName(childName));
 
-/// Null safe implementation for getting the value of a child element.
-String getElementText(XmlElement parent, String childName) {
+/// Null safe implementation for getting the text of a child element.
+String getElementValueText(XmlElement parent, String childName) {
   XmlElement childElement =
       parent.getElement(childName) ?? XmlElement(XmlName(childName));
   return childElement.innerText == 'null' ? '' : childElement.innerText;
+}
+
+/// Null safe implementation for getting the number of a child element.
+int getElementValueNumber(XmlElement parent, String childName) {
+  XmlElement childElement =
+      parent.getElement(childName) ?? XmlElement(XmlName(childName));
+  try {
+    return childElement.innerText == 'null'
+        ? 0
+        : int.parse(childElement.innerText);
+  } on FormatException {
+    return 0;
+  }
 }

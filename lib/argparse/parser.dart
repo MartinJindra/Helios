@@ -52,7 +52,7 @@ class Runner {
           exit(0);
         case '-i' || '--input':
           if (util.exists(arguments[i + 1])) {
-            characterParser = char.Parser.path(arguments[i + 1]);
+            characterParser = char.Parser(arguments[i + 1]);
             characterParser.parse();
             isInput = true;
           }

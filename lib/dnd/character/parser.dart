@@ -1,7 +1,7 @@
 import 'package:helios/dnd/character/character.dart' show Character;
 import 'package:helios/util/file.dart' as util;
 import 'package:helios/util/xml.dart'
-    show getElement, getRootElement, getElementText;
+    show getElement, getRootElement, getElementValueText, getElementValueNumber;
 import 'package:xml/xml.dart' show XmlDocument, XmlElement;
 
 class Parser {
@@ -14,7 +14,7 @@ class Parser {
 
   Parser.empty();
 
-  Parser.path(String path) {
+  Parser(String path) {
     _document = XmlDocument.parse(util.read(path));
     _characterElement = getRootElement(_document, 'character');
     _informationElement = getElement(_characterElement, 'information');
@@ -27,5 +27,19 @@ class Parser {
     _processDisplayInformationElement();
   }
 
-  _processDisplayInformationElement() {}
+  _processDisplayInformationElement() {
+    character.name = getElementValueText(_displayPropertiesElement, 'name');
+    character.race = getElementValueText(_displayPropertiesElement, 'race');
+    character.className =
+        getElementValueText(_displayPropertiesElement, 'class');
+    character.background.roll =
+        getElementValueText(_displayPropertiesElement, 'background');
+    character.level = getElementValueNumber(_displayPropertiesElement, 'level');
+    XmlElement portraitElement =
+        getElement(_displayPropertiesElement, 'portrait');
+    character.characterPortrait
+        .setBase64(getElementValueText(portraitElement, 'base64'));
+    character.companionPortrait
+        .setPath(getElementValueText(portraitElement, 'companion'));
+  }
 }

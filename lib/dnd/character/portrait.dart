@@ -7,17 +7,20 @@ import 'package:helios/util/file.dart' as util;
 class Portrait {
   late List<int> _bytes;
 
+  Portrait();
+
   /// Specify a portrait via a file path.
-  Portrait.path(String path) {
+  setPath(String path) {
     if (util.exists(path)) {
       _bytes = File(path).readAsBytesSync();
     } else {
+      _bytes = List.empty();
       stderr.writeln('\'$path\' does not exists.');
     }
   }
 
   /// Set a portrait as an Base64 encoded image.
-  Portrait.base64(String base64) {
+  setBase64(String base64) {
     _bytes = const Base64Decoder().convert(base64);
   }
 

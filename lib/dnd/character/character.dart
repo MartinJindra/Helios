@@ -1,11 +1,11 @@
-import 'package:helios/dnd/character/background.dart';
+import 'package:helios/dnd/character/background.dart' show Background;
+import 'package:helios/dnd/character/portrait.dart' show Portrait;
 
 class Character {
-  String name = '', playerName = '', race = '', gender = '', className = '';
+  String name, playerName = '', race = '', gender = '', className = '';
   late Background background = Background('');
   int level = 0, experience = 0;
-  late List<int> characterPortrait;
-  late List<int> companionPortrait;
+  final Portrait characterPortrait = Portrait(), companionPortrait = Portrait();
 
   Character(this.name);
 
@@ -18,10 +18,10 @@ class Character {
     buffer.writeln('Class: $className');
     buffer.writeln('Race: $race');
     buffer.writeln('Gender: $gender');
-    buffer.writeln();
-    buffer.writeln('$background');
     buffer.writeln('Level: $level');
     buffer.writeln('Experience: $experience');
+    buffer.writeln();
+    buffer.writeln('$background');
     return buffer.toString();
   }
 }
