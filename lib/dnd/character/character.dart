@@ -49,6 +49,7 @@ class Character {
       buffer.writeln(attack);
     }
     buffer.writeln(background);
+    buffer.writeln(organization);
     buffer.writeln(inventory);
     buffer.writeln('## Notes');
     for (String note in notes.values) {
