@@ -1,6 +1,5 @@
 import 'package:args/args.dart' show ArgResults;
-
-import 'argparse/parser.dart' show Parser, Runner;
+import 'package:helios/argparse/parser.dart' show Parser, Runner;
 
 void main(List<String> args) {
   ArgResults parsedArgs = Parser.parse(args);
