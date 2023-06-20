@@ -43,6 +43,6 @@ abstract class Value {
 
   @override
   String toString() {
-    return '$amount $unit';
+    return '$amount ${unit.toString().split('.').last}';
   }
 }

@@ -1,7 +1,17 @@
+import 'package:helios/dnd/character/background.dart' show Feature;
 import 'package:helios/dnd/character/character.dart' show Character;
+import 'package:helios/dnd/combat/attack.dart' show Attack;
+import 'package:helios/dnd/combat/damage.dart' show Damage;
+import 'package:helios/dnd/properties/ability.dart' show Ability;
+import 'package:helios/dnd/properties/range.dart' show Range;
 import 'package:helios/util/file.dart' as util;
 import 'package:helios/util/xml.dart'
-    show getElement, getRootElement, getElementValueText, getElementValueNumber;
+    show
+        getElement,
+        getRootElement,
+        getElementValueText,
+        getElementValueNumber,
+        getAttributeValueText;
 import 'package:xml/xml.dart' show XmlDocument, XmlElement;
 
 class Parser {
@@ -51,5 +61,39 @@ class Parser {
     character.gender = getElementValueText(inputElement, 'gender');
     character.playerName = getElementValueText(inputElement, 'player-name');
     character.experience = getElementValueNumber(inputElement, 'experience');
+    XmlElement attacksElement = getElement(inputElement, 'attacks');
+    Attack tmpAttack;
+    for (XmlElement attackElement in attacksElement.childElements) {
+      if (attackElement.name.toString() == 'attack') {
+        tmpAttack = Attack();
+        tmpAttack.name = getAttributeValueText(attackElement, 'name');
+        Map<String, Range> ranges =
+            Range.parse(getAttributeValueText(attackElement, 'range'));
+        tmpAttack.shortRange = ranges['short']!;
+        tmpAttack.longRange = ranges['long']!;
+        tmpAttack.setAttack(getAttributeValueText(attackElement, 'attack'));
+        tmpAttack.damage =
+            Damage.parse(getAttributeValueText(attackElement, 'damage'));
+        tmpAttack.ability = Ability.values.byName(
+            getAttributeValueText(attackElement, 'ability').toLowerCase());
+        character.attacks.add(tmpAttack);
+      }
+    }
+    character.background.story = getElementValueText(inputElement, 'backstory');
+    character.background.trinket =
+        getElementValueText(inputElement, 'background-trinket');
+    character.background.traits =
+        getElementValueText(inputElement, 'background-traits');
+    character.background.ideals =
+        getElementValueText(inputElement, 'background-ideals');
+    character.background.bonds =
+        getElementValueText(inputElement, 'background-bonds');
+    character.background.flaws =
+        getElementValueText(inputElement, 'background-flaws');
+    XmlElement featureElement =
+        getElement(getElement(inputElement, 'background'), 'feature');
+    character.background.feature = Feature(
+        getAttributeValueText(featureElement, 'name'),
+        getElementValueText(featureElement, 'description'));
   }
 }

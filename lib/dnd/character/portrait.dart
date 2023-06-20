@@ -1,6 +1,5 @@
 import 'dart:convert' show Base64Decoder;
-import 'dart:io' show File, stderr;
-
+import 'dart:io' show File;
 import 'package:helios/util/file.dart' as util;
 
 /// A character or companion portrait

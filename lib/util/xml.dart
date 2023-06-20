@@ -28,3 +28,9 @@ int getElementValueNumber(XmlElement parent, String childName) {
     return 0;
   }
 }
+
+/// Null safe implementation for getting
+/// the value of an attribute from an element.
+String getAttributeValueText(XmlElement element, String name) {
+  return element.getAttribute(name) ?? '';
+}

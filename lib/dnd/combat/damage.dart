@@ -5,7 +5,6 @@ import 'package:helios/dnd/properties/damagetype.dart' show DamageType;
 /// Class representing damage.
 class Damage {
   late Dice dice;
-
   late DamageType type;
 
   Damage(this.dice, this.type);
@@ -23,15 +22,18 @@ class Damage {
       stringSplit[0] = stringSplit[0].replaceAll("+", "");
       return Damage.mod(int.parse(stringSplit[0]), DamageType.none);
     }
-    DamageType type =
-        DamageType.values.firstWhere((e) => e.toString() == stringSplit[1]);
-    Dice damage = Dice.parse(stringSplit[0]);
-
-    return Damage(damage, type);
+    DamageType type;
+    if (stringSplit[1] == '') {
+      type = DamageType.none;
+    } else {
+      type = DamageType.values
+          .firstWhere((DamageType e) => (e.name == stringSplit[1]));
+    }
+    return Damage(Dice.parse(stringSplit[0]), type);
   }
 
   @override
   String toString() {
-    return '$dice $type';
+    return '$dice ${type == DamageType.none ? '' : type.name}';
   }
 }
