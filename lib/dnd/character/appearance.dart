@@ -8,6 +8,7 @@ class Appearance {
   @override
   String toString() {
     StringBuffer str = StringBuffer();
+    str.writeln('## Appearance');
     str.writeln('Age: $age');
     str.writeln('Height: $height');
     str.writeln('Weight: $weight');

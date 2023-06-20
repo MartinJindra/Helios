@@ -1,18 +1,31 @@
+import 'dart:collection' show HashMap;
+
+import 'package:helios/dnd/character/appearance.dart' show Appearance;
 import 'package:helios/dnd/character/background.dart' show Background;
 import 'package:helios/dnd/character/inventory.dart' show Inventory;
 import 'package:helios/dnd/character/portrait.dart' show Portrait;
 import 'package:helios/dnd/combat/attack.dart' show Attack;
 import 'package:helios/dnd/organization.dart' show Organization;
+import 'package:helios/dnd/properties/ability.dart' show Ability;
 
 class Character {
-  String name, playerName = '', race = '', gender = '', className = '';
+  String name,
+      playerName = '',
+      race = '',
+      gender = '',
+      className = '',
+      additionalFeatures = '',
+      quest = '',
+      group = '';
   int level = 0, experience = 0;
   final Portrait characterPortrait = Portrait(), companionPortrait = Portrait();
   final List<Attack> attacks = List.empty(growable: true);
   Background background = Background('');
   Organization organization = Organization('');
-  String additionalFeatures = '';
   Inventory inventory = Inventory();
+  final Map<String, String> notes = HashMap();
+  Appearance appearance = Appearance();
+  final Map<Ability, int> abilities = HashMap();
 
   Character(this.name);
 
@@ -37,6 +50,17 @@ class Character {
     }
     buffer.writeln(background);
     buffer.writeln(inventory);
+    buffer.writeln('## Notes');
+    for (String note in notes.values) {
+      buffer.writeln(note);
+    }
+    buffer.writeln('## Quests');
+    buffer.writeln(quest);
+    buffer.writeln(appearance);
+    buffer.writeln('## Abilities');
+    for (Ability ability in Ability.values) {
+      buffer.writeln('${ability.name}: ${abilities[ability]}');
+    }
     return buffer.toString();
   }
 }

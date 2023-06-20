@@ -9,6 +9,10 @@ XmlElement getElement(XmlElement parent, String childName) =>
 XmlElement getRootElement(XmlDocument document, String childName) =>
     document.getElement(childName) ?? XmlElement(XmlName(childName));
 
+String getText(XmlElement element) {
+  return element.innerText == 'null' ? '' : element.innerText;
+}
+
 /// Null safe implementation for getting the text of a child element.
 String getElementValueText(XmlElement parent, String childName) {
   XmlElement childElement =

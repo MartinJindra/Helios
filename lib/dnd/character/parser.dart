@@ -9,11 +9,12 @@ import 'package:helios/dnd/properties/range.dart' show Range;
 import 'package:helios/util/file.dart' as util;
 import 'package:helios/util/xml.dart'
     show
+        getAttributeValueText,
         getElement,
-        getRootElement,
-        getElementValueText,
         getElementValueNumber,
-        getAttributeValueText;
+        getElementValueText,
+        getRootElement,
+        getText;
 import 'package:xml/xml.dart' show XmlDocument, XmlElement;
 
 class Parser {
@@ -36,8 +37,16 @@ class Parser {
   }
 
   void parse() {
+    _processInformationElement();
     _processDisplayInformationElement();
     _processBuildElement();
+    _processAppearanceElement();
+    _processAbilitiesElement();
+  }
+
+  /// Process the 'display-information' tag.
+  void _processInformationElement() {
+    character.group = getElementValueText(_informationElement, 'group');
   }
 
   /// Process the 'display-information' tag.
@@ -120,5 +129,34 @@ class Parser {
         getElementValueText(currencyElement, 'equipment');
     character.inventory.treasure =
         getElementValueText(currencyElement, 'treasure');
+
+    XmlElement notesElement = getElement(inputElement, 'notes');
+    for (XmlElement note in notesElement.childElements) {
+      character.notes.putIfAbsent(
+          getAttributeValueText(note, 'column'), () => getText(note));
+    }
+
+    character.quest = getElementValueText(inputElement, 'quest');
+  }
+
+  /// Process the 'appearance' tag.
+  void _processAppearanceElement() {
+    XmlElement appearanceElement = getElement(_buildElement, 'appearance');
+    character.appearance.age = getElementValueNumber(appearanceElement, 'age');
+    character.appearance.height =
+        getElementValueText(appearanceElement, 'height');
+    character.appearance.weight =
+        getElementValueText(appearanceElement, 'weight');
+    character.appearance.eyes = getElementValueText(appearanceElement, 'eyes');
+    character.appearance.skin = getElementValueText(appearanceElement, 'skin');
+    character.appearance.hair = getElementValueText(appearanceElement, 'hair');
+  }
+
+  void _processAbilitiesElement() {
+    XmlElement abilitiesElement = getElement(_buildElement, 'abilities');
+    for (Ability ability in Ability.values) {
+      character.abilities.putIfAbsent(
+          ability, () => getElementValueNumber(abilitiesElement, ability.name));
+    }
   }
 }
