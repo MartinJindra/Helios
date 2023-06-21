@@ -16,14 +16,13 @@ abstract class Value {
   /// Add up another unit.
   /// The sum will be in the unit
   /// of the object instance.
-  add(Value second) =>
-      setValues((amount + second.convert(unit).amount).roundToDouble(), unit);
+  add(Value second) => setValues((amount + second.convert(unit).amount), unit);
 
   /// Subtract another unit.
   /// The subtraction will be in the unit
   /// of the object instance.
   subtract(Value second) =>
-      setValues((amount - second.convert(unit).amount).roundToDouble(), unit);
+      setValues((amount - second.convert(unit).amount), unit);
 
   /// Multiply another unit.
   /// The multiplication will be in the unit

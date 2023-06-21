@@ -28,12 +28,14 @@ class Parser {
   Parser.empty();
 
   Parser(String path) {
-    _document = XmlDocument.parse(util.readString(path));
-    _characterElement = getRootElement(_document, 'character');
-    _informationElement = getElement(_characterElement, 'information');
-    _displayPropertiesElement =
-        getElement(_characterElement, 'display-properties');
-    _buildElement = getElement(_characterElement, 'build');
+    if (path.isNotEmpty) {
+      _document = XmlDocument.parse(util.readString(path));
+      _characterElement = getRootElement(_document, 'character');
+      _informationElement = getElement(_characterElement, 'information');
+      _displayPropertiesElement =
+          getElement(_characterElement, 'display-properties');
+      _buildElement = getElement(_characterElement, 'build');
+    }
   }
 
   void parse() {
@@ -146,8 +148,8 @@ class Parser {
     XmlElement organizationElement = getElement(inputElement, 'organization');
     character.organization =
         Organization(getElementValueText(organizationElement, 'name'));
-    character.organization.symbol =
-        util.read(getElementValueText(organizationElement, 'symbol'));
+    character.organization
+        .setSymbol(getElementValueText(organizationElement, 'symbol'));
     character.organization.allies =
         getElementValueText(organizationElement, 'allies');
   }

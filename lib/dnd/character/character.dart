@@ -26,6 +26,8 @@ class Character {
   final Map<String, String> notes = HashMap();
   Appearance appearance = Appearance();
   final Map<Ability, int> abilities = HashMap();
+  bool allowFeats = false;
+  bool allowMulticlassing = false;
 
   Character(this.name);
 

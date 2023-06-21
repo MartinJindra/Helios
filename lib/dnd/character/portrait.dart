@@ -10,7 +10,9 @@ class Portrait {
 
   /// Specify a portrait via a file path.
   setPath(String path) {
-    _bytes = util.read(path);
+    if (path.isNotEmpty) {
+      _bytes = util.read(path);
+    }
   }
 
   /// Set a portrait as an Base64 encoded image.

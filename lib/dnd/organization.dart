@@ -10,7 +10,9 @@ class Organization {
 
   ///Set the symbol of an organization via a path.
   void setSymbol(String symbolPath) {
-    symbol = util.read(symbolPath);
+    if (symbolPath.isNotEmpty) {
+      symbol = util.read(symbolPath);
+    }
   }
 
   @override

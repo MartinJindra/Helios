@@ -10,7 +10,7 @@ class Weight extends Value {
   @override
   Weight convert(Unit to) {
     Mass m = to as Mass;
-    double d = super.amount / (super.unit as Mass).val;
-    return Weight((d * to.val).roundToDouble(), m);
+    double d = super.amount * (super.unit as Mass).val;
+    return Weight((d / to.val), m);
   }
 }
