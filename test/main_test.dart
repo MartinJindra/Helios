@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:helios/dnd/character/parser.dart' as dndparser;
+import 'package:helios/dnd/properties/range.dart';
 import 'package:helios/dnd/properties/weight.dart' show Weight;
+import 'package:helios/dnd/quantity/length.dart';
 import 'package:helios/dnd/quantity/mass.dart' show Mass;
-import 'package:test/test.dart';
+import 'package:test/test.dart' show expect, group, test;
 
 void main() {
   testDNDParser();
@@ -12,6 +14,7 @@ void main() {
   testMassSubtractOperator();
   testMassMultiplyOperator();
   testMassDivideOperator();
+  testRangeConverter();
 }
 
 void testDNDParser() {
@@ -27,31 +30,19 @@ void testDNDParser() {
 }
 
 void testMassConverter() {
-  group('Test the unit converter', () {
-    test(
-        '100kg to 220.4622pound',
-        () => {
-              expect(
-                  Weight(100, Mass.kilogram).convert(Mass.pound).amount, 220.46)
-            });
-    test(
-        '0.5pound to 0.2268kg',
-        () => {
-              expect(Weight(.5, Mass.pound).convert(Mass.kilogram).amount,
-                  .22679851220175995)
-            });
-    test(
-        '165pound to 74.8427kg',
-        () => {
-              expect(Weight(165, Mass.pound).convert(Mass.kilogram).amount,
-                  74.84350902658078)
-            });
-    test(
-        '0.5kg to 1.1023pound',
-        () => {
-              expect(
-                  Weight(.5, Mass.kilogram).convert(Mass.pound).amount, 1.1023)
-            });
+  group('Test the mass unit converter', () {
+    test('100kg to 220.46pound', () {
+      expect(Weight(100, Mass.kilogram).convert(Mass.pound).amount, 220.46);
+    });
+    test('0.5pound to 0.2268kg', () {
+      expect(Weight(.5, Mass.pound).convert(Mass.kilogram).amount, .22679851220175995);
+    });
+    test('165pound to 74.8427kg', () {
+      expect(Weight(165, Mass.pound).convert(Mass.kilogram).amount, 74.84350902658078);
+    });
+    test('0.5kg to 1.1023pound', () {
+      expect(Weight(.5, Mass.kilogram).convert(Mass.pound).amount, 1.1023);
+    });
   });
 }
 
@@ -149,6 +140,36 @@ void testMassDivideOperator() {
       Weight op2 = Weight(200, Mass.pound);
       op1.divide(op2);
       expect(op1.amount, .9369550000000001);
+    });
+  });
+}
+
+/// Test the unit converter
+void testRangeConverter() {
+  group('Test the range unit converter', () {
+    test('100cm to 1m', () => {
+      expect(Range(100, Length.centimeter).convert(Length.meter).amount, 1)
+    });
+    test('0.5m to 50cm', () => {
+      expect(Range(.5, Length.meter).convert(Length.centimeter).amount, 50)
+    });
+    test('8ft to 96inch', () => {
+      expect(Range(8, Length.feet).convert(Length.inch).amount, 96.38554216867469)
+    });
+    test('78inch to 6.5feet', () => {
+      expect(Range(78, Length.inch).convert(Length.feet).amount, 6.474)
+    });
+    test('12ft to 3.6576m', () => {
+      expect(Range(12, Length.feet).convert(Length.meter).amount, 3.657599882956804)
+    });
+    test('7inch to 17.78cm', () => {
+      expect(Range(7, Length.inch).convert(Length.centimeter).amount, 17.70887943331586)
+    });
+    test('178cm to 5.8399feet', () => {
+      expect(Range(178, Length.centimeter).convert(Length.feet).amount, 5.8398952)
+    });
+    test('50inch to 1.27m', () => {
+      expect(Range(50, Length.inch).convert(Length.meter).amount, 1.2649199595225613)
     });
   });
 }

@@ -6,6 +6,5 @@ enum Mass implements Unit {
   kilogram(2.2046);
 
   final double val;
-
   const Mass(this.val);
 }
