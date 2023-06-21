@@ -13,7 +13,7 @@ class Inventory {
   }
 
   void setCoin(Coin c, int value) {
-    _currency.putIfAbsent(c, () => value);
+    _currency.update(c, (old) => (value));
   }
 
   @override
