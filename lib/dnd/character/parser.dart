@@ -40,8 +40,6 @@ class Parser {
     _processInformationElement();
     _processDisplayInformationElement();
     _processBuildElement();
-    _processAppearanceElement();
-    _processAbilitiesElement();
   }
 
   /// Process the 'display-information' tag.
@@ -51,12 +49,17 @@ class Parser {
 
   /// Process the 'display-information' tag.
   void _processDisplayInformationElement() {
+    // race
     character.race = getElementValueText(_displayPropertiesElement, 'race');
+    // class
     character.className =
         getElementValueText(_displayPropertiesElement, 'class');
+    // background roll
     character.background.roll =
         getElementValueText(_displayPropertiesElement, 'background');
+    // level
     character.level = getElementValueNumber(_displayPropertiesElement, 'level');
+    // portrait
     XmlElement portraitElement =
         getElement(_displayPropertiesElement, 'portrait');
     character.characterPortrait
@@ -68,11 +71,34 @@ class Parser {
   /// Process the 'build' tag.
   void _processBuildElement() {
     XmlElement inputElement = getElement(_buildElement, 'input');
-    character.name = getElementValueText(inputElement, 'name');
-    character.gender = getElementValueText(inputElement, 'gender');
-    character.playerName = getElementValueText(inputElement, 'player-name');
-    character.experience = getElementValueNumber(inputElement, 'experience');
+    _processBasicInformation(inputElement);
+    _processAttacks(inputElement);
+    _processBackstory(inputElement);
+    _processOrganization(inputElement);
+    _processAdditionalFeature(inputElement);
+    _processInventory(inputElement);
+    _processNotes(inputElement);
+    _processQuest(inputElement);
 
+    _processAppearanceElement();
+    _processAbilitiesElement();
+  }
+
+  /// Process the basic information of a character.
+  void _processBasicInformation(XmlElement inputElement) {
+    // name
+    character.name = getElementValueText(inputElement, 'name');
+    // gender
+    character.gender = getElementValueText(inputElement, 'gender');
+    // player name
+    character.playerName = getElementValueText(inputElement, 'player-name');
+    // experience
+    character.experience = getElementValueNumber(inputElement, 'experience');
+  }
+
+  /// Process the attacks of a character.
+  void _processAttacks(XmlElement inputElement) {
+    // attacks
     XmlElement attacksElement = getElement(inputElement, 'attacks');
     Attack tmpAttack;
     for (XmlElement attackElement in attacksElement.childElements) {
@@ -91,7 +117,11 @@ class Parser {
         character.attacks.add(tmpAttack);
       }
     }
+  }
 
+  /// Process the backstory.
+  void _processBackstory(XmlElement inputElement) {
+    // backstory
     character.background.story = getElementValueText(inputElement, 'backstory');
     character.background.trinket =
         getElementValueText(inputElement, 'background-trinket');
@@ -108,7 +138,11 @@ class Parser {
     character.background.feature = Feature(
         getAttributeValueText(featureElement, 'name'),
         getElementValueText(featureElement, 'description'));
+  }
 
+  /// Process which organization the character is aligned with.
+  void _processOrganization(XmlElement inputElement) {
+    // organization
     XmlElement organizationElement = getElement(inputElement, 'organization');
     character.organization =
         Organization(getElementValueText(organizationElement, 'name'));
@@ -116,10 +150,18 @@ class Parser {
         util.read(getElementValueText(organizationElement, 'symbol'));
     character.organization.allies =
         getElementValueText(organizationElement, 'allies');
+  }
 
+  /// Process the additional Features.
+  void _processAdditionalFeature(XmlElement inputElement) {
+    // additional feature
     character.additionalFeatures =
         getElementValueText(inputElement, 'additional-features');
+  }
 
+  /// Process the items of the character (i.e coins, ...).
+  void _processInventory(XmlElement inputElement) {
+    // currency, inventory and treasure
     XmlElement currencyElement = getElement(inputElement, 'currency');
     for (Coin c in Coin.values) {
       character.inventory
@@ -129,13 +171,21 @@ class Parser {
         getElementValueText(currencyElement, 'equipment');
     character.inventory.treasure =
         getElementValueText(currencyElement, 'treasure');
+  }
 
+  /// Process the notes of the character sheets.
+  void _processNotes(XmlElement inputElement) {
+    // notes
     XmlElement notesElement = getElement(inputElement, 'notes');
     for (XmlElement note in notesElement.childElements) {
       character.notes.putIfAbsent(
           getAttributeValueText(note, 'column'), () => getText(note));
     }
+  }
 
+  /// Process the quest.
+  void _processQuest(XmlElement inputElement) {
+    // quest
     character.quest = getElementValueText(inputElement, 'quest');
   }
 
@@ -152,6 +202,7 @@ class Parser {
     character.appearance.hair = getElementValueText(appearanceElement, 'hair');
   }
 
+  /// Process the abilities of the character.
   void _processAbilitiesElement() {
     XmlElement abilitiesElement = getElement(_buildElement, 'abilities');
     for (Ability ability in Ability.values) {
