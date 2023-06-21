@@ -2,11 +2,14 @@
 import 'package:helios/dnd/roll.dart' show Roll;
 
 class Dice {
-  late final int _amount, _sides, _modifier;
-  late final Roll _roll;
+  late int _amount, _sides, _modifier;
+  late Roll _roll;
 
   Dice(int amount, int sides) {
-    Dice.mod(amount, sides, 0);
+    _amount = amount;
+    _sides = sides;
+    _modifier = 0;
+    _roll = Roll.create(_amount, _sides, _modifier);
   }
 
   Dice.mod(int amount, int sides, int modifier) {
@@ -22,14 +25,12 @@ class Dice {
 
   int get modifier => _modifier;
 
-  /// Roll a die.
-  Roll roll() {
-    return Roll.create(_amount, _sides, _modifier);
-  }
+  Roll get roll => _roll;
 
-  /// Get the total sum of multiple rolls.
-  int sum() {
-    return _roll.total;
+  /// Roll a die.
+  Roll rollNew() {
+    _roll = Roll.create(_amount, _sides, _modifier);
+    return _roll;
   }
 
   @override

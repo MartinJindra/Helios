@@ -26,7 +26,7 @@ class Roll {
   }
 
   /// Get the total sum of the roll.
-  int get total => _total;
+  int get sum => _total;
 
   /// Get the order of the dice rolls.
   List<int> get order => _order;
