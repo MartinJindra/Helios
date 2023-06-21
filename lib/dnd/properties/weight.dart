@@ -11,6 +11,6 @@ class Weight extends Value {
   Weight convert(Unit to) {
     Mass m = to as Mass;
     double d = super.amount * (super.unit as Mass).val;
-    return Weight((d / m.val), m);
+    return Weight(round(d / m.val), m);
   }
 }

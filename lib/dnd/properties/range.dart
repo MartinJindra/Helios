@@ -29,6 +29,6 @@ class Range extends Value {
   Range convert(Unit to) {
     Length l = to as Length;
     double d = super.amount * (super.unit as Length).val;
-    return Range((d / l.val), l);
+    return Range(round(d / l.val), l);
   }
 }
