@@ -1,7 +1,7 @@
 import 'dart:io' show exit, stderr, stdout;
 
 import 'package:args/args.dart' show ArgParser, ArgResults;
-import 'package:helios/dnd/character/parser.dart' as char;
+import 'package:helios/dnd/character/parser/parser.dart' as char;
 import 'package:helios/messages/args.dart' show ArgErrorMessages;
 import 'package:helios/util/file.dart' as util;
 

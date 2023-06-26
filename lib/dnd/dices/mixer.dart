@@ -56,9 +56,9 @@ class Mixer {
       str.write('$d+');
     }
     if (dice.isNotEmpty) {
-      str = StringBuffer(
-          str.toString().replaceRange(
-              str.toString().lastIndexOf('+'), null, ''));
+      str = StringBuffer(str
+          .toString()
+          .replaceRange(str.toString().lastIndexOf('+'), null, ''));
     }
     return str.toString();
   }

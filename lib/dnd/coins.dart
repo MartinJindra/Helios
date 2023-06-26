@@ -2,11 +2,11 @@ import 'package:helios/dnd/quantity/unit.dart' show Unit;
 
 /// All coins for DnD.
 enum Coin implements Unit {
-  copper(10),
+  copper(0.1),
   silver(1),
-  electrum(0.2),
-  gold(0.1),
-  platinum(0.01);
+  electrum(5),
+  gold(10),
+  platinum(100);
 
   const Coin(this.value);
 

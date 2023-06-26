@@ -5,19 +5,20 @@ import 'package:helios/dnd/properties/range.dart' show Range;
 /// A class representing an attack in DND.
 class Attack {
   String uuid = '', name = '';
-  late Range shortRange, longRange;
+  Range shortRange, longRange;
   int _attack = 0;
-  late Damage damage;
+  Damage damage;
   bool displayed = false;
-  late Ability ability;
+  Ability ability;
+
+  Attack(this.uuid, this.name, this.shortRange, this.longRange, this.damage,
+      this.ability);
 
   /// set the attack bonus via an expression.
   void setAttack(String expr) {
     List<String> split = expr.split(' ');
     _attack = int.parse(split[0]);
   }
-
-  get attack => _attack;
 
   @override
   String toString() {
@@ -27,7 +28,7 @@ class Attack {
     if (longRange.amount != 0.0) {
       str.writeln('Long range: $longRange');
     }
-    str.writeln('Attack: $attack + AC');
+    str.writeln('Attack: $_attack + AC');
     str.writeln('Damage: $damage');
     str.writeln('Ability: ${ability.name}');
 

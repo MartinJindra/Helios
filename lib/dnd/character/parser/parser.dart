@@ -1,10 +1,12 @@
 import 'package:helios/dnd/character/background.dart' show Feature;
 import 'package:helios/dnd/character/character.dart' show Character;
+import 'package:helios/dnd/character/parser/values/elements.dart';
 import 'package:helios/dnd/coins.dart';
 import 'package:helios/dnd/combat/attack.dart' show Attack;
 import 'package:helios/dnd/combat/damage.dart' show Damage;
 import 'package:helios/dnd/organization.dart';
 import 'package:helios/dnd/properties/ability.dart' show Ability;
+import 'package:helios/dnd/properties/damagetype.dart';
 import 'package:helios/dnd/properties/range.dart' show Range;
 import 'package:helios/util/file.dart' as util;
 import 'package:helios/util/xml.dart'
@@ -15,7 +17,14 @@ import 'package:helios/util/xml.dart'
         getElementValueText,
         getRootElement,
         getText;
-import 'package:xml/xml.dart' show XmlDocument, XmlElement;
+import 'package:xml/xml.dart'
+    show
+        XmlDescendantsExtension,
+        XmlDocument,
+        XmlElement,
+        XmlFollowingExtension;
+
+import '../../dices/d0.dart';
 
 class Parser {
   late Character character = Character('');
@@ -81,9 +90,9 @@ class Parser {
     _processInventory(inputElement);
     _processNotes(inputElement);
     _processQuest(inputElement);
-
     _processAppearanceElement();
     _processAbilitiesElement();
+    _processElements();
   }
 
   /// Process the basic information of a character.
@@ -103,19 +112,22 @@ class Parser {
     // attacks
     XmlElement attacksElement = getElement(inputElement, 'attacks');
     Attack tmpAttack;
+    String uuid = '', name = '', expr = '';
+    Map<String, Range> ranges = {};
+    Damage damage = Damage.die(D0(), DamageType.none);
+    Ability ability = Ability.none;
     for (XmlElement attackElement in attacksElement.childElements) {
       if (attackElement.name.toString() == 'attack') {
-        tmpAttack = Attack();
-        tmpAttack.name = getAttributeValueText(attackElement, 'name');
-        Map<String, Range> ranges =
-            Range.parse(getAttributeValueText(attackElement, 'range'));
-        tmpAttack.shortRange = ranges['short']!;
-        tmpAttack.longRange = ranges['long']!;
-        tmpAttack.setAttack(getAttributeValueText(attackElement, 'attack'));
-        tmpAttack.damage =
-            Damage.parse(getAttributeValueText(attackElement, 'damage'));
-        tmpAttack.ability = Ability.values.byName(
+        uuid = getAttributeValueText(attackElement, 'uuid');
+        name = getAttributeValueText(attackElement, 'name');
+        ranges = Range.parse(getAttributeValueText(attackElement, 'range'));
+        expr = getAttributeValueText(attackElement, 'attack');
+        damage = Damage.parse(getAttributeValueText(attackElement, 'damage'));
+        ability = Ability.values.byName(
             getAttributeValueText(attackElement, 'ability').toLowerCase());
+        tmpAttack = Attack(
+            uuid, name, ranges['short']!, ranges['long']!, damage, ability);
+        tmpAttack.setAttack(expr);
         character.attacks.add(tmpAttack);
       }
     }
@@ -210,6 +222,32 @@ class Parser {
     for (Ability ability in Ability.values) {
       character.abilities.putIfAbsent(
           ability, () => getElementValueNumber(abilitiesElement, ability.name));
+    }
+  }
+
+  void _processElements() {
+    XmlElement elementsElement = getElement(_buildElement, 'elements');
+    String type, name;
+    for (XmlElement child in elementsElement.childElements) {
+      type = getAttributeValueText(child, 'type');
+      // Type="option"
+      if (type == Types.option.text) {
+        name = getAttributeValueText(child, 'name');
+        if (name == Name.feats.text) {
+          character.allowFeats = true;
+        }
+        if (name == Name.multiclassing.text) {
+          character.allowMulticlassing = true;
+        }
+      }
+      // Type="Armor"
+      else if (type == Types.armor.text) {}
+    }
+  }
+
+  void _recursiveElements(XmlElement element) {
+    for (XmlElement children in element.childElements) {
+      _recursiveElements(children);
     }
   }
 }

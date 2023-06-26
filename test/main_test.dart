@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'dart:io';
 
-import 'package:helios/dnd/character/parser.dart' as dndparser;
+import 'package:helios/dnd/character/parser/parser.dart' as dndparser;
 import 'package:helios/dnd/dices/d10.dart' show D10;
 import 'package:helios/dnd/dices/d100.dart' show D100;
 import 'package:helios/dnd/dices/d12.dart' show D12;
@@ -9,7 +9,7 @@ import 'package:helios/dnd/dices/d20.dart' show D20;
 import 'package:helios/dnd/dices/d4.dart' show D4;
 import 'package:helios/dnd/dices/d6.dart' show D6;
 import 'package:helios/dnd/dices/d8.dart' show D8;
-import 'package:helios/dnd/dices/dice.dart' show Dice;
+import 'package:helios/dnd/dices/die.dart' show Die;
 import 'package:helios/dnd/properties/range.dart' show Range;
 import 'package:helios/dnd/properties/weight.dart' show Weight;
 import 'package:helios/dnd/quantity/length.dart' show Length;
@@ -326,9 +326,10 @@ void testDices() {
     test('D4', () {
       int total, len = 4;
       HashSet<int> res = HashSet();
-      Dice d = D4(1);
+      Die d = D4();
       do {
-        total = d.rollNew().sum;
+        d.newRoll();
+        total = d.roll;
         res.add(total);
         expect(total >= 1 && total <= len, true);
       } while (res.length < len);
@@ -337,9 +338,10 @@ void testDices() {
     test('D6', () {
       int total, len = 6;
       HashSet<int> res = HashSet();
-      Dice d = D6(1);
+      Die d = D6();
       do {
-        total = d.rollNew().sum;
+        d.newRoll();
+        total = d.roll;
         res.add(total);
         expect(total >= 1 && total <= len, true);
       } while (res.length < len);
@@ -348,9 +350,10 @@ void testDices() {
     test('D8', () {
       int total, len = 8;
       HashSet<int> res = HashSet();
-      Dice d = D8(1);
+      Die d = D8();
       do {
-        total = d.rollNew().sum;
+        d.newRoll();
+        total = d.roll;
         res.add(total);
         expect(total >= 1 && total <= len, true);
       } while (res.length < len);
@@ -359,9 +362,10 @@ void testDices() {
     test('D10', () {
       int total, len = 10;
       HashSet<int> res = HashSet();
-      Dice d = D10(1);
+      Die d = D10();
       do {
-        total = d.rollNew().sum;
+        d.newRoll();
+        total = d.roll;
         res.add(total);
         expect(total >= 1 && total <= len, true);
       } while (res.length < len);
@@ -370,9 +374,10 @@ void testDices() {
     test('D12', () {
       int total, len = 12;
       HashSet<int> res = HashSet();
-      Dice d = D12(1);
+      Die d = D12();
       do {
-        total = d.rollNew().sum;
+        d.newRoll();
+        total = d.roll;
         res.add(total);
         expect(total >= 1 && total <= len, true);
       } while (res.length < len);
@@ -381,31 +386,147 @@ void testDices() {
     test('D20', () {
       int total, len = 20;
       HashSet<int> res = HashSet();
-      Dice d = D20(1);
+      Die d = D20();
       do {
-        total = d.rollNew().sum;
+        d.newRoll();
+        total = d.roll;
         res.add(total);
         expect(total >= 1 && total <= len, true);
       } while (res.length < len);
       expect(res, {
-        1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
       });
     });
     test('D100', () {
       int total, len = 100;
       HashSet<int> res = HashSet();
-      Dice d = D100(1);
+      Die d = D100();
       do {
-        total = d.rollNew().sum;
+        d.newRoll();
+        total = d.roll;
         res.add(total);
         expect(total >= 1 && total <= len, true);
       } while (res.length < len);
       expect(res, {
-        1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
-        21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,
-        41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,
-        61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,
-        81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100
       });
     });
   });

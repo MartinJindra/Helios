@@ -1,22 +1,29 @@
 import 'package:helios/dnd/dices/d0.dart' show D0;
-import 'package:helios/dnd/dices/dice.dart' show Dice;
+import 'package:helios/dnd/dices/die.dart';
+import 'package:helios/dnd/dices/mixer.dart' show Mixer;
 import 'package:helios/dnd/properties/damagetype.dart' show DamageType;
 
 /// Class representing damage.
 class Damage {
-  late Dice dice;
+  late Mixer dice;
   late DamageType type;
 
   Damage(this.dice, this.type);
 
+  Damage.die(Die die, this.type) {
+    dice = Mixer();
+    dice.add(die);
+  }
+
   Damage.mod(int modifier, this.type) {
-    dice = D0.mod(1, modifier);
+    dice = Mixer();
+    dice.add(D0.mod(modifier));
   }
 
   /// Parses an expression for a Damage object.
   /// A die (and optional damage type) is required.
   static Damage parse(String expression) {
-    List<String> stringSplit = expression.split(" ");
+    List<String> stringSplit = expression.trim().split(" ");
 
     if (stringSplit.length == 1) {
       stringSplit[0] = stringSplit[0].replaceAll("+", "");
@@ -29,7 +36,7 @@ class Damage {
       type = DamageType.values
           .firstWhere((DamageType e) => (e.name == stringSplit[1]));
     }
-    return Damage(Dice.parse(stringSplit[0]), type);
+    return Damage(Mixer.parse(stringSplit[0]), type);
   }
 
   @override

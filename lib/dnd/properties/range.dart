@@ -28,7 +28,7 @@ class Range extends Value {
   @override
   Range convert(Unit to) {
     Length l = to as Length;
-    double d = super.amount * (super.unit as Length).val;
-    return Range(round(d / l.val), l);
+    double d = super.amount * (super.unit as Length).value;
+    return Range(round(d / l.value), l);
   }
 }
