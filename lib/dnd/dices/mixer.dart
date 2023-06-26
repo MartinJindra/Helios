@@ -1,17 +1,40 @@
+import 'package:helios/dnd/dices/dice.dart';
 import 'package:helios/dnd/dices/die.dart';
+import 'package:helios/util/strings.dart';
 
 /// A mixer used for adding up multiple and different dice rolls.
 class Mixer {
-  final List<Die> dice = [];
+  final Map<DiceSides, List<Die>> dice = {};
 
+  /// Get a DiceSides Object from an integer.
+  static DiceSides getDiceSides(int sides) {
+    return DiceSides.values.firstWhere((element) => element.sides == sides);
+  }
+
+  /// Get a Die Object from an integer.
+  static Die getDiceObject(int sides, int modifier) {
+    return Die.mod(getDiceSides(sides), modifier);
+  }
+
+  /// Update a list of dice.
+  /// If not present new list is added.
   void add(Die die) {
-    dice.add(die);
+    DiceSides sides = getDiceSides(die.sides);
+    if (dice.containsKey(sides)) {
+      List<Die>? list = dice[sides];
+      list!.add(die);
+      dice[sides] = list;
+    } else {
+      dice[sides] = [die];
+    }
   }
 
   int roll() {
     int sum = 0;
-    for (Die d in dice) {
-      sum += d.roll;
+    for (DiceSides side in DiceSides.values) {
+      for (Die die in dice[side]!) {
+        sum += die.roll;
+      }
     }
     return sum;
   }
@@ -44,7 +67,7 @@ class Mixer {
     }
     Mixer mix = Mixer();
     for (int i = 0; i < amount; i++) {
-      mix.add(Die.mod(sides, modifier));
+      mix.add(getDiceObject(sides, modifier));
     }
     return mix;
   }
@@ -52,13 +75,11 @@ class Mixer {
   @override
   String toString() {
     StringBuffer str = StringBuffer();
-    for (Die d in dice) {
-      str.write('$d+');
+    for (List<Die> dice in dice.values) {
+      str.write('${dice.length}d${dice.first.sides}+');
     }
     if (dice.isNotEmpty) {
-      str = StringBuffer(str
-          .toString()
-          .replaceRange(str.toString().lastIndexOf('+'), null, ''));
+      return removeLast(str.toString(), '+');
     }
     return str.toString();
   }

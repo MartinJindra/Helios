@@ -1,37 +1,39 @@
 // A base class for dice.
 import 'dart:math';
 
-class Die {
-  late int _sides, _modifier, _roll;
+import 'package:helios/dnd/dices/dice.dart';
 
-  Die(int sides) {
-    _sides = sides;
+class Die {
+  final DiceSides _type;
+  late int _modifier, _roll;
+
+  Die(this._type) {
     _modifier = 0;
     newRoll();
   }
 
-  Die.mod(int sides, int modifier) {
-    _sides = sides;
+  Die.mod(this._type, int modifier) {
     _modifier = modifier;
     newRoll();
   }
 
-  int get sides => _sides;
+  int get sides => _type.sides;
+
   int get modifier => _modifier;
   int get roll => _roll;
 
   void newRoll() {
-    if (_sides > 0) {
-      _roll = _modifier + Random().nextInt(_sides) + 1;
+    if (_type.sides > 0) {
+      _roll = _modifier + Random().nextInt(_type.sides) + 1;
     } else {
-      _roll = _modifier + _sides;
+      _roll = _modifier + _type.sides;
     }
   }
 
   @override
   String toString() {
     // if empty die only modifier
-    if (_sides == 0) {
+    if (_type.sides == 0) {
       return '$_modifier';
     }
 
@@ -41,9 +43,9 @@ class Die {
     }
 
     if (_modifier != 0) {
-      return '1d$_sides$operator$_modifier';
+      return '1d${_type.sides}$operator$_modifier';
     } else {
-      return '1d$_sides';
+      return '1d${_type.sides}';
     }
   }
 }
