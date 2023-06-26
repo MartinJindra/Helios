@@ -17,12 +17,7 @@ import 'package:helios/util/xml.dart'
         getElementValueText,
         getRootElement,
         getText;
-import 'package:xml/xml.dart'
-    show
-        XmlDescendantsExtension,
-        XmlDocument,
-        XmlElement,
-        XmlFollowingExtension;
+import 'package:xml/xml.dart' show XmlDocument, XmlElement;
 
 import '../../dices/d0.dart';
 

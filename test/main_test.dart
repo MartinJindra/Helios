@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:io';
 
 import 'package:helios/dnd/character/parser/parser.dart' as dndparser;
+import 'package:helios/dnd/dices/d0.dart';
 import 'package:helios/dnd/dices/d10.dart' show D10;
 import 'package:helios/dnd/dices/d100.dart' show D100;
 import 'package:helios/dnd/dices/d12.dart' show D12;
@@ -10,10 +11,12 @@ import 'package:helios/dnd/dices/d4.dart' show D4;
 import 'package:helios/dnd/dices/d6.dart' show D6;
 import 'package:helios/dnd/dices/d8.dart' show D8;
 import 'package:helios/dnd/dices/die.dart' show Die;
+import 'package:helios/dnd/dices/mixer.dart' show Mixer;
 import 'package:helios/dnd/properties/range.dart' show Range;
 import 'package:helios/dnd/properties/weight.dart' show Weight;
 import 'package:helios/dnd/quantity/length.dart' show Length;
 import 'package:helios/dnd/quantity/mass.dart' show Mass;
+import 'package:helios/util/strings.dart' as util;
 import 'package:test/test.dart' show expect, group, test;
 
 void main() {
@@ -29,6 +32,8 @@ void main() {
   testRangeMultiplyOperator();
   testRangeDivideOperator();
   testDices();
+  testMixer();
+  testUtil();
 }
 
 void testDNDParser() {
@@ -528,6 +533,60 @@ void testDices() {
         99,
         100
       });
+    });
+  });
+}
+
+void testMixer() {
+  group('Test the Dice mixer.', () {
+    test('Mix 1', () {
+      Mixer mix = Mixer();
+      mix.add(D4());
+      mix.add(D4());
+      mix.add(D6());
+      mix.add(D12());
+      mix.add(D100());
+      mix.add(D6());
+      mix.add(D20());
+      expect(mix.toString(), '2d4+2d6+1d12+1d100+1d20');
+    });
+    test('Mix 2', () {
+      Mixer mix = Mixer();
+      mix.add(D0());
+      mix.add(D20());
+      for (int i = 0; i < 100; i++) {
+        mix.add(D6());
+      }
+      mix.add(D20());
+      expect(mix.toString(), '1d0+2d20+100d6');
+    });
+    test('Mix 1', () {
+      Mixer mix = Mixer();
+      for (int i = 0; i < 10; i++) {
+        mix.add(D12());
+      }
+      for (int i = 0; i < 34; i++) {
+        mix.add(D4());
+      }
+      for (int i = 0; i < 2; i++) {
+        mix.add(D6());
+      }
+      for (int i = 0; i < 47; i++) {
+        mix.add(D20());
+      }
+      for (int i = 0; i < 98; i++) {
+        mix.add(D100());
+      }
+      expect(mix.toString(), '10d12+34d4+2d6+47d20+98d100');
+    });
+  });
+}
+
+void testUtil() {
+  group('Test util methods', () {
+    test('removeLast()', () {
+      String expr = '1d20+20';
+      expect(util.removeLast('$expr+', '+'), expr);
     });
   });
 }
