@@ -1,8 +1,8 @@
-import 'package:helios/dnd/dices/dice.dart' show Dice;
+import 'package:helios/dnd/dices/die.dart' show Die;
 
 /// A D4 die.
-class D4 extends Dice {
-  D4(int amount) : super(amount, 4);
+class D4 extends Die {
+  D4() : super(4);
 
-  D4.mod(int amount, int modifier) : super.mod(amount, 4, modifier);
+  D4.mod(int modifier) : super.mod(4, modifier);
 }
