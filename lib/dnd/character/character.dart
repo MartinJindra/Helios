@@ -62,7 +62,9 @@ class Character {
     buffer.writeln(appearance);
     buffer.writeln('## Abilities');
     for (Ability ability in Ability.values) {
-      buffer.writeln('${ability.name}: ${abilities[ability]}');
+      if (ability != Ability.none) {
+        buffer.writeln('${ability.name}: ${abilities[ability]}');
+      }
     }
     return buffer.toString();
   }
