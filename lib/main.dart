@@ -1,7 +1,8 @@
-import 'package:args/args.dart' show ArgResults;
-import 'package:helios/argparse/parser.dart' show Parser, Runner;
+import 'package:flutter/material.dart';
+import 'package:helios/windows/mainview.dart';
 
 void main(List<String> args) {
-  ArgResults parsedArgs = Parser.parse(args);
-  if (parsedArgs.arguments.isNotEmpty) Runner.run(parsedArgs);
+  runApp(MainView());
+  //ArgResults parsedArgs = Parser.parse(args);
+  //if (parsedArgs.arguments.isNotEmpty) Runner.run(parsedArgs);
 }

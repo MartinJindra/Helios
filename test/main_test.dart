@@ -17,7 +17,7 @@ import 'package:helios/dnd/properties/weight.dart' show Weight;
 import 'package:helios/dnd/quantity/length.dart' show Length;
 import 'package:helios/dnd/quantity/mass.dart' show Mass;
 import 'package:helios/util/strings.dart' as util;
-import 'package:test/test.dart' show expect, group, test;
+import 'package:flutter_test/flutter_test.dart' show expect, group, test;
 
 void main() {
   testDNDParser();

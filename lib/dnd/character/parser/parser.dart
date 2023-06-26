@@ -239,10 +239,4 @@ class Parser {
       else if (type == Types.armor.text) {}
     }
   }
-
-  void _recursiveElements(XmlElement element) {
-    for (XmlElement children in element.childElements) {
-      _recursiveElements(children);
-    }
-  }
 }
