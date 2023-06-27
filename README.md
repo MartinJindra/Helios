@@ -23,7 +23,7 @@ When installed the binary for the specific platform can be built with:
 flutter build windows
 ```
 
-The binary then can be found in [build/windows/x64/release/bundle](build/windows/x64/release/bundle)
+The binary then can be found in [build\windows\runner\Release\helios.exe](build\windows\runner\Release\helios.exe)
 .
 
 **MacOS**
@@ -57,17 +57,11 @@ On Linux in [~/.pub-cache/bin/flutter_distributor](~/.pub-cache/bin/flutter_dist
 
 ### Windows
 
-**exe**
-
-`flutter_distributor package --platform windows --targets exe`
-
-Binary will be in [$PWD\build\windows\runner\Release\helios.exe]($PWD\build\windows\runner\Release\helios.exe).
-
-**msi**
+**msix**
 
 `flutter_distributor package --platform windows --targets msix`
 
-Binary will be in [$PWD\build\windows\runner\Release\helios.exe]($PWD\build\windows\runner\Release\helios.msi).
+Binary will be in [$PWD\dist\1.0.0+1\helios-1.0.0+1-windows.msix]($PWD\dist\1.0.0+1\helios-1.0.0+1-windows.msix).
 
 ### Linux
 
