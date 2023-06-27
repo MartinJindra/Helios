@@ -1,13 +1,14 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart'
     show
         AppBar,
         Brightness,
         BuildContext,
         Center,
+        Color,
         Colors,
+        EdgeInsets,
         GlobalKey,
         Icon,
         IconButton,
@@ -53,7 +54,7 @@ class MainView extends StatelessWidget {
             tooltip: 'Open file',
             onPressed: () async {
               String file = await util.openFilePicker();
-              if (file.isNotEmpty) {
+              if (file.isNotEmpty && file.endsWith('.dnd5e')) {
                 Parser par = Parser(file);
                 par.parse();
                 textController.text = par.character.toString();
@@ -69,7 +70,7 @@ class MainView extends StatelessWidget {
               maxLines: null,
               expands: true,
               decoration: const InputDecoration(
-                contentPadding: EdgeInsets.all(5),
+                contentPadding: EdgeInsets.all(10),
               )),
         ),
       ),

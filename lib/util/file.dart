@@ -60,6 +60,7 @@ Future<String> openFilePicker() async {
     return file?.files.single.path ?? '';
   } else {
     file = await FilePicker.platform.pickFiles(
+      dialogTitle: 'Open file',
       type: FileType.custom,
       allowedExtensions: ['dnd5e'],
     );
