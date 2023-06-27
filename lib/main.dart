@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
-import 'package:helios/windows/mainview.dart';
+import 'package:helios/view/mainview.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

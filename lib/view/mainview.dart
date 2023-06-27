@@ -1,8 +1,30 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart'
     show FilePicker, FilePickerResult, FileType;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart'
-    show AppBar, Brightness, BuildContext, Center, Colors, GlobalKey, Icon, IconButton, Icons, InputDecoration, MaterialApp, Scaffold, ScaffoldState, StatelessWidget, Text, TextEditingController, TextField, TextInputType, ThemeData, Widget;
+    show
+        AppBar,
+        Brightness,
+        BuildContext,
+        Center,
+        Colors,
+        GlobalKey,
+        Icon,
+        IconButton,
+        Icons,
+        InputDecoration,
+        MaterialApp,
+        Scaffold,
+        ScaffoldState,
+        StatelessWidget,
+        Text,
+        TextEditingController,
+        TextField,
+        TextInputType,
+        ThemeData,
+        Widget;
 import 'package:helios/dnd/character/parser/parser.dart';
 
 class MainView extends StatelessWidget {
@@ -13,17 +35,20 @@ class MainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color? background;
+    if (Platform.isWindows) {
+      background = Colors.transparent;
+    }
+
     return MaterialApp(
       title: 'Helios',
       theme: ThemeData(
         brightness: Brightness.dark,
       ),
       home: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: background,
         key: globalKey,
-        appBar: AppBar(
-            title: const Text('Helios'),
-            actions: <Widget>[
+        appBar: AppBar(title: const Text('Helios'), actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.file_open),
             tooltip: 'Open file',
