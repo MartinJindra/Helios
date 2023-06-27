@@ -42,6 +42,12 @@ flutter build linux
 
 The binary then can be found in [build/linux/x64/release/bundle](build/linux/x64/release/bundle).
 
+## Icons
+
+```
+dart run flutter_launcher_icons
+```
+
 ## Distributing
 
 To build a package for distribution [flutter_distributor](https://distributor.leanflutter.org) is used.
