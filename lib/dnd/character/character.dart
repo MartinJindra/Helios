@@ -55,7 +55,9 @@ class Character {
     buffer.writeln(inventory);
     buffer.writeln('## Notes');
     for (String note in notes.values) {
-      buffer.writeln(note);
+      if (note.isNotEmpty) {
+        buffer.writeln(note.trim());
+      }
     }
     buffer.writeln('## Quests');
     buffer.writeln(quest);

@@ -2,26 +2,7 @@ import 'package:file_picker/file_picker.dart'
     show FilePicker, FilePickerResult, FileType;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart'
-    show
-        AppBar,
-        Brightness,
-        BuildContext,
-        Center,
-        GlobalKey,
-        Icon,
-        IconButton,
-        Icons,
-        InputDecoration,
-        MaterialApp,
-        Scaffold,
-        ScaffoldState,
-        StatelessWidget,
-        Text,
-        TextEditingController,
-        TextField,
-        TextInputType,
-        ThemeData,
-        Widget;
+    show AppBar, Brightness, BuildContext, Center, Colors, GlobalKey, Icon, IconButton, Icons, InputDecoration, MaterialApp, Scaffold, ScaffoldState, StatelessWidget, Text, TextEditingController, TextField, TextInputType, ThemeData, Widget;
 import 'package:helios/dnd/character/parser/parser.dart';
 
 class MainView extends StatelessWidget {
@@ -38,6 +19,7 @@ class MainView extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       home: Scaffold(
+        backgroundColor: Colors.transparent,
         key: globalKey,
         appBar: AppBar(
             title: const Text('Helios'),
@@ -60,6 +42,7 @@ class MainView extends StatelessWidget {
         ]),
         body: Center(
           child: TextField(
+              readOnly: true,
               controller: textController,
               keyboardType: TextInputType.multiline,
               maxLines: null,
