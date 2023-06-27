@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart'
-    show FilePicker, FilePickerResult, FileType;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart'
     show
@@ -26,6 +24,7 @@ import 'package:flutter/material.dart'
         ThemeData,
         Widget;
 import 'package:helios/dnd/character/parser/parser.dart';
+import 'package:helios/util/file.dart' as util;
 
 class MainView extends StatelessWidget {
   final textController = TextEditingController();
@@ -53,12 +52,9 @@ class MainView extends StatelessWidget {
             icon: const Icon(Icons.file_open),
             tooltip: 'Open file',
             onPressed: () async {
-              FilePickerResult? file = await FilePicker.platform.pickFiles(
-                type: FileType.custom,
-                allowedExtensions: ['dnd5e'],
-              );
-              if (file != null) {
-                Parser par = Parser(file.files.single.path!);
+              String file = await util.openFilePicker();
+              if (file.isNotEmpty) {
+                Parser par = Parser(file);
                 par.parse();
                 textController.text = par.character.toString();
               }

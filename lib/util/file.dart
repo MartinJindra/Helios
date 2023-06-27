@@ -1,4 +1,6 @@
-import 'dart:io' show File, FileSystemException, exit, stderr;
+import 'dart:io' show File, FileSystemException, Platform, exit, stderr;
+
+import 'package:file_picker/file_picker.dart';
 
 /// some useful utilities.
 
@@ -49,4 +51,18 @@ bool pathsExists(List<String> paths) {
     }
   }
   return true;
+}
+
+Future<String> openFilePicker() async {
+  FilePickerResult? file;
+  if (Platform.isAndroid || Platform.isIOS) {
+    file = await FilePicker.platform.pickFiles();
+    return file?.files.single.path ?? '';
+  } else {
+    file = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['dnd5e'],
+    );
+    return file?.files.single.path ?? '';
+  }
 }
