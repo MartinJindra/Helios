@@ -13,11 +13,6 @@ class MainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color? background;
-    if (Platform.isWindows) {
-      background = Colors.transparent;
-    }
-
     return MaterialApp(
         title: 'Helios',
         theme: ThemeData(
@@ -25,7 +20,6 @@ class MainView extends StatelessWidget {
         ),
         home: Builder(builder: (BuildContext context) {
           return Scaffold(
-            backgroundColor: background,
             key: globalKey,
             appBar: AppBar(title: const Text('Helios'), actions: <Widget>[
               IconButton(
