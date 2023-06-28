@@ -1,31 +1,9 @@
 import 'dart:io';
-
-import 'package:flutter/material.dart'
-    show
-        AppBar,
-        Brightness,
-        BuildContext,
-        Center,
-        Color,
-        Colors,
-        EdgeInsets,
-        GlobalKey,
-        Icon,
-        IconButton,
-        Icons,
-        InputDecoration,
-        MaterialApp,
-        Scaffold,
-        ScaffoldState,
-        StatelessWidget,
-        Text,
-        TextEditingController,
-        TextField,
-        TextInputType,
-        ThemeData,
-        Widget;
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:helios/dnd/character/parser/parser.dart';
-import 'package:helios/util/file.dart' as util;
+import 'package:xml/xml.dart';
+import 'package:helios/util/snacks.dart' as util;
 
 class MainView extends StatelessWidget {
   final textController = TextEditingController();
@@ -41,39 +19,67 @@ class MainView extends StatelessWidget {
     }
 
     return MaterialApp(
-      title: 'Helios',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-      ),
-      home: Scaffold(
-        backgroundColor: background,
-        key: globalKey,
-        appBar: AppBar(title: const Text('Helios'), actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.file_open),
-            tooltip: 'Open file',
-            onPressed: () async {
-              String file = await util.openFilePicker();
-              if (file.isNotEmpty && file.endsWith('.dnd5e')) {
-                Parser par = Parser(file);
-                par.parse();
-                textController.text = par.character.toString();
-              }
-            },
-          )
-        ]),
-        body: Center(
-          child: TextField(
-              readOnly: true,
-              controller: textController,
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              expands: true,
-              decoration: const InputDecoration(
-                contentPadding: EdgeInsets.all(10),
-              )),
+        title: 'Helios',
+        theme: ThemeData(
+          brightness: Brightness.dark,
         ),
-      ),
-    );
+        home: Builder(builder: (BuildContext context) {
+          return Scaffold(
+            backgroundColor: background,
+            key: globalKey,
+            appBar: AppBar(title: const Text('Helios'), actions: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.file_open),
+                tooltip: 'Open file',
+                onPressed: () {
+                  void parseFile(String file) {
+                    if (file.isNotEmpty && file.endsWith('.dnd5e')) {
+                      try {
+                        Parser par = Parser(file);
+                        par.parse();
+                        textController.text = par.character.toString();
+                      } on XmlTagException catch (xe) {
+                        util.showSnackBar(context, xe.message);
+                      }
+                    } else if (file.isEmpty) {
+                      util.showSnackBar(context, 'No file selected.');
+                    } else {
+                      util.showSnackBar(context, '\'$file\' is invalid.');
+                    }
+                  }
+
+                  FileType fileType;
+                  List<String> extensions;
+                  if (Platform.isAndroid || Platform.isIOS) {
+                    fileType = FileType.any;
+                    extensions = [];
+                  } else {
+                    fileType = FileType.custom;
+                    extensions = ['dnd5e'];
+                  }
+                  FilePicker.platform
+                      .pickFiles(
+                    type: fileType,
+                    allowedExtensions: extensions,
+                  )
+                      .then((FilePickerResult? file) {
+                    parseFile(file?.files.single.path ?? '');
+                  });
+                },
+              )
+            ]),
+            body: Center(
+              child: TextField(
+                  readOnly: true,
+                  controller: textController,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  expands: true,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.all(5),
+                  )),
+            ),
+          );
+        }));
   }
 }

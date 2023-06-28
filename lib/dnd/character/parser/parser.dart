@@ -17,35 +17,46 @@ import 'package:helios/util/xml.dart'
         getElementValueText,
         getRootElement,
         getText;
-import 'package:xml/xml.dart' show XmlDocument, XmlElement;
+import 'package:xml/xml.dart' show XmlDocument, XmlElement, XmlTagException;
 
 import '../../dices/d0.dart';
 
 class Parser {
-  late Character character = Character('');
-  late final XmlDocument _document;
-  late final XmlElement _characterElement,
+  late String _path;
+  Character character = Character('');
+  late XmlDocument _document;
+  late XmlElement _characterElement,
       _informationElement,
       _displayPropertiesElement,
       _buildElement;
 
-  Parser.empty();
+  Parser.empty() {
+    _path = '';
+  }
 
-  Parser(String path) {
-    if (path.isNotEmpty) {
-      _document = XmlDocument.parse(util.readString(path));
-      _characterElement = getRootElement(_document, 'character');
-      _informationElement = getElement(_characterElement, 'information');
-      _displayPropertiesElement =
-          getElement(_characterElement, 'display-properties');
-      _buildElement = getElement(_characterElement, 'build');
+  Parser(this._path) {
+    try {
+      if (_path.isNotEmpty) {
+        _document = XmlDocument.parse(util.readString(_path));
+        _characterElement = getRootElement(_document, 'character');
+        _informationElement = getElement(_characterElement, 'information');
+        _displayPropertiesElement =
+            getElement(_characterElement, 'display-properties');
+        _buildElement = getElement(_characterElement, 'build');
+      }
+    } on XmlTagException {
+      throw XmlTagException('Error while parsing $_path');
     }
   }
 
   void parse() {
-    _processInformationElement();
-    _processDisplayInformationElement();
-    _processBuildElement();
+    try {
+      _processInformationElement();
+      _processDisplayInformationElement();
+      _processBuildElement();
+    } on XmlTagException {
+      throw XmlTagException('Error while parsing $_path');
+    }
   }
 
   /// Process the 'display-information' tag.
