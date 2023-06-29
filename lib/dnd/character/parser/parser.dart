@@ -1,25 +1,17 @@
 import 'package:helios/dnd/character/background.dart' show Feature;
 import 'package:helios/dnd/character/character.dart' show Character;
 import 'package:helios/dnd/character/parser/values/elements.dart';
-import 'package:helios/dnd/coins.dart';
+import 'package:helios/dnd/coins.dart' show Coin;
 import 'package:helios/dnd/combat/attack.dart' show Attack;
 import 'package:helios/dnd/combat/damage.dart' show Damage;
-import 'package:helios/dnd/organization.dart';
+import 'package:helios/dnd/dices/d0.dart' show D0;
+import 'package:helios/dnd/organization.dart' show Organization;
 import 'package:helios/dnd/properties/ability.dart' show Ability;
-import 'package:helios/dnd/properties/damagetype.dart';
+import 'package:helios/dnd/properties/damagetype.dart' show DamageType;
 import 'package:helios/dnd/properties/range.dart' show Range;
 import 'package:helios/util/file.dart' as util;
-import 'package:helios/util/xml.dart'
-    show
-        getAttributeValueText,
-        getElement,
-        getElementValueNumber,
-        getElementValueText,
-        getRootElement,
-        getText;
-import 'package:xml/xml.dart' show XmlDocument, XmlElement, XmlTagException;
-
-import '../../dices/d0.dart';
+import 'package:helios/util/xml.dart';
+import 'package:xml/xml.dart';
 
 class Parser {
   late String _path;
