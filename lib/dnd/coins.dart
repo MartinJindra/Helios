@@ -9,6 +9,6 @@ enum Coin implements Unit {
   platinum(100);
 
   const Coin(this.value);
-
+  @override
   final double value;
 }

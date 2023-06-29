@@ -1,9 +1,8 @@
 import 'package:helios/dnd/quantity/length.dart' show Length;
-import 'package:helios/dnd/quantity/unit.dart' show Unit;
 import 'package:helios/dnd/quantity/value.dart' show Value;
 
 /// A class representing range in DND.
-class Range extends Value {
+final class Range extends Value {
   Range(double amount, Length unit) : super(amount, unit);
 
   /// Parse one or two ranges (short and long) from a string.
@@ -22,13 +21,5 @@ class Range extends Value {
       long = Range(0, Length.feet);
     }
     return {'short': short, 'long': long};
-  }
-
-  /// Convert the value of one unit to another unit.
-  @override
-  Range convert(Unit to) {
-    Length l = to as Length;
-    double d = super.amount * (super.unit as Length).value;
-    return Range(round(d / l.value), l);
   }
 }

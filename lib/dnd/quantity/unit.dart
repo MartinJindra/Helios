@@ -1,2 +1,5 @@
 /// An interface for units.
-interface class Unit {}
+interface class Unit {
+  final double value;
+  Unit(this.value);
+}
