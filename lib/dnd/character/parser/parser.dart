@@ -1,3 +1,4 @@
+import 'package:helios/dnd/character/armor.dart' show ArmorTable;
 import 'package:helios/dnd/character/background.dart' show Feature;
 import 'package:helios/dnd/character/character.dart' show Character;
 import 'package:helios/dnd/character/parser/values/elements.dart';
@@ -239,7 +240,12 @@ class Parser {
         }
       }
       // Type="Armor"
-      else if (type == Types.armor.text) {}
+      else if (type == Types.armor.text) {
+        String armorString = getAttributeValueText(child, 'name');
+        ArmorTable armorType = ArmorTable.values.firstWhere(
+            (ArmorTable element) => element.armor.name == armorString);
+        character.armor = armorType.armor;
+      }
     }
   }
 }

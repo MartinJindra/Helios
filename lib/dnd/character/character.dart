@@ -1,6 +1,7 @@
 import 'dart:collection' show HashMap;
 
 import 'package:helios/dnd/character/appearance.dart' show Appearance;
+import 'package:helios/dnd/character/armor.dart';
 import 'package:helios/dnd/character/background.dart' show Background;
 import 'package:helios/dnd/character/inventory.dart' show Inventory;
 import 'package:helios/dnd/character/portrait.dart' show Portrait;
@@ -28,6 +29,7 @@ class Character {
   final Map<Ability, int> abilities = HashMap();
   bool allowFeats = false;
   bool allowMulticlassing = false;
+  Armor armor = Armor.empty();
 
   Character(this.name);
 
@@ -42,6 +44,7 @@ class Character {
     buffer.writeln('Gender: $gender');
     buffer.writeln('Level: $level');
     buffer.writeln('Experience: $experience');
+    buffer.writeln('Armor: $armor');
     buffer.writeln();
     header = '## Attacks:';
     buffer.writeln(header);
