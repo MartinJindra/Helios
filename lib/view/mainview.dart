@@ -21,47 +21,50 @@ class MainView extends StatelessWidget {
         home: Builder(builder: (BuildContext context) {
           return Scaffold(
             key: globalKey,
-            appBar: AppBar(title: const Text('Helios'), actions: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.file_open),
-                tooltip: 'Open file',
-                onPressed: () {
-                  void parseFile(String file) {
-                    if (file.isNotEmpty && file.endsWith('.dnd5e')) {
-                      try {
-                        Parser par = Parser(file);
-                        par.parse();
-                        textController.text = par.character.toString();
-                      } on XmlTagException catch (xe) {
-                        util.showSnackBar(context, xe.message);
+            appBar: AppBar(
+                title: const Text('Helios'),
+                backgroundColor: Colors.deepOrange,
+                actions: <Widget>[
+                  IconButton(
+                    icon: const Icon(Icons.file_open),
+                    tooltip: 'Open file',
+                    onPressed: () {
+                      void parseFile(String file) {
+                        if (file.isNotEmpty && file.endsWith('.dnd5e')) {
+                          try {
+                            Parser par = Parser(file);
+                            par.parse();
+                            textController.text = par.character.toString();
+                          } on XmlTagException catch (xe) {
+                            util.showSnackBar(context, xe.message);
+                          }
+                        } else if (file.isEmpty) {
+                          util.showSnackBar(context, 'No file selected.');
+                        } else {
+                          util.showSnackBar(context, '\'$file\' is invalid.');
+                        }
                       }
-                    } else if (file.isEmpty) {
-                      util.showSnackBar(context, 'No file selected.');
-                    } else {
-                      util.showSnackBar(context, '\'$file\' is invalid.');
-                    }
-                  }
 
-                  FileType fileType;
-                  List<String> extensions;
-                  if (Platform.isAndroid || Platform.isIOS) {
-                    fileType = FileType.any;
-                    extensions = [];
-                  } else {
-                    fileType = FileType.custom;
-                    extensions = ['dnd5e'];
-                  }
-                  FilePicker.platform
-                      .pickFiles(
-                    type: fileType,
-                    allowedExtensions: extensions,
+                      FileType fileType;
+                      List<String> extensions;
+                      if (Platform.isAndroid || Platform.isIOS) {
+                        fileType = FileType.any;
+                        extensions = [];
+                      } else {
+                        fileType = FileType.custom;
+                        extensions = ['dnd5e'];
+                      }
+                      FilePicker.platform
+                          .pickFiles(
+                        type: fileType,
+                        allowedExtensions: extensions,
+                      )
+                          .then((FilePickerResult? file) {
+                        parseFile(file?.files.single.path ?? '');
+                      });
+                    },
                   )
-                      .then((FilePickerResult? file) {
-                    parseFile(file?.files.single.path ?? '');
-                  });
-                },
-              )
-            ]),
+                ]),
             body: Center(
               child: TextField(
                   readOnly: true,
