@@ -53,17 +53,17 @@ void testMassConverter() {
   group('Test the mass unit converter', () {
     test('100kg to 220.46pound', () {
       expect(
-          Value.convert(Weight(100, Mass.kilogram), Mass.pound).amount, 220.46);
+          Value.convert(const Weight(100, Mass.kilogram), Mass.pound).amount, 220.46);
     });
     test('0.5pound to 0.23kg', () {
-      expect(Value.convert(Weight(.5, Mass.pound), Mass.kilogram).amount, .23);
+      expect(Value.convert(const Weight(.5, Mass.pound), Mass.kilogram).amount, .23);
     });
     test('165pound to 74.84kg', () {
       expect(
-          Value.convert(Weight(165, Mass.pound), Mass.kilogram).amount, 74.84);
+          Value.convert(const Weight(165, Mass.pound), Mass.kilogram).amount, 74.84);
     });
     test('0.5kg to 1.1pound', () {
-      expect(Value.convert(Weight(.5, Mass.kilogram), Mass.pound).amount, 1.1);
+      expect(Value.convert(const Weight(.5, Mass.kilogram), Mass.pound).amount, 1.1);
     });
   });
 }
@@ -71,13 +71,13 @@ void testMassConverter() {
 void testMassAddOperator() {
   group('Test the math add operation for weights.', () {
     test('1kg + 30pound = 14.61kg', () {
-      Weight op1 = Weight(1, Mass.kilogram);
-      Weight op2 = Weight(30, Mass.pound);
+      Weight op1 = const Weight(1, Mass.kilogram);
+      Weight op2 = const Weight(30, Mass.pound);
       expect(Value.add(op1, op2).amount, 14.61);
     });
     test('0.5pound + 5kg = 11.52pound', () {
-      Weight op1 = Weight(.5, Mass.pound);
-      Weight op2 = Weight(5, Mass.kilogram);
+      Weight op1 = const Weight(.5, Mass.pound);
+      Weight op2 = const Weight(5, Mass.kilogram);
       expect(Value.add(op1, op2).amount, 11.52);
     });
   });
@@ -86,18 +86,18 @@ void testMassAddOperator() {
 void testMassSubtractOperator() {
   group('Test the math subtract operation for weights.', () {
     test('50kg - 23kg = 17kg', () {
-      Weight op1 = Weight(50, Mass.kilogram);
-      Weight op2 = Weight(23, Mass.kilogram);
+      Weight op1 = const Weight(50, Mass.kilogram);
+      Weight op2 = const Weight(23, Mass.kilogram);
       expect(Value.subtract(op1, op2).amount, 27);
     });
     test('80kg - 120kg = -40kg', () {
-      Weight op1 = Weight(80, Mass.kilogram);
-      Weight op2 = Weight(120, Mass.kilogram);
+      Weight op1 = const Weight(80, Mass.kilogram);
+      Weight op2 = const Weight(120, Mass.kilogram);
       expect(Value.subtract(op1, op2).amount, -40);
     });
     test('500pound - 20kg = 455.91pound', () {
-      Weight op1 = Weight(500, Mass.pound);
-      Weight op2 = Weight(20, Mass.kilogram);
+      Weight op1 = const Weight(500, Mass.pound);
+      Weight op2 = const Weight(20, Mass.kilogram);
       expect(Value.subtract(op1, op2).amount, 455.91);
     });
   });
@@ -106,23 +106,23 @@ void testMassSubtractOperator() {
 void testMassMultiplyOperator() {
   group('Test the math multiplication operation for weights.', () {
     test('300kg * 20kg = 6000kg', () {
-      Weight op1 = Weight(300, Mass.kilogram);
-      Weight op2 = Weight(20, Mass.kilogram);
+      Weight op1 = const Weight(300, Mass.kilogram);
+      Weight op2 = const Weight(20, Mass.kilogram);
       expect(Value.multiply(op1, op2).amount, 6000);
     });
     test('20pound * 170pound = 3400pound', () {
-      Weight op1 = Weight(20, Mass.pound);
-      Weight op2 = Weight(170, Mass.pound);
+      Weight op1 = const Weight(20, Mass.pound);
+      Weight op2 = const Weight(170, Mass.pound);
       expect(Value.multiply(op1, op2).amount, 3400);
     });
     test('1.5pound * 1kg = 3.3pound', () {
-      Weight op1 = Weight(1.5, Mass.pound);
-      Weight op2 = Weight(1, Mass.kilogram);
+      Weight op1 = const Weight(1.5, Mass.pound);
+      Weight op2 = const Weight(1, Mass.kilogram);
       expect(Value.multiply(op1, op2).amount, 3.3);
     });
     test('20kg * 78pound = 707.6kg', () {
-      Weight op1 = Weight(20, Mass.kilogram);
-      Weight op2 = Weight(78, Mass.pound);
+      Weight op1 = const Weight(20, Mass.kilogram);
+      Weight op2 = const Weight(78, Mass.pound);
       expect(Value.multiply(op1, op2).amount, 707.6);
     });
   });
@@ -131,23 +131,23 @@ void testMassMultiplyOperator() {
 void testMassDivideOperator() {
   group('Test the math divide operation for weights.', () {
     test('350kg / 2kg = 175kg', () {
-      Weight op1 = Weight(350, Mass.kilogram);
-      Weight op2 = Weight(2, Mass.kilogram);
+      Weight op1 = const Weight(350, Mass.kilogram);
+      Weight op2 = const Weight(2, Mass.kilogram);
       expect(Value.divide(op1, op2).amount, 175);
     });
     test('50pound / 500pound = 0.1pound', () {
-      Weight op1 = Weight(50, Mass.pound);
-      Weight op2 = Weight(500, Mass.pound);
+      Weight op1 = const Weight(50, Mass.pound);
+      Weight op2 = const Weight(500, Mass.pound);
       expect(Value.divide(op1, op2).amount, .1);
     });
     test('300pound / 120kg = 1.13pound', () {
-      Weight op1 = Weight(300, Mass.pound);
-      Weight op2 = Weight(120, Mass.kilogram);
+      Weight op1 = const Weight(300, Mass.pound);
+      Weight op2 = const Weight(120, Mass.kilogram);
       expect(Value.divide(op1, op2).amount, 1.13);
     });
     test('85kg / 200pound = 0.94kg', () {
-      Weight op1 = Weight(85, Mass.kilogram);
-      Weight op2 = Weight(200, Mass.pound);
+      Weight op1 = const Weight(85, Mass.kilogram);
+      Weight op2 = const Weight(200, Mass.pound);
       expect(Value.divide(op1, op2).amount, .94);
     });
   });
