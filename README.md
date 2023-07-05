@@ -23,7 +23,7 @@ When installed the binary for the specific platform can be built with:
 flutter build windows
 ```
 
-The binary then can be found in [build\windows\runner\Release\helios.exe](build\windows\runner\Release\helios.exe)
+The binary then can be found in [build\windows\runner\Release](build\windows\runner\Release)
 .
 
 **MacOS**
@@ -32,7 +32,7 @@ The binary then can be found in [build\windows\runner\Release\helios.exe](build\
 flutter build macos
 ```
 
-The binary then can be found in [build/macos/x64/release/bundle](build/macos/x64/release/bundle).
+The binary then can be found in [build/macos/Build/Products/Release/helios.app/Contents/MacOS](build/macos/Build/Products/Release/helios.app/Contents/MacOS).
 
 **Linux**
 
