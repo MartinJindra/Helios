@@ -26,7 +26,7 @@ flutter build windows
 The binary then can be found in [build\windows\runner\Release](build\windows\runner\Release)
 .
 
-**MacOS**
+**Mac**
 
 ```
 flutter build macos
@@ -68,6 +68,14 @@ On Linux in [~/.pub-cache/bin/flutter_distributor](~/.pub-cache/bin/flutter_dist
 `flutter_distributor package --platform windows --targets msix`
 
 Binary will be in [$PWD\dist\1.0.0+1\helios-1.0.0+1-windows.msix]($PWD\dist\1.0.0+1\helios-1.0.0+1-windows.msix).
+
+### Mac
+
+**dmg**
+
+`flutter_distributor package --platform macos --targets dmg`
+
+Binary will be in [$PWD/dist/1.0.0+1/helios-1.0.0+1-macos.dmg]($PWD/dist/1.0.0+1/helios-1.0.0+1-macos.dmg).
 
 ### Linux
 
