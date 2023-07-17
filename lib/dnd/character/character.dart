@@ -18,20 +18,31 @@ class Character {
       additionalFeatures = '',
       quest = '',
       group = '';
-  int level = 0, experience = 0;
-  final Portrait characterPortrait = Portrait(), companionPortrait = Portrait();
+  final List<int> hp = List.empty(growable: true);
   final List<Attack> attacks = List.empty(growable: true);
-  Background background = Background('');
-  Organization organization = Organization('');
-  Inventory inventory = Inventory();
   final Map<String, String> notes = HashMap();
-  Appearance appearance = Appearance();
   final Map<Ability, int> abilities = HashMap();
+  Appearance appearance = Appearance();
+  Armor armor = Armor.empty();
+  Background background = Background('');
+  Inventory inventory = Inventory();
+  Organization organization = Organization('');
+  final Portrait characterPortrait = Portrait(), companionPortrait = Portrait();
+  int level = 0, experience = 0;
   bool allowFeats = false;
   bool allowMulticlassing = false;
-  Armor armor = Armor.empty();
 
   Character(this.name);
+
+  /// Calculate the current Max HP
+  int getMaxHP() {
+    int sum = 0,
+        mod = Ability.getModifier(abilities[Ability.constitution] ?? 0);
+    for (int i = 0; i < level; i++) {
+      sum += hp[i] + mod;
+    }
+    return sum;
+  }
 
   @override
   String toString() {
@@ -44,6 +55,7 @@ class Character {
     buffer.writeln('Gender: $gender');
     buffer.writeln('Level: $level');
     buffer.writeln('Experience: $experience');
+    buffer.writeln('Max HP: ${getMaxHP()}');
     buffer.writeln('Armor: $armor');
     buffer.writeln();
     header = '## Attacks:';

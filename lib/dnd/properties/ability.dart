@@ -7,4 +7,8 @@ enum Ability {
   intelligence,
   wisdom,
   charisma;
+
+  static int getModifier(int amount) {
+    return ((amount - 10) / 2).floor();
+  }
 }

@@ -2,7 +2,7 @@ import 'dart:collection';
 import 'dart:io';
 
 import 'package:helios/dnd/character/parser/parser.dart' as dndparser;
-import 'package:helios/dnd/dices/d0.dart';
+import 'package:helios/dnd/dices/d0.dart' show D0;
 import 'package:helios/dnd/dices/d10.dart' show D10;
 import 'package:helios/dnd/dices/d100.dart' show D100;
 import 'package:helios/dnd/dices/d12.dart' show D12;
@@ -16,7 +16,7 @@ import 'package:helios/dnd/properties/range.dart' show Range;
 import 'package:helios/dnd/properties/weight.dart' show Weight;
 import 'package:helios/dnd/quantity/length.dart' show Length;
 import 'package:helios/dnd/quantity/mass.dart' show Mass;
-import 'package:helios/dnd/quantity/value.dart';
+import 'package:helios/dnd/quantity/value.dart' show Value;
 import 'package:helios/util/strings.dart' as util;
 import 'package:flutter_test/flutter_test.dart' show expect, group, test;
 
@@ -52,18 +52,20 @@ void testDNDParser() {
 void testMassConverter() {
   group('Test the mass unit converter', () {
     test('100kg to 220.46pound', () {
-      expect(
-          Value.convert(const Weight(100, Mass.kilogram), Mass.pound).amount, 220.46);
+      expect(Value.convert(const Weight(100, Mass.kilogram), Mass.pound).amount,
+          220.46);
     });
     test('0.5pound to 0.23kg', () {
-      expect(Value.convert(const Weight(.5, Mass.pound), Mass.kilogram).amount, .23);
+      expect(Value.convert(const Weight(.5, Mass.pound), Mass.kilogram).amount,
+          .23);
     });
     test('165pound to 74.84kg', () {
-      expect(
-          Value.convert(const Weight(165, Mass.pound), Mass.kilogram).amount, 74.84);
+      expect(Value.convert(const Weight(165, Mass.pound), Mass.kilogram).amount,
+          74.84);
     });
     test('0.5kg to 1.1pound', () {
-      expect(Value.convert(const Weight(.5, Mass.kilogram), Mass.pound).amount, 1.1);
+      expect(Value.convert(const Weight(.5, Mass.kilogram), Mass.pound).amount,
+          1.1);
     });
   });
 }

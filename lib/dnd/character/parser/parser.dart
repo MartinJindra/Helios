@@ -245,6 +245,11 @@ class Parser {
         ArmorTable armorType = ArmorTable.values.firstWhere(
             (ArmorTable element) => element.armor.name == armorString);
         character.armor = armorType.armor;
+      } else if (type == Types.level.text &&
+          getAttributeValueText(child, 'name') == '1') {
+        getAttributeValueText(child, 'rndhp').split(',').forEach((element) {
+          character.hp.add(int.parse(element));
+        });
       }
     }
   }
