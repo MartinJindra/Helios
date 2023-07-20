@@ -179,7 +179,7 @@ class Parser {
 
   /// Process the 'appearance' tag.
   void _processAppearanceElement() {
-    String expr = 'character/build/input/appearance';
+    String expr = 'character/build/appearance';
     character.appearance.age = xmlGetter.num('$expr/age');
     character.appearance.height = xmlGetter.txt('$expr/height');
     character.appearance.weight = xmlGetter.txt('$expr/weight');
@@ -191,8 +191,9 @@ class Parser {
   /// Process the abilities of the character.
   void _processAbilitiesElement() {
     for (Ability ability in Ability.values) {
+      print(xmlGetter.num('character/build/abilities/${ability.name}'));
       character.abilities.putIfAbsent(ability,
-          () => xmlGetter.num('character/build/input/${ability.name}'));
+          () => xmlGetter.num('character/build/abilities/${ability.name}'));
     }
   }
 
