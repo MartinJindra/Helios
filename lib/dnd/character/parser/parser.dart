@@ -10,8 +10,7 @@ import 'package:helios/dnd/properties/damagetype.dart' show DamageType;
 import 'package:helios/dnd/properties/range.dart' show Range;
 import 'package:helios/util/file.dart' as util;
 import 'package:helios/util/xml.dart' show XMLGetter;
-import 'package:xml/xml.dart'
-    show XmlAttribute, XmlDocument, XmlName, XmlNode, XmlTagException;
+import 'package:xml/xml.dart' show XmlDocument, XmlElement, XmlTagException;
 
 class Parser {
   late String _path;
@@ -98,15 +97,13 @@ class Parser {
   void _processAttacks() {
     // attacks
     Attack tmpAttack;
-    String expr = 'character/build/input/attacks',
-        uuid = '',
-        name = '',
-        attack = '';
+    String uuid = '', name = '', attack = '';
     Map<String, Range> ranges = {};
     Damage damage = Damage.die(D0(), DamageType.none);
     Ability ability = Ability.none;
-    for (XmlNode attackElement in xmlGetter.elements(expr)) {
-      XmlAttribute(XmlName('uuid'), '');
+    for (XmlElement attackElement
+        in xmlGetter.elements('character/build/input/attacks/attack')) {
+      uuid = XMLGetter.attrValTxtWithElement(attackElement, 'identifier');
       name = XMLGetter.attrValTxtWithElement(attackElement, 'name');
       ranges =
           Range.parse(XMLGetter.attrValTxtWithElement(attackElement, 'range'));
@@ -168,7 +165,7 @@ class Parser {
   /// Process the notes of the character sheets.
   void _processNotes() {
     // notes
-    for (XmlNode note in xmlGetter.elements('character/build/input/notes')) {
+    for (XmlElement note in xmlGetter.elements('character/build/input/notes')) {
       character.notes.putIfAbsent(
           XMLGetter.attrValTxtWithElement(note, 'column'),
           () => XMLGetter.val(note));

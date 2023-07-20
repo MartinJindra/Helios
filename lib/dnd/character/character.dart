@@ -55,7 +55,7 @@ class Character {
     buffer.writeln('Gender: $gender');
     buffer.writeln('Level: $level');
     buffer.writeln('Experience: $experience');
-    buffer.writeln('Max HP: ${getMaxHP()}');
+    //buffer.writeln('Max HP: ${getMaxHP()}');
     buffer.writeln('Armor: $armor');
     buffer.writeln();
     header = '## Attacks:';

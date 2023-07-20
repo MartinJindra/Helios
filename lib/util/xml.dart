@@ -7,8 +7,12 @@ class XMLGetter {
 
   XMLGetter(this._document);
 
-  Iterable<XmlNode> elements(String expr) {
-    return _document.xpath(expr);
+  List<XmlElement> elements(String expr) {
+    List<XmlElement> list = [];
+    for (var el in _document.xpath(expr)) {
+      list.add(el as XmlElement);
+    }
+    return list;
   }
 
   /// Null safe implementation for getting the text of an element.
@@ -41,7 +45,7 @@ class XMLGetter {
     return node.innerText == 'null' ? '' : node.innerText.trim();
   }
 
-  static String attrValTxtWithElement(XmlNode node, String name) {
-    return node.getAttribute(name) ?? '';
+  static String attrValTxtWithElement(XmlElement element, String name) {
+    return element.getAttribute(name) ?? '';
   }
 }
