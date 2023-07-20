@@ -1,40 +1,47 @@
 import 'package:xml/xml.dart'
-    show XmlDocument, XmlElement, XmlName, XmlStringExtension;
+    show XmlDocument, XmlElement, XmlNode, XmlStringExtension;
+import 'package:xml/xpath.dart';
 
-/// Null safe implementation for getting a child element.
-XmlElement getElement(XmlElement parent, String childName) =>
-    parent.getElement(childName) ?? XmlElement(XmlName(childName));
+class XMLGetter {
+  final XmlDocument _document;
 
-/// Null safe implementation for getting the root element of a document.
-XmlElement getRootElement(XmlDocument document, String childName) =>
-    document.getElement(childName) ?? XmlElement(XmlName(childName));
+  XMLGetter(this._document);
 
-String getText(XmlElement element) {
-  return element.innerText == 'null' ? '' : element.innerText;
-}
-
-/// Null safe implementation for getting the text of a child element.
-String getElementValueText(XmlElement parent, String childName) {
-  XmlElement childElement =
-      parent.getElement(childName) ?? XmlElement(XmlName(childName));
-  return childElement.innerText == 'null' ? '' : childElement.innerText.trim();
-}
-
-/// Null safe implementation for getting the number of a child element.
-int getElementValueNumber(XmlElement parent, String childName) {
-  XmlElement childElement =
-      parent.getElement(childName) ?? XmlElement(XmlName(childName));
-  try {
-    return childElement.innerText == 'null'
-        ? 0
-        : int.parse(childElement.innerText);
-  } on FormatException {
-    return 0;
+  Iterable<XmlNode> elements(String expr) {
+    return _document.xpath(expr);
   }
-}
 
-/// Null safe implementation for getting
-/// the value of an attribute from an element.
-String getAttributeValueText(XmlElement element, String name) {
-  return element.getAttribute(name) ?? '';
+  /// Null safe implementation for getting the text of an element.
+  String txt(String expr) {
+    try {
+      return val(_document.xpath(expr).first);
+    } on StateError {
+      return '';
+    }
+  }
+
+  /// Null safe implementation for getting the number of an element.
+  int num(String expr) {
+    try {
+      return int.parse(val(_document.xpath(expr).first));
+    } on StateError {
+      return 0;
+    } on FormatException {
+      return 0;
+    }
+  }
+
+  /// Null safe implementation for getting
+  /// the value of an attribute value from an element.
+  String attrValTxt(String expr, String name) {
+    return (_document.xpath(expr).first as XmlElement).getAttribute(name) ?? '';
+  }
+
+  static String val(XmlNode node) {
+    return node.innerText == 'null' ? '' : node.innerText.trim();
+  }
+
+  static String attrValTxtWithElement(XmlNode node, String name) {
+    return node.getAttribute(name) ?? '';
+  }
 }

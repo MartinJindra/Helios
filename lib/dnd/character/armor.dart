@@ -1,7 +1,7 @@
-import 'package:helios/dnd/coins.dart';
-import 'package:helios/dnd/properties/money.dart';
-import 'package:helios/dnd/properties/weight.dart';
-import 'package:helios/dnd/quantity/mass.dart';
+import 'package:helios/dnd/coins.dart' show Coin;
+import 'package:helios/dnd/properties/money.dart' show Money;
+import 'package:helios/dnd/properties/weight.dart' show Weight;
+import 'package:helios/dnd/quantity/mass.dart' show Mass;
 
 enum ArmorTable {
   padded(

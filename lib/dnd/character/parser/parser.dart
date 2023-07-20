@@ -1,7 +1,5 @@
-import 'package:helios/dnd/character/armor.dart' show ArmorTable;
 import 'package:helios/dnd/character/background.dart' show Feature;
 import 'package:helios/dnd/character/character.dart' show Character;
-import 'package:helios/dnd/character/parser/values/elements.dart';
 import 'package:helios/dnd/coins.dart' show Coin;
 import 'package:helios/dnd/combat/attack.dart' show Attack;
 import 'package:helios/dnd/combat/damage.dart' show Damage;
@@ -11,17 +9,15 @@ import 'package:helios/dnd/properties/ability.dart' show Ability;
 import 'package:helios/dnd/properties/damagetype.dart' show DamageType;
 import 'package:helios/dnd/properties/range.dart' show Range;
 import 'package:helios/util/file.dart' as util;
-import 'package:helios/util/xml.dart';
-import 'package:xml/xml.dart';
+import 'package:helios/util/xml.dart' show XMLGetter;
+import 'package:xml/xml.dart'
+    show XmlAttribute, XmlDocument, XmlName, XmlNode, XmlTagException;
 
 class Parser {
   late String _path;
   Character character = Character('');
+  late XMLGetter xmlGetter;
   late XmlDocument _document;
-  late XmlElement _characterElement,
-      _informationElement,
-      _displayPropertiesElement,
-      _buildElement;
 
   Parser.empty() {
     _path = '';
@@ -31,11 +27,7 @@ class Parser {
     try {
       if (_path.isNotEmpty) {
         _document = XmlDocument.parse(util.readString(_path));
-        _characterElement = getRootElement(_document, 'character');
-        _informationElement = getElement(_characterElement, 'information');
-        _displayPropertiesElement =
-            getElement(_characterElement, 'display-properties');
-        _buildElement = getElement(_characterElement, 'build');
+        xmlGetter = XMLGetter(_document);
       }
     } on XmlTagException {
       throw XmlTagException('Error while parsing $_path');
@@ -54,203 +46,186 @@ class Parser {
 
   /// Process the 'display-information' tag.
   void _processInformationElement() {
-    character.group = getElementValueText(_informationElement, 'group');
+    character.group = xmlGetter.txt('character/information/group');
   }
 
   /// Process the 'display-information' tag.
   void _processDisplayInformationElement() {
+    String expr = 'character/display-properties';
     // race
-    character.race = getElementValueText(_displayPropertiesElement, 'race');
+    character.race = xmlGetter.txt('$expr/race');
     // class
-    character.className =
-        getElementValueText(_displayPropertiesElement, 'class');
+    character.className = xmlGetter.txt('$expr/class');
     // background roll
-    character.background.roll =
-        getElementValueText(_displayPropertiesElement, 'background');
+    character.background.roll = xmlGetter.txt('$expr/background');
     // level
-    character.level = getElementValueNumber(_displayPropertiesElement, 'level');
+    character.level = xmlGetter.num('$expr/level');
     // portrait
-    XmlElement portraitElement =
-        getElement(_displayPropertiesElement, 'portrait');
     character.characterPortrait
-        .setBase64(getElementValueText(portraitElement, 'base64'));
-    character.companionPortrait
-        .setPath(getElementValueText(portraitElement, 'companion'));
+        .setBase64(xmlGetter.txt('$expr/portrait/base64'));
+    character.companionPortrait.setPath(xmlGetter.txt('$expr/portrait/local'));
   }
 
   /// Process the 'build' tag.
   void _processBuildElement() {
-    XmlElement inputElement = getElement(_buildElement, 'input');
-    _processBasicInformation(inputElement);
-    _processAttacks(inputElement);
-    _processBackstory(inputElement);
-    _processOrganization(inputElement);
-    _processAdditionalFeature(inputElement);
-    _processInventory(inputElement);
-    _processNotes(inputElement);
-    _processQuest(inputElement);
+    _processBasicInformation();
+    _processAttacks();
+    _processBackstory();
+    _processOrganization();
+    _processAdditionalFeature();
+    _processInventory();
+    _processNotes();
+    _processQuest();
     _processAppearanceElement();
     _processAbilitiesElement();
     _processElements();
   }
 
   /// Process the basic information of a character.
-  void _processBasicInformation(XmlElement inputElement) {
+  void _processBasicInformation() {
+    String expr = 'character/build/input';
     // name
-    character.name = getElementValueText(inputElement, 'name');
+    character.name = xmlGetter.txt('$expr/name');
     // gender
-    character.gender = getElementValueText(inputElement, 'gender');
+    character.gender = xmlGetter.txt('$expr/gender');
     // player name
-    character.playerName = getElementValueText(inputElement, 'player-name');
+    character.playerName = xmlGetter.txt('$expr/player-name');
     // experience
-    character.experience = getElementValueNumber(inputElement, 'experience');
+    character.experience = xmlGetter.num('$expr/experience');
   }
 
   /// Process the attacks of a character.
-  void _processAttacks(XmlElement inputElement) {
+  void _processAttacks() {
     // attacks
-    XmlElement attacksElement = getElement(inputElement, 'attacks');
     Attack tmpAttack;
-    String uuid = '', name = '', expr = '';
+    String expr = 'character/build/input/attacks',
+        uuid = '',
+        name = '',
+        attack = '';
     Map<String, Range> ranges = {};
     Damage damage = Damage.die(D0(), DamageType.none);
     Ability ability = Ability.none;
-    for (XmlElement attackElement in attacksElement.childElements) {
-      if (attackElement.name.toString() == 'attack') {
-        uuid = getAttributeValueText(attackElement, 'uuid');
-        name = getAttributeValueText(attackElement, 'name');
-        ranges = Range.parse(getAttributeValueText(attackElement, 'range'));
-        expr = getAttributeValueText(attackElement, 'attack');
-        damage = Damage.parse(getAttributeValueText(attackElement, 'damage'));
-        ability = Ability.values.byName(
-            getAttributeValueText(attackElement, 'ability').toLowerCase());
-        tmpAttack = Attack(
-            uuid, name, ranges['short']!, ranges['long']!, damage, ability);
-        tmpAttack.setAttack(expr);
-        character.attacks.add(tmpAttack);
-      }
+    for (XmlNode attackElement in xmlGetter.elements(expr)) {
+      XmlAttribute(XmlName('uuid'), '');
+      name = XMLGetter.attrValTxtWithElement(attackElement, 'name');
+      ranges =
+          Range.parse(XMLGetter.attrValTxtWithElement(attackElement, 'range'));
+      attack = XMLGetter.attrValTxtWithElement(attackElement, 'attack');
+      damage = Damage.parse(
+          XMLGetter.attrValTxtWithElement(attackElement, 'damage'));
+      ability = Ability.values.byName(
+          XMLGetter.attrValTxtWithElement(attackElement, 'ability')
+              .toLowerCase());
+      tmpAttack = Attack(
+          uuid, name, ranges['short']!, ranges['long']!, damage, ability);
+      tmpAttack.setAttack(attack);
+      character.attacks.add(tmpAttack);
     }
   }
 
   /// Process the backstory.
-  void _processBackstory(XmlElement inputElement) {
+  void _processBackstory() {
     // backstory
-    character.background.story = getElementValueText(inputElement, 'backstory');
-    character.background.trinket =
-        getElementValueText(inputElement, 'background-trinket');
-    character.background.traits =
-        getElementValueText(inputElement, 'background-traits');
-    character.background.ideals =
-        getElementValueText(inputElement, 'background-ideals');
-    character.background.bonds =
-        getElementValueText(inputElement, 'background-bonds');
-    character.background.flaws =
-        getElementValueText(inputElement, 'background-flaws');
-    XmlElement featureElement =
-        getElement(getElement(inputElement, 'background'), 'feature');
+    String expr = 'character/build/input';
+    character.background.story = xmlGetter.txt('$expr/backstory');
+    character.background.trinket = xmlGetter.txt('$expr/background-trinket');
+    character.background.traits = xmlGetter.txt('$expr/background-traits');
+    character.background.ideals = xmlGetter.txt('$expr/background-ideals');
+    character.background.bonds = xmlGetter.txt('$expr/background-bonds');
+    character.background.flaws = xmlGetter.txt('$expr/background-flaws');
     character.background.feature = Feature(
-        getAttributeValueText(featureElement, 'name'),
-        getElementValueText(featureElement, 'description'));
+        xmlGetter.attrValTxt('$expr/background/feature', 'name'),
+        xmlGetter.txt('$expr/background/feature/description'));
   }
 
   /// Process which organization the character is aligned with.
-  void _processOrganization(XmlElement inputElement) {
+  void _processOrganization() {
     // organization
-    XmlElement organizationElement = getElement(inputElement, 'organization');
-    character.organization =
-        Organization(getElementValueText(organizationElement, 'name'));
-    character.organization
-        .setSymbol(getElementValueText(organizationElement, 'symbol'));
-    character.organization.allies =
-        getElementValueText(organizationElement, 'allies');
+    String expr = 'character/build/input/organization';
+    character.organization = Organization(xmlGetter.txt('$expr/name'));
+    character.organization.setSymbol(xmlGetter.txt('$expr/symbol'));
+    character.organization.allies = xmlGetter.txt('$expr/allies');
   }
 
   /// Process the additional Features.
-  void _processAdditionalFeature(XmlElement inputElement) {
+  void _processAdditionalFeature() {
     // additional feature
     character.additionalFeatures =
-        getElementValueText(inputElement, 'additional-features');
+        xmlGetter.txt('character/build/input/organization/additional-features');
   }
 
   /// Process the items of the character (i.e coins, ...).
-  void _processInventory(XmlElement inputElement) {
+  void _processInventory() {
     // currency, inventory and treasure
-    XmlElement currencyElement = getElement(inputElement, 'currency');
+    String expr = 'character/build/input/currency';
     for (Coin c in Coin.values) {
-      character.inventory
-          .setCoin(c, getElementValueNumber(currencyElement, c.name));
+      character.inventory.setCoin(c, xmlGetter.num('$expr/${c.name}'));
     }
-    character.inventory.equipment =
-        getElementValueText(currencyElement, 'equipment');
-    character.inventory.treasure =
-        getElementValueText(currencyElement, 'treasure');
+    character.inventory.equipment = xmlGetter.txt('$expr/equipment');
+    character.inventory.treasure = xmlGetter.txt('$expr/treasure');
   }
 
   /// Process the notes of the character sheets.
-  void _processNotes(XmlElement inputElement) {
+  void _processNotes() {
     // notes
-    XmlElement notesElement = getElement(inputElement, 'notes');
-    for (XmlElement note in notesElement.childElements) {
+    for (XmlNode note in xmlGetter.elements('character/build/input/notes')) {
       character.notes.putIfAbsent(
-          getAttributeValueText(note, 'column'), () => getText(note));
+          XMLGetter.attrValTxtWithElement(note, 'column'),
+          () => XMLGetter.val(note));
     }
   }
 
   /// Process the quest.
-  void _processQuest(XmlElement inputElement) {
-    // quest
-    character.quest = getElementValueText(inputElement, 'quest');
+  void _processQuest() {
+    character.quest = xmlGetter.txt('character/build/input/quest');
   }
 
   /// Process the 'appearance' tag.
   void _processAppearanceElement() {
-    XmlElement appearanceElement = getElement(_buildElement, 'appearance');
-    character.appearance.age = getElementValueNumber(appearanceElement, 'age');
-    character.appearance.height =
-        getElementValueText(appearanceElement, 'height');
-    character.appearance.weight =
-        getElementValueText(appearanceElement, 'weight');
-    character.appearance.eyes = getElementValueText(appearanceElement, 'eyes');
-    character.appearance.skin = getElementValueText(appearanceElement, 'skin');
-    character.appearance.hair = getElementValueText(appearanceElement, 'hair');
+    String expr = 'character/build/input/appearance';
+    character.appearance.age = xmlGetter.num('$expr/age');
+    character.appearance.height = xmlGetter.txt('$expr/height');
+    character.appearance.weight = xmlGetter.txt('$expr/weight');
+    character.appearance.eyes = xmlGetter.txt('$expr/eyes');
+    character.appearance.skin = xmlGetter.txt('$expr/skin');
+    character.appearance.hair = xmlGetter.txt('$expr/hair');
   }
 
   /// Process the abilities of the character.
   void _processAbilitiesElement() {
-    XmlElement abilitiesElement = getElement(_buildElement, 'abilities');
     for (Ability ability in Ability.values) {
-      character.abilities.putIfAbsent(
-          ability, () => getElementValueNumber(abilitiesElement, ability.name));
+      character.abilities.putIfAbsent(ability,
+          () => xmlGetter.num('character/build/input/${ability.name}'));
     }
   }
 
   void _processElements() {
-    XmlElement elementsElement = getElement(_buildElement, 'elements');
-    String type, name;
-    for (XmlElement child in elementsElement.childElements) {
-      type = getAttributeValueText(child, 'type');
-      // Type="option"
-      if (type == Types.option.text) {
-        name = getAttributeValueText(child, 'name');
-        if (name == Name.feats.text) {
-          character.allowFeats = true;
-        }
-        if (name == Name.multiclassing.text) {
-          character.allowMulticlassing = true;
-        }
-      }
-      // Type="Armor"
-      else if (type == Types.armor.text) {
-        String armorString = getAttributeValueText(child, 'name');
-        ArmorTable armorType = ArmorTable.values.firstWhere(
-            (ArmorTable element) => element.armor.name == armorString);
-        character.armor = armorType.armor;
-      } else if (type == Types.level.text &&
-          getAttributeValueText(child, 'name') == '1') {
-        getAttributeValueText(child, 'rndhp').split(',').forEach((element) {
-          character.hp.add(int.parse(element));
-        });
-      }
-    }
+    //   XmlElement elementsElement = getElement(_buildElement, 'elements');
+    //   String type, name;
+    //   for (XmlElement child in elementsElement.childElements) {
+    //     type = getAttributeValueText(child, 'type');
+    //     // Type="option"
+    //     if (type == Types.option.text) {
+    //       name = getAttributeValueText(child, 'name');
+    //       if (name == Name.feats.text) {
+    //         character.allowFeats = true;
+    //       }
+    //       if (name == Name.multiclassing.text) {
+    //         character.allowMulticlassing = true;
+    //       }
+    //     }
+    //     // Type="Armor"
+    //     else if (type == Types.armor.text) {
+    //       String armorString = getAttributeValueText(child, 'name');
+    //       ArmorTable armorType = ArmorTable.values.firstWhere(
+    //           (ArmorTable element) => element.armor.name == armorString);
+    //       character.armor = armorType.armor;
+    //     } else if (type == Types.level.text &&
+    //         getAttributeValueText(child, 'name') == '1') {
+    //       getAttributeValueText(child, 'rndhp').split(',').forEach((element) {
+    //         character.hp.add(int.parse(element));
+    //       });
+    //     }
+    //   }
   }
 }
