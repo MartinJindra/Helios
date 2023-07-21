@@ -11,30 +11,26 @@ void main(List<String> args) {
 }
 
 var basename = 'flutter_distributor';
-var home = Platform.environment['HOME'];
-
-bool checkDistributor(var path) {
-  return File('$path${Platform.pathSeparator}$basename').existsSync();
-}
+var home = Platform.environment['HOME'] ?? Platform.environment['USERPROFILE'];
 
 void package(String os, String targets) {
   var dest = Directory('dist');
   if (dest.existsSync()) dest.deleteSync(recursive: true);
 
-  var pubcache = '$home';
+  var bin = '$home';
   if (os == 'linux' || os == 'macos') {
-    pubcache += '/.pub-cache/bin';
+    bin += '/.pub-cache/bin/$basename';
   } else if (os == 'windows') {
-    pubcache += '\\AppData\\Local\\Pub\\Cache\\bin\\';
+    bin += '\\AppData\\Local\\Pub\\Cache\\bin\\$basename.bat';
   }
 
-  if (!checkDistributor(pubcache)) {
+  if (!File(bin).existsSync()) {
     stderr.writeln(
         'Dart package $basename is not globally installed.\nInstall with `dart pub global activate flutter_distributor`');
     exit(1);
   }
-  var res = Process.runSync('$pubcache${Platform.pathSeparator}$basename',
-      <String>['package', '--platform', os, '--targets', targets]);
+  var res = Process.runSync(
+      bin, <String>['package', '--platform', os, '--targets', targets]);
   if (res.exitCode == 0) {
     stdout.writeln('Successfully built package in folder dist');
   }
