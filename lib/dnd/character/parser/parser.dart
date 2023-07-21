@@ -191,7 +191,6 @@ class Parser {
   /// Process the abilities of the character.
   void _processAbilitiesElement() {
     for (Ability ability in Ability.values) {
-      print(xmlGetter.num('character/build/abilities/${ability.name}'));
       character.abilities.putIfAbsent(ability,
           () => xmlGetter.num('character/build/abilities/${ability.name}'));
     }
