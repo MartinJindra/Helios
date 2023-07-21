@@ -29,9 +29,12 @@ void package(String os, String targets) {
         'Dart package $basename is not globally installed.\nInstall with `dart pub global activate flutter_distributor`');
     exit(1);
   }
+  stdout.writeln('Packaging ${targets.split(',')} for $os');
   var res = Process.runSync(
       bin, <String>['package', '--platform', os, '--targets', targets]);
   if (res.exitCode == 0) {
     stdout.writeln('Successfully built package in folder dist');
+  } else {
+    stderr.writeln('Error: ${res.stderr} with exit code ${res.exitCode}');
   }
 }
