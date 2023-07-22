@@ -1,0 +1,28 @@
+display_name: Helios
+package_name: helios
+maintainer:
+  name: Martin Jindra
+  email: martin@mjindra.eu
+priority: optional
+section: x11
+installed_size: 6604
+essential: false
+icon: assets/logo.png
+
+postinstall_scripts:
+  - echo "Installed my awesome app"
+postuninstall_scripts:
+  - echo "Surprised Pickachu face"
+
+keywords:
+  - Helios
+  - DnD
+  - Aurora
+  - character builder
+
+generic_name: Helios
+
+categories:
+  - Utility
+
+startup_notify: true

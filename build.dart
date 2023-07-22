@@ -2,11 +2,11 @@ import 'dart:io';
 
 void main() {
   if (Platform.isWindows) {
-    package('windows', 'msix');
+    package('windows', 'msix,zip');
   } else if (Platform.isMacOS) {
-    package('macos', 'dmg');
+    package('macos', 'dmg,zip');
   } else if (Platform.isLinux) {
-    package('linux', 'rpm,appimage');
+    package('linux', 'deb,rpm,appimage,zip');
   }
 }
 
