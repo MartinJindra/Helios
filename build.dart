@@ -2,18 +2,53 @@ import 'dart:io';
 
 void main() {
   if (Platform.isWindows) {
-    package('windows', 'msix,zip');
+    packager('windows', 'msix,zip', true, false);
   } else if (Platform.isMacOS) {
-    package('macos', 'dmg,zip');
+    packager('macos', 'dmg,zip', true, true);
   } else if (Platform.isLinux) {
-    package('linux', 'deb,rpm,appimage,zip');
+    var targets = 'deb,rpm,zip';
+    if (isBinaryInPath('appimagetool')) {
+      targets += ',appimage';
+    }
+    packager('linux', targets, true, false);
+  } else {
+    stderr.writeln('Sorry your platform is not supported');
+    exit(0);
   }
+}
+
+bool isBinaryInPath(String binary) {
+  for (var path in Platform.environment['PATH']!.split(':')) {
+    for (var file in Directory(path).listSync()) {
+      if (file.path
+              .substring(file.path.lastIndexOf(Platform.pathSeparator) + 1) ==
+          binary) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+void packager(String os, String platPackages, bool android, bool ios) {
+  if (android) {
+    stdout.write(
+        'Should android packages (.apk and .appbundle) be built? (y/N) ');
+    var yes = stdin.readLineSync(retainNewlines: false) ?? 'n';
+    if (yes.toLowerCase() == 'y') platPackages += ',apk,aab';
+  }
+  if (ios) {
+    stdout.write('Should an ios package (.ipa) be built? (y/N) ');
+    var yes = stdin.readLineSync(retainNewlines: false) ?? 'n';
+    if (yes.toLowerCase() == 'y') platPackages += ',ipa';
+  }
+  builder(os, platPackages);
 }
 
 var basename = 'flutter_distributor';
 var home = Platform.environment['HOME'] ?? Platform.environment['USERPROFILE'];
 
-void package(String os, String targets) {
+void builder(String os, String targets) {
   var dest = Directory('dist');
   if (dest.existsSync()) dest.deleteSync(recursive: true);
 
