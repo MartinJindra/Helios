@@ -5,14 +5,11 @@ maintainer:
   email: martin@mjindra.eu
 priority: optional
 section: x11
-installed_size: 6604
+installed_size: 7021892
 essential: false
 icon: assets/logo.png
-
-postinstall_scripts:
-  - echo "Installed my awesome app"
-postuninstall_scripts:
-  - echo "Surprised Pickachu face"
+dependencies:
+  - zenity
 
 keywords:
   - Helios
