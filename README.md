@@ -15,41 +15,6 @@ This program is written with Flutter.
 So to build this project follow instructions
 on [flutter.dev](https://docs.flutter.dev/get-started/install).
 
-When installed the binary for the specific platform can be built with:
-
-**Windows**
-
-```
-flutter build windows
-```
-
-The binary then can be found in [build\windows\runner\Release](build\windows\runner\Release)
-.
-
-**Mac**
-
-```
-flutter build macos
-```
-
-The binary then can be found in [build/macos/Build/Products/Release/helios.app/Contents/MacOS](build/macos/Build/Products/Release/helios.app/Contents/MacOS).
-
-**Linux**
-
-```
-flutter build linux
-```
-
-The binary then can be found in [build/linux/x64/release/bundle](build/linux/x64/release/bundle).
-
-## Icons
-
-```
-dart run flutter_launcher_icons
-```
-
-## Distributing
-
 To build a package for distribution [flutter_distributor](https://distributor.leanflutter.org) is used.
 
 Install the packager globally
@@ -58,10 +23,17 @@ Install the packager globally
 dart pub global activate flutter_distributor
 ```
 
-On Windows it should be in [$HOME\AppData\Local\Pub\Cache\bin\flutter_distributor]($HOME\AppData\Local\Pub\Cache\bin\flutter_distributor).
-On Linux in [~/.pub-cache/bin/flutter_distributor](~/.pub-cache/bin/flutter_distributor).
+A simple build [script](./build.dart) can be used.
+
+```
+dart build.dart
+```
+
+Or build it manually.
 
 ### Windows
+
+`flutter_distributor.bat` is in [$HOME\AppData\Local\Pub\Cache\bin\]($HOME\AppData\Local\Pub\Cache\bin\).
 
 **msix**
 
@@ -71,6 +43,8 @@ Binary will be in [$PWD\dist\1.0.0+1\helios-1.0.0+1-windows.msix]($PWD\dist\1.0.
 
 ### Mac
 
+`flutter_distributor` is in [~/.pub-cache/bin/](~/.pub-cache/bin/).
+
 **dmg**
 
 `flutter_distributor package --platform macos --targets dmg`
@@ -78,6 +52,8 @@ Binary will be in [$PWD\dist\1.0.0+1\helios-1.0.0+1-windows.msix]($PWD\dist\1.0.
 Binary will be in [$PWD/dist/1.0.0+1/helios-1.0.0+1-macos.dmg]($PWD/dist/1.0.0+1/helios-1.0.0+1-macos.dmg).
 
 ### Linux
+
+`flutter_distributor` is in [~/.pub-cache/bin/](~/.pub-cache/bin/).
 
 **rpm**
 
