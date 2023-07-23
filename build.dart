@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:path/path.dart' as path;
 
 void main() {
   var zip = '';
@@ -20,13 +19,15 @@ void main() {
   }
 }
 
+String fileName(String path) {
+  return path.substring(path.lastIndexOf(Platform.pathSeparator) + 1);
+}
+
 bool isBinaryInPath(String binary) {
   for (var path in Platform.environment['PATH']!.split(':')) {
     if (Directory(path).existsSync()) {
       for (var file in Directory(path).listSync()) {
-        if (file.path
-                .substring(file.path.lastIndexOf(Platform.pathSeparator) + 1) ==
-            binary) {
+        if (fileName(file.path) == binary) {
           return true;
         }
       }
@@ -65,7 +66,7 @@ void mover() {
   for (var file in dist.listSync(recursive: true)) {
     if (file is File) {
       file.renameSync(
-          '${target.path}${Platform.pathSeparator}${path.basename(file.path)}');
+          '${target.path}${Platform.pathSeparator}${fileName(file.path)}');
     }
   }
 }
