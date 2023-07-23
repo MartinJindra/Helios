@@ -1,16 +1,19 @@
 import 'dart:io';
+import 'package:path/path.dart' as path;
 
 void main() {
+  var zip = '';
+
+  if (isBinaryInPath('7z')) zip = ',zip';
+
   if (Platform.isWindows) {
-    packager('windows', 'msix,zip', true, false);
+    packager('windows', 'msix$zip', true, false);
   } else if (Platform.isMacOS) {
-    packager('macos', 'dmg,zip', true, true);
+    packager('macos', 'dmg$zip', true, true);
   } else if (Platform.isLinux) {
-    var targets = 'deb,rpm,zip';
-    if (isBinaryInPath('appimagetool')) {
-      targets += ',appimage';
-    }
-    packager('linux', targets, true, false);
+    var appimage = '';
+    if (isBinaryInPath('appimagetool')) appimage = ',appimage';
+    packager('linux', "deb,rpm$appimage$zip", true, false);
   } else {
     stderr.writeln('Sorry your platform is not supported');
     exit(0);
@@ -19,11 +22,13 @@ void main() {
 
 bool isBinaryInPath(String binary) {
   for (var path in Platform.environment['PATH']!.split(':')) {
-    for (var file in Directory(path).listSync()) {
-      if (file.path
-              .substring(file.path.lastIndexOf(Platform.pathSeparator) + 1) ==
-          binary) {
-        return true;
+    if (Directory(path).existsSync()) {
+      for (var file in Directory(path).listSync()) {
+        if (file.path
+                .substring(file.path.lastIndexOf(Platform.pathSeparator) + 1) ==
+            binary) {
+          return true;
+        }
       }
     }
   }
@@ -34,28 +39,45 @@ void packager(String os, String platPackages, bool android, bool ios) {
   if (android) {
     stdout.write(
         'Should android packages (.apk and .appbundle) be built? (y/N) ');
-    var yes = stdin.readLineSync(retainNewlines: false) ?? 'n';
-    if (yes.toLowerCase() == 'y') platPackages += ',apk,aab';
+    if ((stdin.readLineSync(retainNewlines: false) ?? 'n').toLowerCase() ==
+        'y') {
+      builder('android', 'apk,aab');
+      mover();
+    }
   }
   if (ios) {
     stdout.write('Should an ios package (.ipa) be built? (y/N) ');
-    var yes = stdin.readLineSync(retainNewlines: false) ?? 'n';
-    if (yes.toLowerCase() == 'y') platPackages += ',ipa';
+    if ((stdin.readLineSync(retainNewlines: false) ?? 'n').toLowerCase() ==
+        'y') {
+      builder('ios', 'ipa');
+      mover();
+    }
   }
   builder(os, platPackages);
+  mover();
+}
+
+void mover() {
+  var dist = Directory('dist');
+  var target = Directory('target');
+  target.createSync();
+
+  for (var file in dist.listSync(recursive: true)) {
+    if (file is File) {
+      file.renameSync(
+          '${target.path}${Platform.pathSeparator}${path.basename(file.path)}');
+    }
+  }
 }
 
 var basename = 'flutter_distributor';
 var home = Platform.environment['HOME'] ?? Platform.environment['USERPROFILE'];
 
 void builder(String os, String targets) {
-  var dest = Directory('dist');
-  if (dest.existsSync()) dest.deleteSync(recursive: true);
-
   var bin = '$home';
-  if (os == 'linux' || os == 'macos') {
+  if (Platform.isLinux || Platform.isMacOS) {
     bin += '/.pub-cache/bin/$basename';
-  } else if (os == 'windows') {
+  } else if (Platform.isWindows) {
     bin += '\\AppData\\Local\\Pub\\Cache\\bin\\$basename.bat';
   }
 
@@ -64,11 +86,15 @@ void builder(String os, String targets) {
         'Dart package $basename is not globally installed.\nInstall with `dart pub global activate flutter_distributor` and run `dart build.dart` again.');
     exit(1);
   }
+
+  var dest = Directory('dist');
+  if (dest.existsSync()) dest.deleteSync(recursive: true);
+
   stdout.writeln('Packaging ${targets.split(',')} for $os');
   var res = Process.runSync(
       bin, <String>['package', '--platform', os, '--targets', targets]);
   if (res.exitCode == 0) {
-    stdout.writeln('Successfully built package(s) in folder dist');
+    stdout.writeln('Successfully built $os package(s) in folder target');
   } else {
     stderr.writeln('Error: ${res.stderr} with exit code ${res.exitCode}');
   }
