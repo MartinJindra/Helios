@@ -18,7 +18,9 @@ class Organization {
   @override
   String toString() {
     StringBuffer str = StringBuffer();
-    str.writeln('## Organization $name');
+    String header = '## Organization $name';
+    str.writeln(header);
+    str.writeln('-' * header.length);
     str.writeln('Allies: $allies');
     return str.toString();
   }

@@ -8,7 +8,9 @@ class Appearance {
   @override
   String toString() {
     StringBuffer str = StringBuffer();
-    str.writeln('## Appearance');
+    const String header = '## Appearance';
+    str.writeln(header);
+    str.writeln('-' * header.length);
     str.writeln('Age: $age');
     str.writeln();
     str.writeln('Height: $height');

@@ -75,16 +75,22 @@ class Character {
     buffer.writeln(background);
     buffer.writeln(organization);
     buffer.writeln(inventory);
-    buffer.writeln('## Notes');
+    header = '## Notes';
+    buffer.writeln(header);
+    buffer.writeln('-' * header.length);
     for (String note in notes.values) {
       if (note.isNotEmpty) {
         buffer.writeln(note.trim());
       }
     }
-    buffer.writeln('## Quests');
+    header = '## Quests';
+    buffer.writeln(header);
+    buffer.writeln('-' * header.length);
     buffer.writeln(quest);
     buffer.writeln(appearance);
-    buffer.writeln('## Abilities');
+    header = '## Abilities';
+    buffer.writeln(header);
+    buffer.writeln('-' * header.length);
     for (Ability ability in Ability.values) {
       if (ability != Ability.none) {
         buffer.writeln('${ability.name}: ${abilities[ability]}');
