@@ -51,19 +51,26 @@ class Character {
     buffer.writeln(header);
     buffer.writeln('-' * header.length);
     buffer.writeln('Class: $className');
+    buffer.writeln();
     buffer.writeln('Race: $race');
+    buffer.writeln();
     buffer.writeln('Gender: $gender');
+    buffer.writeln();
     buffer.writeln('Level: $level');
+    buffer.writeln();
     buffer.writeln('Experience: $experience');
+    buffer.writeln();
     //buffer.writeln('Max HP: ${getMaxHP()}');
     buffer.writeln('Armor: $armor');
     buffer.writeln();
-    header = '## Attacks:';
+    buffer.writeln();
+    header = '## Attacks';
     buffer.writeln(header);
     buffer.writeln('-' * header.length);
     buffer.writeln();
     for (Attack attack in attacks) {
       buffer.writeln(attack);
+      buffer.writeln();
     }
     buffer.writeln(background);
     buffer.writeln(organization);
@@ -81,6 +88,7 @@ class Character {
     for (Ability ability in Ability.values) {
       if (ability != Ability.none) {
         buffer.writeln('${ability.name}: ${abilities[ability]}');
+        buffer.writeln();
       }
     }
     return buffer.toString();

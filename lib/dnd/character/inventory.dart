@@ -19,14 +19,15 @@ class Inventory {
   @override
   String toString() {
     StringBuffer str = StringBuffer();
-    str.writeln('## Currencies:');
+    str.writeln('## Currencies');
     for (Coin c in _currency.keys) {
       str.writeln('${_currency[c]} ${c.name}');
+      str.writeln();
     }
     str.writeln();
-    str.writeln('## Equipment:');
+    str.writeln('## Equipment');
     str.writeln(equipment);
-    str.writeln('## Treasure:');
+    str.writeln('## Treasure');
     str.writeln(treasure);
     return str.toString();
   }

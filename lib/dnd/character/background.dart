@@ -15,12 +15,19 @@ class Background {
   String toString() {
     StringBuffer str = StringBuffer();
     str.writeln('## $roll Background');
+    str.writeln();
     str.writeln('Trinket: $trinket');
+    str.writeln();
     str.writeln('Traits: $traits');
+    str.writeln();
     str.writeln('Ideals: $ideals');
+    str.writeln();
     str.writeln('Bonds: $bonds');
+    str.writeln();
     str.writeln('Flaws: $flaws');
-    str.writeln('\n$feature');
+    str.writeln();
+    str.writeln('$feature');
+    str.writeln();
     return str.toString();
   }
 }

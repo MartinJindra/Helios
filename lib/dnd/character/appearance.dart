@@ -10,11 +10,17 @@ class Appearance {
     StringBuffer str = StringBuffer();
     str.writeln('## Appearance');
     str.writeln('Age: $age');
+    str.writeln();
     str.writeln('Height: $height');
+    str.writeln();
     str.writeln('Weight: $weight');
+    str.writeln();
     str.writeln('Eyes: $eyes');
+    str.writeln();
     str.writeln('Skin: $skin');
+    str.writeln();
     str.writeln('Hair: $hair');
+    str.writeln();
     return str.toString();
   }
 }

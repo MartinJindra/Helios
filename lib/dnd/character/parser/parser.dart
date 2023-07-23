@@ -197,6 +197,18 @@ class Parser {
   }
 
   void _processElements() {
+    String expr = 'character/build/elements/element';
+    for (XmlElement firstElement in xmlGetter.elements(expr)) {
+      String type = XMLGetter.attrValTxtWithElement(firstElement, 'type');
+
+      switch (type) {
+        case 'Armor':
+          // print(XMLGetter.attrValTxtWithElement(firstElement, 'name'));
+          break;
+        default:
+      }
+    }
+
     //   XmlElement elementsElement = getElement(_buildElement, 'elements');
     //   String type, name;
     //   for (XmlElement child in elementsElement.childElements) {

@@ -24,14 +24,18 @@ class Attack {
   String toString() {
     StringBuffer str = StringBuffer();
     str.writeln('### $name');
-    str.writeln('Short range: $shortRange');
+    str.writeln('+ Short range: $shortRange');
+    str.writeln();
     if (longRange.amount != 0.0) {
-      str.writeln('Long range: $longRange');
+      str.writeln('+ Long range: $longRange');
+      str.writeln();
     }
-    str.writeln('Attack: $_attack + AC');
-    str.writeln('Damage: $damage');
-    str.writeln('Ability: ${ability.name}');
-
+    str.writeln('+ Attack: $_attack + AC');
+    str.writeln();
+    str.writeln('+ Damage: $damage');
+    str.writeln();
+    str.writeln('+ Ability: ${ability.name}');
+    str.writeln();
     return str.toString();
   }
 }
