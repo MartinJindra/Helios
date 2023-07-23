@@ -1,15 +1,14 @@
-import 'package:xml/xml.dart'
-    show XmlDocument, XmlElement, XmlNode, XmlStringExtension;
+import 'package:xml/xml.dart' show XmlElement, XmlNode, XmlStringExtension;
 import 'package:xml/xpath.dart';
 
 class XMLGetter {
-  final XmlDocument _document;
+  final XmlNode _node;
 
-  XMLGetter(this._document);
+  XMLGetter(this._node);
 
   List<XmlElement> elements(String expr) {
     List<XmlElement> list = [];
-    for (var el in _document.xpath(expr)) {
+    for (var el in _node.xpath(expr)) {
       list.add(el as XmlElement);
     }
     return list;
@@ -18,7 +17,7 @@ class XMLGetter {
   /// Null safe implementation for getting the text of an element.
   String txt(String expr) {
     try {
-      return val(_document.xpath(expr).first);
+      return val(_node.xpath(expr).first);
     } on StateError {
       return '';
     }
@@ -27,7 +26,7 @@ class XMLGetter {
   /// Null safe implementation for getting the number of an element.
   int num(String expr) {
     try {
-      return int.parse(val(_document.xpath(expr).first));
+      return int.parse(val(_node.xpath(expr).first));
     } on StateError {
       return 0;
     } on FormatException {
@@ -38,7 +37,7 @@ class XMLGetter {
   /// Null safe implementation for getting
   /// the value of an attribute value from an element.
   String attrValTxt(String expr, String name) {
-    return (_document.xpath(expr).first as XmlElement).getAttribute(name) ?? '';
+    return (_node.xpath(expr).first as XmlElement).getAttribute(name) ?? '';
   }
 
   static String val(XmlNode node) {
