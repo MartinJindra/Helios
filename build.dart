@@ -8,7 +8,7 @@ void main() {
   if (Platform.isWindows) {
     packager('windows', 'msix$zip', true, false);
   } else if (Platform.isMacOS) {
-    packager('macos', 'dmg$zip', true, true);
+    packager('macos', 'dmg$zip', true, false);
   } else if (Platform.isLinux) {
     var appimage = '';
     if (isBinaryInPath('appimagetool')) appimage = ',appimage';
