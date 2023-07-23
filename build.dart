@@ -3,7 +3,7 @@ import 'dart:io';
 void main() {
   var zip = '';
 
-  if (isBinaryInPath('7z')) zip = ',zip';
+  if (isBinaryInPath('7z') || isBinaryInPath('7z.exe')) zip = ',zip';
 
   if (Platform.isWindows) {
     packager('windows', 'msix$zip', true, false);
