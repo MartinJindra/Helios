@@ -12,6 +12,7 @@ import 'package:flutter/material.dart'
         GlobalKey,
         Icon,
         IconButton,
+        IconData,
         Icons,
         MaterialApp,
         Scaffold,
@@ -38,6 +39,9 @@ class MainViewState extends State<MainView> {
   final globalKey = GlobalKey<ScaffoldState>();
 
   String character = 'Helios', data = '';
+
+  Brightness theme = Brightness.dark;
+  IconData themeIcon = Icons.dark_mode_sharp;
 
   void processFile() {
     void parseFile(String file) {
@@ -78,11 +82,28 @@ class MainViewState extends State<MainView> {
     });
   }
 
+  void switchTheme() {
+    switch (theme) {
+      case Brightness.light:
+        setState(() {
+          theme = Brightness.dark;
+          themeIcon = Icons.dark_mode_sharp;
+        });
+        break;
+      case Brightness.dark:
+        setState(() {
+          theme = Brightness.light;
+          themeIcon = Icons.light_mode_sharp;
+        });
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: ThemeData(
-          brightness: Brightness.dark,
+          brightness: theme,
         ),
         home: Builder(builder: (BuildContext context) {
           return Scaffold(
@@ -92,11 +113,13 @@ class MainViewState extends State<MainView> {
                 backgroundColor: Colors.deepOrange,
                 actions: <Widget>[
                   IconButton(
-                    icon: const Icon(Icons.file_open),
+                    icon: Icon(themeIcon),
+                    onPressed: () => switchTheme(),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.file_open_sharp),
                     tooltip: 'Open file',
-                    onPressed: () {
-                      processFile();
-                    },
+                    onPressed: () => processFile(),
                   )
                 ]),
             body: Center(
