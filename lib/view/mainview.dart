@@ -23,6 +23,7 @@ import 'package:flutter/material.dart'
         ThemeData,
         Widget;
 import 'package:flutter_markdown/flutter_markdown.dart' show Markdown;
+import 'package:get_storage/get_storage.dart' show GetStorage;
 import 'package:helios/dnd/character/parser/parser.dart' show Parser;
 import 'package:xml/xml.dart' show XmlTagException;
 import 'package:helios/util/snacks.dart' as snacks;
@@ -37,11 +38,12 @@ class MainView extends StatefulWidget {
 
 class MainViewState extends State<MainView> {
   final globalKey = GlobalKey<ScaffoldState>();
+  final box = GetStorage();
 
   String character = 'Helios', data = '';
 
-  Brightness theme = Brightness.dark;
-  IconData themeIcon = Icons.dark_mode_sharp;
+  Brightness theme = Brightness.light;
+  IconData themeIcon = Icons.light_mode_sharp;
 
   void processFile() {
     void parseFile(String file) {
@@ -85,12 +87,14 @@ class MainViewState extends State<MainView> {
   void switchTheme() {
     switch (theme) {
       case Brightness.light:
+        box.write('theme', 'dark');
         setState(() {
           theme = Brightness.dark;
           themeIcon = Icons.dark_mode_sharp;
         });
         break;
       case Brightness.dark:
+        box.write('theme', 'light');
         setState(() {
           theme = Brightness.light;
           themeIcon = Icons.light_mode_sharp;
@@ -101,6 +105,18 @@ class MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
+    if ((box.read('theme') ?? 'light') == 'light') {
+      setState(() {
+        theme = Brightness.light;
+        themeIcon = Icons.light_mode_sharp;
+      });
+    } else {
+      setState(() {
+        theme = Brightness.dark;
+        themeIcon = Icons.dark_mode_sharp;
+      });
+    }
+
     return MaterialApp(
         theme: ThemeData(
           brightness: theme,
