@@ -5,18 +5,16 @@ import 'package:helios/dnd/properties/damagetype.dart' show DamageType;
 
 /// Class representing damage.
 class Damage {
-  late Mixer dice;
-  late DamageType type;
+  Mixer dice = Mixer();
+  DamageType type;
 
   Damage(this.dice, this.type);
 
   Damage.die(Die die, this.type) {
-    dice = Mixer();
     dice.add(die);
   }
 
   Damage.mod(int modifier, this.type) {
-    dice = Mixer();
     dice.add(D0.mod(modifier));
   }
 

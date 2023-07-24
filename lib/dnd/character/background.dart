@@ -36,7 +36,7 @@ class Background {
 
 /// A background feature of a character.
 class Feature {
-  late String name, description;
+  String name, description;
 
   Feature(this.name, this.description);
 

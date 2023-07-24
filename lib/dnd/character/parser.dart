@@ -10,26 +10,23 @@ import 'package:helios/dnd/properties/damagetype.dart' show DamageType;
 import 'package:helios/dnd/properties/range.dart' show Range;
 import 'package:helios/util/file.dart' as util;
 import 'package:helios/util/xml.dart' show XMLGetter;
-import 'package:xml/xml.dart' show XmlDocument, XmlElement, XmlTagException;
+import 'package:xml/xml.dart'
+    show XmlDocument, XmlElement, XmlName, XmlTagException;
 
 class Parser {
-  late String _path;
+  String path = '';
   Character character = Character('');
-  late XMLGetter xmlGetter;
-  late XmlDocument _document;
+  XMLGetter xmlGetter = XMLGetter(XmlElement(XmlName('')));
+  XmlDocument _document = XmlDocument();
 
-  Parser.empty() {
-    _path = '';
-  }
-
-  Parser(this._path) {
+  Parser(this.path) {
     try {
-      if (_path.isNotEmpty) {
-        _document = XmlDocument.parse(util.readString(_path));
+      if (path.isNotEmpty) {
+        _document = XmlDocument.parse(util.readString(path));
         xmlGetter = XMLGetter(_document);
       }
     } on XmlTagException {
-      throw XmlTagException('Error while parsing $_path');
+      throw XmlTagException('Error while parsing $path');
     }
   }
 
@@ -39,7 +36,7 @@ class Parser {
       _processDisplayInformationElement();
       _processBuildElement();
     } on XmlTagException {
-      throw XmlTagException('Error while parsing $_path');
+      throw XmlTagException('Error while parsing $path');
     }
   }
 
@@ -206,43 +203,48 @@ class Parser {
           // print(XMLGetter.attrValTxtWithElement(firstElement, 'name'));
           break;
         case 'Level':
-          String rndhp = XMLGetter.attrValTxtWithElement(firstElement, 'rndhp');
-          if (rndhp.isNotEmpty) {
-            for (String hp in rndhp.split(',')) {
-              character.hp.add(int.parse(hp));
-            }
-          }
+          _processElementLevelOne(firstElement);
           break;
-        default:
+        case 'Option':
+        //print(XMLGetter.attrValTxtWithElement(firstElement, 'name'));
       }
     }
-
-    //   XmlElement elementsElement = getElement(_buildElement, 'elements');
-    //   String type, name;
-    //   for (XmlElement child in elementsElement.childElements) {
-    //     type = getAttributeValueText(child, 'type');
-    //     // Type="option"
-    //     if (type == Types.option.text) {
-    //       name = getAttributeValueText(child, 'name');
-    //       if (name == Name.feats.text) {
-    //         character.allowFeats = true;
-    //       }
-    //       if (name == Name.multiclassing.text) {
-    //         character.allowMulticlassing = true;
-    //       }
-    //     }
-    //     // Type="Armor"
-    //     else if (type == Types.armor.text) {
-    //       String armorString = getAttributeValueText(child, 'name');
-    //       ArmorTable armorType = ArmorTable.values.firstWhere(
-    //           (ArmorTable element) => element.armor.name == armorString);
-    //       character.armor = armorType.armor;
-    //     } else if (type == Types.level.text &&
-    //         getAttributeValueText(child, 'name') == '1') {
-    //       getAttributeValueText(child, 'rndhp').split(',').forEach((element) {
-    //         character.hp.add(int.parse(element));
-    //       });
-    //     }
-    //   }
   }
+
+  void _processElementLevelOne(XmlElement element) {
+    String rndhp = XMLGetter.attrValTxtWithElement(element, 'rndhp');
+    if (rndhp.isNotEmpty) {
+      for (String hp in rndhp.split(',')) {
+        character.hp.add(int.parse(hp));
+      }
+    }
+  }
+
+  //   XmlElement elementsElement = getElement(_buildElement, 'elements');
+  //   String type, name;
+  //   for (XmlElement child in elementsElement.childElements) {
+  //     type = getAttributeValueText(child, 'type');
+  //     // Type="option"
+  //     if (type == Types.option.text) {
+  //       name = getAttributeValueText(child, 'name');
+  //       if (name == Name.feats.text) {
+  //         character.allowFeats = true;
+  //       }
+  //       if (name == Name.multiclassing.text) {
+  //         character.allowMulticlassing = true;
+  //       }
+  //     }
+  //     // Type="Armor"
+  //     else if (type == Types.armor.text) {
+  //       String armorString = getAttributeValueText(child, 'name');
+  //       ArmorTable armorType = ArmorTable.values.firstWhere(
+  //           (ArmorTable element) => element.armor.name == armorString);
+  //       character.armor = armorType.armor;
+  //     } else if (type == Types.level.text &&
+  //         getAttributeValueText(child, 'name') == '1') {
+  //       getAttributeValueText(child, 'rndhp').split(',').forEach((element) {
+  //         character.hp.add(int.parse(element));
+  //       });
+  //     }
+  //   }
 }

@@ -4,9 +4,7 @@ import 'package:helios/util/file.dart' as util;
 
 /// A character or companion portrait
 class Portrait {
-  late List<int> _bytes;
-
-  Portrait();
+  List<int> _bytes = List.empty();
 
   /// Specify a portrait via a file path.
   setPath(String path) {
