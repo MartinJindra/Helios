@@ -205,6 +205,14 @@ class Parser {
         case 'Armor':
           // print(XMLGetter.attrValTxtWithElement(firstElement, 'name'));
           break;
+        case 'Level':
+          String rndhp = XMLGetter.attrValTxtWithElement(firstElement, 'rndhp');
+          if (rndhp.isNotEmpty) {
+            for (String hp in rndhp.split(',')) {
+              character.hp.add(int.parse(hp));
+            }
+          }
+          break;
         default:
       }
     }
