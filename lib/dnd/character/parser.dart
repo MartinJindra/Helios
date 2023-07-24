@@ -195,30 +195,13 @@ class Parser {
 
   void _processElements() {
     String expr = 'character/build/elements';
-    // XMLGetter.traverseElements(xmlGetter.elements(expr).first, 'Level/Race/Racial Trait');
-    for (XmlElement firstElement in xmlGetter.elements(expr)) {
-      String type = XMLGetter.attrValTxtWithElement(firstElement, 'type');
-
-      switch (type) {
-        case 'Armor':
-          // print(XMLGetter.attrValTxtWithElement(firstElement, 'name'));
-          break;
-        case 'Level':
-          _processElementLevelOne(firstElement);
-          break;
-        case 'Option':
-        //print(XMLGetter.attrValTxtWithElement(firstElement, 'name'));
-      }
-    }
-  }
-
-  void _processElementLevelOne(XmlElement element) {
-    String rndhp = XMLGetter.attrValTxtWithElement(element, 'rndhp');
-    if (rndhp.isNotEmpty) {
-      for (String hp in rndhp.split(',')) {
-        character.hp.add(int.parse(hp));
-      }
-    }
+    XmlElement element =
+        XMLGetter.traverseElements(xmlGetter.elements(expr).first, 'Level');
+    XMLGetter.attrValTxtWithElement(element, 'rndhp')
+        .split(',')
+        .forEach((element) {
+      character.hp.add(int.parse(element));
+    });
   }
 
   //   XmlElement elementsElement = getElement(_buildElement, 'elements');
