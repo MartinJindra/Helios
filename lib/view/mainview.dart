@@ -55,6 +55,7 @@ class MainViewState extends State<MainView> {
           setState(() {
             character = strings.basename(file);
             data = par.character.toString();
+            box.write('file', data);
           });
         } on XmlTagException catch (xe) {
           snacks.showSnackBar(context, xe.message);
@@ -106,6 +107,11 @@ class MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
+    if (box.read('file') != null) {
+      setState(() {
+        data = box.read('file');
+      });
+    }
     if ((box.read('theme') ?? 'light') == 'light') {
       setState(() {
         theme = Brightness.light;
