@@ -1,4 +1,5 @@
-import 'package:xml/xml.dart' show XmlElement, XmlNode, XmlStringExtension;
+import 'package:xml/xml.dart'
+    show XmlElement, XmlName, XmlNode, XmlStringExtension;
 import 'package:xml/xpath.dart';
 
 class XMLGetter {
@@ -46,5 +47,27 @@ class XMLGetter {
 
   static String attrValTxtWithElement(XmlElement element, String name) {
     return element.getAttribute(name) ?? '';
+  }
+
+  /// Traverse an elements tag via a path from the attribute 'type'
+  static XmlElement traverseElements(XmlElement element, String attrExpr) {
+    List<String> split = attrExpr.split('/');
+    Iterator<String> it = split.iterator;
+    it.moveNext();
+
+    XmlElement traverse(XmlElement element, String target) {
+      for (XmlElement child in element.childElements) {
+        if (XMLGetter.attrValTxtWithElement(child, 'type') == target) {
+          if (it.moveNext()) {
+            return traverse(child, it.current);
+          } else {
+            return child;
+          }
+        }
+      }
+      return XmlElement(XmlName(''));
+    }
+
+    return traverse(element, it.current);
   }
 }

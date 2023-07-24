@@ -22,7 +22,6 @@ import 'package:flutter/material.dart'
         Text,
         ThemeData,
         Widget;
-import 'package:flutter/widgets.dart';
 import 'package:flutter_markdown/flutter_markdown.dart' show Markdown;
 import 'package:get_storage/get_storage.dart' show GetStorage;
 import 'package:helios/dnd/character/parser.dart' show Parser;

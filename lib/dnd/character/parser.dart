@@ -194,7 +194,8 @@ class Parser {
   }
 
   void _processElements() {
-    String expr = 'character/build/elements/element';
+    String expr = 'character/build/elements';
+    // XMLGetter.traverseElements(xmlGetter.elements(expr).first, 'Level/Race/Racial Trait');
     for (XmlElement firstElement in xmlGetter.elements(expr)) {
       String type = XMLGetter.attrValTxtWithElement(firstElement, 'type');
 
