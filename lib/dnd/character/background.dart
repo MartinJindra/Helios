@@ -44,7 +44,7 @@ class Feature {
   String toString() {
     StringBuffer str = StringBuffer();
     str.writeln('### $name');
-    str.writeln(description);
+    str.writeln(description.trim());
     return str.toString();
   }
 }

@@ -35,7 +35,6 @@ class Attack {
     str.writeln('+ Damage: $damage');
     str.writeln();
     str.writeln('+ Ability: ${ability.name}');
-    str.writeln();
     return str.toString();
   }
 }

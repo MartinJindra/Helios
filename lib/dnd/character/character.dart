@@ -63,7 +63,6 @@ class Character {
     //buffer.writeln('Max HP: ${getMaxHP()}');
     buffer.writeln('Armor: $armor');
     buffer.writeln();
-    buffer.writeln();
     header = '## Attacks';
     buffer.writeln(header);
     buffer.writeln('-' * header.length);

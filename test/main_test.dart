@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'dart:io';
 
-import 'package:helios/dnd/character/parser/parser.dart' as dndparser;
+import 'package:helios/dnd/character/parser.dart' as dndparser;
 import 'package:helios/dnd/dices/d0.dart' show D0;
 import 'package:helios/dnd/dices/d10.dart' show D10;
 import 'package:helios/dnd/dices/d100.dart' show D100;
@@ -44,7 +44,7 @@ void testDNDParser() {
     if (example.path.contains('.dnd5e')) {
       parser = dndparser.Parser(example.path);
       parser.parse();
-      stdout.writeln(parser.character);
+      stdout.writeln(parser.character.toString());
     }
   }
 }

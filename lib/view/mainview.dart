@@ -24,7 +24,7 @@ import 'package:flutter/material.dart'
         Widget;
 import 'package:flutter_markdown/flutter_markdown.dart' show Markdown;
 import 'package:get_storage/get_storage.dart' show GetStorage;
-import 'package:helios/dnd/character/parser/parser.dart' show Parser;
+import 'package:helios/dnd/character/parser.dart' show Parser;
 import 'package:xml/xml.dart' show XmlTagException;
 import 'package:helios/util/snacks.dart' as snacks;
 import 'package:helios/util/strings.dart' as strings;
