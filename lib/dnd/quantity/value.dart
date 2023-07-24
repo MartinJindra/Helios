@@ -52,6 +52,6 @@ base class Value {
 
   @override
   String toString() {
-    return '$amount ${unit.toString().split('.').last}';
+    return '${amount.ceil()} ${unit.toString().split('.').last}';
   }
 }
