@@ -22,6 +22,7 @@ import 'package:flutter/material.dart'
         Text,
         ThemeData,
         Widget;
+import 'package:flutter/widgets.dart';
 import 'package:flutter_markdown/flutter_markdown.dart' show Markdown;
 import 'package:get_storage/get_storage.dart' show GetStorage;
 import 'package:helios/dnd/character/parser.dart' show Parser;
@@ -43,7 +44,7 @@ class MainViewState extends State<MainView> {
   String character = 'Helios', data = '';
 
   Brightness theme = Brightness.light;
-  IconData themeIcon = Icons.light_mode_sharp;
+  IconData themeIcon = Icons.light_mode_outlined;
 
   void processFile() {
     void parseFile(String file) {
@@ -90,14 +91,14 @@ class MainViewState extends State<MainView> {
         box.write('theme', 'dark');
         setState(() {
           theme = Brightness.dark;
-          themeIcon = Icons.dark_mode_sharp;
+          themeIcon = Icons.dark_mode_outlined;
         });
         break;
       case Brightness.dark:
         box.write('theme', 'light');
         setState(() {
           theme = Brightness.light;
-          themeIcon = Icons.light_mode_sharp;
+          themeIcon = Icons.light_mode_outlined;
         });
         break;
     }
@@ -108,12 +109,12 @@ class MainViewState extends State<MainView> {
     if ((box.read('theme') ?? 'light') == 'light') {
       setState(() {
         theme = Brightness.light;
-        themeIcon = Icons.light_mode_sharp;
+        themeIcon = Icons.light_mode_outlined;
       });
     } else {
       setState(() {
         theme = Brightness.dark;
-        themeIcon = Icons.dark_mode_sharp;
+        themeIcon = Icons.dark_mode_outlined;
       });
     }
 
@@ -133,7 +134,7 @@ class MainViewState extends State<MainView> {
                     onPressed: () => switchTheme(),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.file_open_sharp),
+                    icon: const Icon(Icons.file_open_outlined),
                     tooltip: 'Open file',
                     onPressed: () => processFile(),
                   )
