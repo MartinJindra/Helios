@@ -195,12 +195,13 @@ class Parser {
 
   void _processElements() {
     String expr = 'character/build/elements';
+    // HP
     XmlElement element =
         XMLGetter.traverseElements(xmlGetter.elements(expr).first, 'Level');
     XMLGetter.attrValTxtWithElement(element, 'rndhp')
         .split(',')
-        .forEach((element) {
-      character.hp.add(int.parse(element));
+        .forEach((String hp) {
+      character.hp.add(int.parse(hp));
     });
   }
 }

@@ -45,7 +45,7 @@ class MainViewState extends State<MainView> {
   Brightness theme = Brightness.light;
   IconData themeIcon = Icons.light_mode_outlined;
 
-  void processFile() {
+  void processFile(BuildContext context) {
     void parseFile(String file) {
       if (file.isNotEmpty && file.endsWith('.dnd5e')) {
         try {
@@ -141,7 +141,7 @@ class MainViewState extends State<MainView> {
                   IconButton(
                     icon: const Icon(Icons.file_open_outlined),
                     tooltip: 'Open file',
-                    onPressed: () => processFile(),
+                    onPressed: () => processFile(context),
                   )
                 ]),
             body: Center(
