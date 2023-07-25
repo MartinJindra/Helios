@@ -203,32 +203,4 @@ class Parser {
       character.hp.add(int.parse(element));
     });
   }
-
-  //   XmlElement elementsElement = getElement(_buildElement, 'elements');
-  //   String type, name;
-  //   for (XmlElement child in elementsElement.childElements) {
-  //     type = getAttributeValueText(child, 'type');
-  //     // Type="option"
-  //     if (type == Types.option.text) {
-  //       name = getAttributeValueText(child, 'name');
-  //       if (name == Name.feats.text) {
-  //         character.allowFeats = true;
-  //       }
-  //       if (name == Name.multiclassing.text) {
-  //         character.allowMulticlassing = true;
-  //       }
-  //     }
-  //     // Type="Armor"
-  //     else if (type == Types.armor.text) {
-  //       String armorString = getAttributeValueText(child, 'name');
-  //       ArmorTable armorType = ArmorTable.values.firstWhere(
-  //           (ArmorTable element) => element.armor.name == armorString);
-  //       character.armor = armorType.armor;
-  //     } else if (type == Types.level.text &&
-  //         getAttributeValueText(child, 'name') == '1') {
-  //       getAttributeValueText(child, 'rndhp').split(',').forEach((element) {
-  //         character.hp.add(int.parse(element));
-  //       });
-  //     }
-  //   }
 }

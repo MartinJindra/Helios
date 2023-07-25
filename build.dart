@@ -92,8 +92,14 @@ void builder(String os, String targets) {
   if (dest.existsSync()) dest.deleteSync(recursive: true);
 
   stdout.writeln('Packaging ${targets.split(',')} for $os');
-  var res = Process.runSync(
-      bin, <String>['package', '--platform', os, '--targets', targets]);
+  var res = Process.runSync(bin, <String>[
+    '--no-version-check',
+    'package',
+    '--platform',
+    os,
+    '--targets',
+    targets
+  ]);
   if (res.exitCode == 0) {
     stdout.writeln('Successfully built $os package(s) in folder target');
   } else {
