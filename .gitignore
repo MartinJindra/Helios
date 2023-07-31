@@ -48,6 +48,5 @@ app.*.map.json
 
 # Project
 
-/examples/
 /dist/
 /target/
