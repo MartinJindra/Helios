@@ -2,23 +2,23 @@ import 'dart:collection';
 import 'dart:io';
 
 import 'package:helios/dnd/character/parser.dart' as dndparser;
-import 'package:helios/dnd/dices/d0.dart' show D0;
-import 'package:helios/dnd/dices/d10.dart' show D10;
-import 'package:helios/dnd/dices/d100.dart' show D100;
-import 'package:helios/dnd/dices/d12.dart' show D12;
-import 'package:helios/dnd/dices/d20.dart' show D20;
-import 'package:helios/dnd/dices/d4.dart' show D4;
-import 'package:helios/dnd/dices/d6.dart' show D6;
-import 'package:helios/dnd/dices/d8.dart' show D8;
-import 'package:helios/dnd/dices/die.dart' show Die;
-import 'package:helios/dnd/dices/mixer.dart' show Mixer;
-import 'package:helios/dnd/properties/range.dart' show Range;
-import 'package:helios/dnd/properties/weight.dart' show Weight;
-import 'package:helios/dnd/quantity/length.dart' show Length;
-import 'package:helios/dnd/quantity/mass.dart' show Mass;
-import 'package:helios/dnd/quantity/value.dart' show Value;
+import 'package:helios/dnd/dices/d0.dart';
+import 'package:helios/dnd/dices/d10.dart';
+import 'package:helios/dnd/dices/d100.dart';
+import 'package:helios/dnd/dices/d12.dart';
+import 'package:helios/dnd/dices/d20.dart';
+import 'package:helios/dnd/dices/d4.dart';
+import 'package:helios/dnd/dices/d6.dart';
+import 'package:helios/dnd/dices/d8.dart';
+import 'package:helios/dnd/dices/die.dart';
+import 'package:helios/dnd/dices/mixer.dart';
+import 'package:helios/dnd/properties/range.dart';
+import 'package:helios/dnd/properties/weight.dart';
+import 'package:helios/dnd/quantity/length.dart';
+import 'package:helios/dnd/quantity/mass.dart';
+import 'package:helios/dnd/quantity/value.dart';
 import 'package:helios/util/strings.dart' as util;
-import 'package:flutter_test/flutter_test.dart' show expect, group, test;
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testDNDParser();
@@ -38,15 +38,18 @@ void main() {
 }
 
 void testDNDParser() {
-  dndparser.Parser parser;
-  List<FileSystemEntity> examples = Directory('examples').listSync();
-  for (FileSystemEntity example in examples) {
-    if (example.path.contains('.dnd5e')) {
-      parser = dndparser.Parser(example.path);
-      parser.parse();
-      stdout.writeln(parser.character.toString());
+  group('Parse all .dnd5e examples', () {
+    var examples = Directory('examples').listSync();
+    for (var example in examples) {
+      if (example.path.endsWith('.dnd5e')) {
+        test('Parse ${example.path}', () {
+          var parser = dndparser.Parser(example.path);
+          parser.parse();
+          expect(true, true);
+        });
+      }
     }
-  }
+  });
 }
 
 void testMassConverter() {
@@ -73,13 +76,13 @@ void testMassConverter() {
 void testMassAddOperator() {
   group('Test the math add operation for weights.', () {
     test('1kg + 30pound = 14.61kg', () {
-      Weight op1 = const Weight(1, Mass.kilogram);
-      Weight op2 = const Weight(30, Mass.pound);
+      var op1 = const Weight(1, Mass.kilogram);
+      var op2 = const Weight(30, Mass.pound);
       expect(Value.add(op1, op2).amount, 14.61);
     });
     test('0.5pound + 5kg = 11.52pound', () {
-      Weight op1 = const Weight(.5, Mass.pound);
-      Weight op2 = const Weight(5, Mass.kilogram);
+      var op1 = const Weight(.5, Mass.pound);
+      var op2 = const Weight(5, Mass.kilogram);
       expect(Value.add(op1, op2).amount, 11.52);
     });
   });
@@ -88,18 +91,18 @@ void testMassAddOperator() {
 void testMassSubtractOperator() {
   group('Test the math subtract operation for weights.', () {
     test('50kg - 23kg = 17kg', () {
-      Weight op1 = const Weight(50, Mass.kilogram);
-      Weight op2 = const Weight(23, Mass.kilogram);
+      var op1 = const Weight(50, Mass.kilogram);
+      var op2 = const Weight(23, Mass.kilogram);
       expect(Value.subtract(op1, op2).amount, 27);
     });
     test('80kg - 120kg = -40kg', () {
-      Weight op1 = const Weight(80, Mass.kilogram);
-      Weight op2 = const Weight(120, Mass.kilogram);
+      var op1 = const Weight(80, Mass.kilogram);
+      var op2 = const Weight(120, Mass.kilogram);
       expect(Value.subtract(op1, op2).amount, -40);
     });
     test('500pound - 20kg = 455.91pound', () {
-      Weight op1 = const Weight(500, Mass.pound);
-      Weight op2 = const Weight(20, Mass.kilogram);
+      var op1 = const Weight(500, Mass.pound);
+      var op2 = const Weight(20, Mass.kilogram);
       expect(Value.subtract(op1, op2).amount, 455.91);
     });
   });
@@ -108,23 +111,23 @@ void testMassSubtractOperator() {
 void testMassMultiplyOperator() {
   group('Test the math multiplication operation for weights.', () {
     test('300kg * 20kg = 6000kg', () {
-      Weight op1 = const Weight(300, Mass.kilogram);
-      Weight op2 = const Weight(20, Mass.kilogram);
+      var op1 = const Weight(300, Mass.kilogram);
+      var op2 = const Weight(20, Mass.kilogram);
       expect(Value.multiply(op1, op2).amount, 6000);
     });
     test('20pound * 170pound = 3400pound', () {
-      Weight op1 = const Weight(20, Mass.pound);
-      Weight op2 = const Weight(170, Mass.pound);
+      var op1 = const Weight(20, Mass.pound);
+      var op2 = const Weight(170, Mass.pound);
       expect(Value.multiply(op1, op2).amount, 3400);
     });
     test('1.5pound * 1kg = 3.3pound', () {
-      Weight op1 = const Weight(1.5, Mass.pound);
-      Weight op2 = const Weight(1, Mass.kilogram);
+      var op1 = const Weight(1.5, Mass.pound);
+      var op2 = const Weight(1, Mass.kilogram);
       expect(Value.multiply(op1, op2).amount, 3.3);
     });
     test('20kg * 78pound = 707.6kg', () {
-      Weight op1 = const Weight(20, Mass.kilogram);
-      Weight op2 = const Weight(78, Mass.pound);
+      var op1 = const Weight(20, Mass.kilogram);
+      var op2 = const Weight(78, Mass.pound);
       expect(Value.multiply(op1, op2).amount, 707.6);
     });
   });
@@ -133,23 +136,23 @@ void testMassMultiplyOperator() {
 void testMassDivideOperator() {
   group('Test the math divide operation for weights.', () {
     test('350kg / 2kg = 175kg', () {
-      Weight op1 = const Weight(350, Mass.kilogram);
-      Weight op2 = const Weight(2, Mass.kilogram);
+      var op1 = const Weight(350, Mass.kilogram);
+      var op2 = const Weight(2, Mass.kilogram);
       expect(Value.divide(op1, op2).amount, 175);
     });
     test('50pound / 500pound = 0.1pound', () {
-      Weight op1 = const Weight(50, Mass.pound);
-      Weight op2 = const Weight(500, Mass.pound);
+      var op1 = const Weight(50, Mass.pound);
+      var op2 = const Weight(500, Mass.pound);
       expect(Value.divide(op1, op2).amount, .1);
     });
     test('300pound / 120kg = 1.13pound', () {
-      Weight op1 = const Weight(300, Mass.pound);
-      Weight op2 = const Weight(120, Mass.kilogram);
+      var op1 = const Weight(300, Mass.pound);
+      var op2 = const Weight(120, Mass.kilogram);
       expect(Value.divide(op1, op2).amount, 1.13);
     });
     test('85kg / 200pound = 0.94kg', () {
-      Weight op1 = const Weight(85, Mass.kilogram);
-      Weight op2 = const Weight(200, Mass.pound);
+      var op1 = const Weight(85, Mass.kilogram);
+      var op2 = const Weight(200, Mass.pound);
       expect(Value.divide(op1, op2).amount, .94);
     });
   });
@@ -219,23 +222,23 @@ void testRangeConverter() {
 void testRangeAddOperator() {
   group('Test the add operation for a range.', () {
     test('1m + 30cm = 1.3m', () {
-      Range op1 = Range(1, Length.meter);
-      Range op2 = Range(30, Length.centimeter);
+      var op1 = Range(1, Length.meter);
+      var op2 = Range(30, Length.centimeter);
       expect(Value.add(op1, op2).amount, 1.3);
     });
     test('1m + 5ft = 2.52m', () {
-      Range op1 = Range(1, Length.meter);
-      Range op2 = Range(5, Length.feet);
+      var op1 = Range(1, Length.meter);
+      var op2 = Range(5, Length.feet);
       expect(Value.add(op1, op2).amount, 2.52);
     });
     test('5ft + 0.2inch = 5.02ft', () {
-      Range op1 = Range(5, Length.feet);
-      Range op2 = Range(.2, Length.inch);
+      var op1 = Range(5, Length.feet);
+      var op2 = Range(.2, Length.inch);
       expect(Value.add(op1, op2).amount, 5.02);
     });
     test('23inch + 35cm = 36.83inch', () {
-      Range op1 = Range(23, Length.inch);
-      Range op2 = Range(35, Length.centimeter);
+      var op1 = Range(23, Length.inch);
+      var op2 = Range(35, Length.centimeter);
       expect(Value.add(op1, op2).amount, 36.83);
     });
   });
@@ -244,23 +247,23 @@ void testRangeAddOperator() {
 void testRangeSubtractOperator() {
   group('Test the subtract operation for a range.', () {
     test('300cm - 2.5m = 50cm', () {
-      Range op1 = Range(300, Length.centimeter);
-      Range op2 = Range(2.5, Length.meter);
+      var op1 = Range(300, Length.centimeter);
+      var op2 = Range(2.5, Length.meter);
       expect(Value.subtract(op1, op2).amount, 50);
     });
     test('10m - 40ft = -2.19m', () {
-      Range op1 = Range(10, Length.meter);
-      Range op2 = Range(40, Length.feet);
+      var op1 = Range(10, Length.meter);
+      var op2 = Range(40, Length.feet);
       expect(Value.subtract(op1, op2).amount, -2.19);
     });
     test('3ft - 4inch = 2.67ft', () {
-      Range op1 = Range(3, Length.feet);
-      Range op2 = Range(4, Length.inch);
+      var op1 = Range(3, Length.feet);
+      var op2 = Range(4, Length.inch);
       expect(Value.subtract(op1, op2).amount, 2.67);
     });
     test('50inch - 24cm = 40.51inch', () {
-      Range op1 = Range(50, Length.inch);
-      Range op2 = Range(24, Length.centimeter);
+      var op1 = Range(50, Length.inch);
+      var op2 = Range(24, Length.centimeter);
       expect(Value.subtract(op1, op2).amount, 40.51);
     });
   });
@@ -269,23 +272,23 @@ void testRangeSubtractOperator() {
 void testRangeMultiplyOperator() {
   group('Test the multiplication operation for a range.', () {
     test('300cm * 10m = 300000cm', () {
-      Range op1 = Range(300, Length.centimeter);
-      Range op2 = Range(10, Length.meter);
+      var op1 = Range(300, Length.centimeter);
+      var op2 = Range(10, Length.meter);
       expect(Value.multiply(op1, op2).amount, 300000);
     });
     test('24m * 48ft = 351.12m', () {
-      Range op1 = Range(24, Length.meter);
-      Range op2 = Range(48, Length.feet);
+      var op1 = Range(24, Length.meter);
+      var op2 = Range(48, Length.feet);
       expect(Value.multiply(op1, op2).amount, 351.12);
     });
     test('1.5ft * 3.5inch = 0.43ft', () {
-      Range op1 = Range(1.5, Length.feet);
-      Range op2 = Range(3.5, Length.inch);
+      var op1 = Range(1.5, Length.feet);
+      var op2 = Range(3.5, Length.inch);
       expect(Value.multiply(op1, op2).amount, .43);
     });
     test('78inch * 96cm = 2960.1inch', () {
-      Range op1 = Range(78, Length.inch);
-      Range op2 = Range(96, Length.centimeter);
+      var op1 = Range(78, Length.inch);
+      var op2 = Range(96, Length.centimeter);
       expect(Value.multiply(op1, op2).amount, 2960.1);
     });
   });
@@ -294,23 +297,23 @@ void testRangeMultiplyOperator() {
 void testRangeDivideOperator() {
   group('Test the divide operation for a range.', () {
     test('400cm / 2m = 2cm', () {
-      Range op1 = Range(400, Length.centimeter);
-      Range op2 = Range(2, Length.meter);
+      var op1 = Range(400, Length.centimeter);
+      var op2 = Range(2, Length.meter);
       expect(Value.divide(op1, op2).amount, 2);
     });
     test('35m / 54ft = 2.13m', () {
-      Range op1 = Range(35, Length.meter);
-      Range op2 = Range(54, Length.feet);
+      var op1 = Range(35, Length.meter);
+      var op2 = Range(54, Length.feet);
       expect(Value.divide(op1, op2).amount, 2.13);
     });
     test('25ft / 300inch = 1ft', () {
-      Range op1 = Range(25, Length.feet);
-      Range op2 = Range(300, Length.inch);
+      var op1 = Range(25, Length.feet);
+      var op2 = Range(300, Length.inch);
       expect(Value.divide(op1, op2).amount, 1);
     });
     test('128inch / 40cm = 8.1inch', () {
-      Range op1 = Range(128, Length.inch);
-      Range op2 = Range(40, Length.centimeter);
+      var op1 = Range(128, Length.inch);
+      var op2 = Range(40, Length.centimeter);
       expect(Value.divide(op1, op2).amount, 8.1);
     });
   });
@@ -319,8 +322,8 @@ void testRangeDivideOperator() {
 void testDices() {
   group('Test the dices and rolls', () {
     test('D4', () {
-      int total, len = 4;
-      HashSet<int> res = HashSet();
+      var total = 0, len = 4;
+      var res = HashSet();
       Die d = D4();
       do {
         d.newRoll();
@@ -331,8 +334,8 @@ void testDices() {
       expect(res, {1, 2, 3, 4});
     });
     test('D6', () {
-      int total, len = 6;
-      HashSet<int> res = HashSet();
+      var total = 0, len = 6;
+      var res = HashSet<int>();
       Die d = D6();
       do {
         d.newRoll();
@@ -343,9 +346,9 @@ void testDices() {
       expect(res, {1, 2, 3, 4, 5, 6});
     });
     test('D8', () {
-      int total, len = 8;
-      HashSet<int> res = HashSet();
-      Die d = D8();
+      var total = 0, len = 8;
+      var res = HashSet<int>();
+      var d = D8();
       do {
         d.newRoll();
         total = d.roll;
@@ -355,9 +358,9 @@ void testDices() {
       expect(res, {1, 2, 3, 4, 5, 6, 7, 8});
     });
     test('D10', () {
-      int total, len = 10;
-      HashSet<int> res = HashSet();
-      Die d = D10();
+      var total = 0, len = 10;
+      var res = HashSet<int>();
+      var d = D10();
       do {
         d.newRoll();
         total = d.roll;
@@ -367,9 +370,9 @@ void testDices() {
       expect(res, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
     });
     test('D12', () {
-      int total, len = 12;
-      HashSet<int> res = HashSet();
-      Die d = D12();
+      var total = 0, len = 12;
+      var res = HashSet();
+      var d = D12();
       do {
         d.newRoll();
         total = d.roll;
@@ -379,9 +382,9 @@ void testDices() {
       expect(res, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12});
     });
     test('D20', () {
-      int total, len = 20;
-      HashSet<int> res = HashSet();
-      Die d = D20();
+      var total = 0, len = 20;
+      var res = HashSet();
+      var d = D20();
       do {
         d.newRoll();
         total = d.roll;
@@ -412,9 +415,9 @@ void testDices() {
       });
     });
     test('D100', () {
-      int total, len = 100;
-      HashSet<int> res = HashSet();
-      Die d = D100();
+      var total = 0, len = 100;
+      var res = HashSet();
+      var d = D100();
       do {
         d.newRoll();
         total = d.roll;
@@ -530,7 +533,7 @@ void testDices() {
 void testMixer() {
   group('Test the Dice mixer.', () {
     test('Mix 1', () {
-      Mixer mix = Mixer();
+      var mix = Mixer();
       mix.add(D4());
       mix.add(D4());
       mix.add(D6());
@@ -541,7 +544,7 @@ void testMixer() {
       expect(mix.toString(), '2d4+2d6+1d12+1d100+1d20');
     });
     test('Mix 2', () {
-      Mixer mix = Mixer();
+      var mix = Mixer();
       mix.add(D0());
       mix.add(D20());
       for (int i = 0; i < 100; i++) {
@@ -551,7 +554,7 @@ void testMixer() {
       expect(mix.toString(), '1d0+2d20+100d6');
     });
     test('Mix 1', () {
-      Mixer mix = Mixer();
+      var mix = Mixer();
       for (int i = 0; i < 10; i++) {
         mix.add(D12());
       }
@@ -575,7 +578,7 @@ void testMixer() {
 void testUtil() {
   group('Test util methods', () {
     test('removeLast()', () {
-      String expr = '1d20+20';
+      var expr = '1d20+20';
       expect(util.removeLast('$expr+', '+'), expr);
     });
   });
