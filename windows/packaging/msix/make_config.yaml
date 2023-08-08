@@ -2,5 +2,5 @@ msix_config:
   display_name: Helios
   publisher_display_name: Martin Jindra
   identity_name: eu.mjindra.helios
-  msix_version: 1.0.0.0
+  msix_version: 0.0.2.0
   logo_path: assets/logo.png
