@@ -136,6 +136,7 @@ class MainViewState extends State<MainView> {
                 actions: <Widget>[
                   IconButton(
                     icon: Icon(themeIcon),
+                    tooltip: 'Theme switch',
                     onPressed: () => switchTheme(),
                   ),
                   IconButton(
