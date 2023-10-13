@@ -37,8 +37,8 @@ class MainView extends StatefulWidget {
 }
 
 class MainViewState extends State<MainView> {
-  final globalKey = GlobalKey<ScaffoldState>();
-  final box = GetStorage();
+  final GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
+  final GetStorage box = GetStorage();
 
   String character = 'Helios', data = '';
 

@@ -9,7 +9,7 @@ class XMLGetter {
 
   List<XmlElement> elements(String expr) {
     List<XmlElement> list = [];
-    for (var el in _node.xpath(expr)) {
+    for (XmlNode el in _node.xpath(expr)) {
       list.add(el as XmlElement);
     }
     return list;
