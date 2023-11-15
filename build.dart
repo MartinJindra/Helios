@@ -1,5 +1,8 @@
 #!/usr/bin/env dart
+
 import 'dart:io';
+
+enum OS { android, ios, windows, macos, linux }
 
 void main() {
   var zip = '';
@@ -7,13 +10,13 @@ void main() {
   if (isBinaryInPath('7z') || isBinaryInPath('7z.exe')) zip = ',zip';
 
   if (Platform.isWindows) {
-    packager('windows', 'msix$zip', true, false);
+    packager(OS.windows, 'msix$zip');
   } else if (Platform.isMacOS) {
-    packager('macos', 'dmg$zip', true, false);
+    packager(OS.macos, 'dmg$zip', ios: true);
   } else if (Platform.isLinux) {
     var appimage = '';
     if (isBinaryInPath('appimagetool')) appimage = ',appimage';
-    packager('linux', "deb,rpm$appimage$zip", true, false);
+    packager(OS.linux, "deb,rpm$appimage$zip");
   } else {
     stderr.writeln('Sorry your platform is not supported');
     exit(0);
@@ -37,25 +40,23 @@ bool isBinaryInPath(String binary) {
   return false;
 }
 
-void packager(String os, String platPackages, bool android, bool ios) {
-  if (android) {
-    stdout.write(
-        'Should android packages (.apk and .appbundle) be built? (y/N) ');
-    if ((stdin.readLineSync(retainNewlines: false) ?? 'n').toLowerCase() ==
-        'y') {
-      builder('android', 'apk,aab');
-      mover();
-    }
+void packager(OS os, String platfPackages, {bool ios = false}) {
+  stdout
+      .write('Should android packages (.apk and .appbundle) be built? (y/N) ');
+  if ((stdin.readLineSync(retainNewlines: false) ?? 'n').toLowerCase() == 'y') {
+    builder(OS.android, 'apk,aab');
+    mover();
   }
+
   if (ios) {
     stdout.write('Should an ios package (.ipa) be built? (y/N) ');
     if ((stdin.readLineSync(retainNewlines: false) ?? 'n').toLowerCase() ==
         'y') {
-      builder('ios', 'ipa');
+      builder(OS.ios, 'ipa');
       mover();
     }
   }
-  builder(os, platPackages);
+  builder(os, platfPackages);
   mover();
 }
 
@@ -75,7 +76,7 @@ void mover() {
 var basename = 'flutter_distributor';
 var home = Platform.environment['HOME'] ?? Platform.environment['USERPROFILE'];
 
-void builder(String os, String targets) {
+void builder(OS os, String targets) {
   var bin = '$home';
   if (Platform.isLinux || Platform.isMacOS) {
     bin += '/.pub-cache/bin/$basename';
@@ -92,17 +93,17 @@ void builder(String os, String targets) {
   var dest = Directory('dist');
   if (dest.existsSync()) dest.deleteSync(recursive: true);
 
-  stdout.writeln('Packaging ${targets.split(',')} for $os');
+  stdout.writeln('Packaging ${targets.split(',')} for ${os.name}');
   var res = Process.runSync(bin, <String>[
     '--no-version-check',
     'package',
     '--platform',
-    os,
+    os.name,
     '--targets',
     targets
   ]);
   if (res.exitCode == 0) {
-    stdout.writeln('Successfully built $os package(s) in folder target');
+    stdout.writeln('Successfully built ${os.name} package(s) in folder target');
   } else {
     stderr.writeln('Error: ${res.stderr} with exit code ${res.exitCode}');
   }
