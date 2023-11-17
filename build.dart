@@ -71,6 +71,8 @@ void mover() {
           '${target.path}${Platform.pathSeparator}${fileName(file.path)}');
     }
   }
+  // clean up
+  dist.deleteSync(recursive: true);
 }
 
 var basename = 'flutter_distributor';
