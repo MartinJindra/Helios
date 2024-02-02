@@ -23,7 +23,7 @@ Install the package globally.
 dart pub global activate flutter_distributor
 ```
 
-And use the [build script](./build.dart).
+And use the [package script](./package.dart).
 
 But some dependencies for building a package for Linux are needed if they are not yet installed.
 

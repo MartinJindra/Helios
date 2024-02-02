@@ -75,10 +75,11 @@ void mover() {
   dist.deleteSync(recursive: true);
 }
 
-var basename = 'flutter_distributor';
+const basename = 'flutter_distributor';
 var home = Platform.environment['HOME'] ?? Platform.environment['USERPROFILE'];
 
 void builder(OS os, String targets) {
+  var addArgs = [];
   var bin = '$home';
   if (Platform.isLinux || Platform.isMacOS) {
     bin += '/.pub-cache/bin/$basename';
@@ -95,14 +96,23 @@ void builder(OS os, String targets) {
   var dest = Directory('dist');
   if (dest.existsSync()) dest.deleteSync(recursive: true);
 
+  switch (os) {
+    case OS.ios:
+      addArgs.add('--build-export-options-plist=ios/exportOptions.plist');
+      break;
+    default:
+  }
+
   stdout.writeln('Packaging ${targets.split(',')} for ${os.name}');
+
   var res = Process.runSync(bin, <String>[
     '--no-version-check',
     'package',
     '--platform',
     os.name,
     '--targets',
-    targets
+    targets,
+    addArgs.join(' '),
   ]);
   if (res.exitCode == 0) {
     stdout.writeln('Successfully built ${os.name} package(s) in folder target');
